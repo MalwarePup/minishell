@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:12:59 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/12 23:50:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/09 13:00:31 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ char			*extract_expansion_name(char *str);
 void			launch_expansion(t_master *master, t_exec *exec);
 
 /* split_args.c */
-void			split_args(char *s, char **argv);
+void			split_args(char *s, char **argv, bool *double_quotes);
 
 #endif /* EXECUTION_H */

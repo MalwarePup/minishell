@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_mem.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2023/06/30 18:22:59 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/09 13:01:37 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_exec	*create_arguments(t_token *token)
 			cleanup_before_exit();
 			exit(EXIT_FAILURE);
 		}
-		split_args(token->data, new->argv);
+		split_args(token->data, new->argv, &new->double_quotes);
 		while (new->argv[new->argc])
 			new->argc++;
 	}

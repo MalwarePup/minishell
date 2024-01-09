@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/09 16:53:34 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/09 13:02:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,7 @@ void	launch_expansion(t_master *master, t_exec *exec)
 	{
 		while (exec->argv[exp.i])
 		{
-			exp.j = 0;
-			while (exec->argv[exp.i][exp.j])
+			if (exec->argv[exp.i][exp.j] == '$' && exec->double_quotes)
 			{
 				if (exec->argv[exp.i][exp.j] == '$')
 				{
