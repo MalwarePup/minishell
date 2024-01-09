@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/06 01:28:00 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/09 12:57:43 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ void	set_sigaction(void)
 
 	sa.sa_handler = handle_sigint;
 	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
+	if (sigemptyset(&sa.sa_mask) == -1)
+	{
+		perror("sigaction");
+		exit(EXIT_FAILURE);
+	}
 	if (sigaction(SIGINT, &sa, NULL) == -1
 		|| sigaction(SIGQUIT, &sa, NULL) == -1)
 	{
