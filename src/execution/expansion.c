@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2023/07/12 13:27:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/09 13:02:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	launch_expansion(t_master *master, t_exec *exec)
 		exp.j = 0;
 		while (exec->argv[exp.i][exp.j])
 		{
-			if (exec->argv[exp.i][exp.j] == '$')
+			if (exec->argv[exp.i][exp.j] == '$' && exec->double_quotes)
 			{
 				exp.substr_start = exec->argv[exp.i] + exp.j;
 				process_expansion(master, exec, &exp);

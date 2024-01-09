@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chmadran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/05 07:14:42 by chmadran         ###   ########.fr       */
+/*   Updated: 2024/01/09 13:03:42 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static char	*handle_unquoted_argument(char *s, char **arg)
 	return (s);
 }
 
-void	split_args(char *s, char **argv)
+void	split_args(char *s, char **argv, bool *is_double_quotes)
 {
 	char	*arg;
 	int		argc;
@@ -101,7 +101,11 @@ void	split_args(char *s, char **argv)
 		while (*s && *s != ' ')
 		{
 			if (((*s == '\'') || (*s == '\"')) && (*(s - 1) != '\\'))
+			{
+				if (*s == '\"')
+					*is_double_quotes = true;
 				s = handle_quoted_argument(s, &arg);
+			}
 			else
 				s = handle_unquoted_argument(s, &arg);
 		}
