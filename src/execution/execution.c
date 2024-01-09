@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/18 18:05:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/09 18:19:51 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	prepare_execution(t_master *master, t_token *token, t_exec *exec)
 	update_executable_path(master->exec, master->env_list);
 	master->exit_status = 0;
 	type = execute_command_or_builtin(master, master->exec);
-	if (type == T_ERROR || master->exit_status == 127)
+	if ((type == T_ERROR || master->exit_status == 127) && exec->argc > 0)
 	{
 		cleanup_executable();
 		return ;
@@ -98,7 +98,9 @@ void	parent_process_execution(t_token **token, t_exec *exec)
 			*token = (*token)->next->next;
 		else
 			*token = (*token)->next;
-		cleanup_executable();
+		printf("exec->argc: %d\n", exec->argc);
+		if (exec->argc > 0)
+			cleanup_executable();
 	}
 }
 
@@ -110,6 +112,7 @@ void	launch_execution(t_master *master)
 
 	status = 0;
 	exec.pid = -1;
+	exec.argc = 0;
 	exec.first_cmd = true;
 	token = master->token_list;
 	while (token)
