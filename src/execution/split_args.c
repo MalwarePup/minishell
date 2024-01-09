@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/09 13:03:42 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/09 15:22:43 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static char	*handle_unquoted_argument(char *s, char **arg)
 	return (s);
 }
 
-void	split_args(char *s, char **argv, bool *is_double_quotes)
+void	split_args(char *s, char **argv, bool *is_simple_quotes)
 {
 	char	*arg;
 	int		argc;
@@ -102,8 +102,8 @@ void	split_args(char *s, char **argv, bool *is_double_quotes)
 		{
 			if (((*s == '\'') || (*s == '\"')) && (*(s - 1) != '\\'))
 			{
-				if (*s == '\"')
-					*is_double_quotes = true;
+				if (*s == '\'')
+					*is_simple_quotes = true;
 				s = handle_quoted_argument(s, &arg);
 			}
 			else
