@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/09 13:02:34 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/09 22:55:00 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,18 @@ void	launch_expansion(t_master *master, t_exec *exec)
 	exp.i = 1;
 	if (!exec || !exec->argv)
 		return ;
-	if (exec->argc > 0)
+	while (exec->argc > 1 && exec->argv[exp.i])
 	{
-		while (exec->argv[exp.i])
+		if (exec->argv[exp.i][exp.j] == '$' && exec->double_quotes)
 		{
-			if (exec->argv[exp.i][exp.j] == '$' && exec->double_quotes)
+			if (exec->argv[exp.i][exp.j] == '$')
 			{
-				if (exec->argv[exp.i][exp.j] == '$')
-				{
-					exp.substr_start = exec->argv[exp.i] + exp.j;
-					process_expansion(master, exec, &exp);
-				}
-				else
-					exp.j++;
+				exp.substr_start = exec->argv[exp.i] + exp.j;
+				process_expansion(master, exec, &exp);
 			}
-			exp.i++;
+			else
+				exp.j++;
 		}
+		exp.i++;
 	}
 }
