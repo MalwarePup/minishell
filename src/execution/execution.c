@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/10 12:32:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/10 14:52:01 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	prepare_execution(t_master *master, t_token *token, t_exec *exec)
 	update_executable_path(master->exec, master->env_list);
 	master->exit_status = 0;
 	type = execute_command_or_builtin(master, master->exec);
-	if (type == T_ERROR || master->exit_status == 127)
+	if (type == T_ERROR && master->exit_status == 127)
 	{
 		cleanup_executable();
 		return ;
@@ -113,6 +113,7 @@ void	launch_execution(t_master *master)
 	exec.first_cmd = true;
 	exec.pipefd[0] = -1;
 	exec.pipefd[1] = -1;
+	exec.argc = 0;
 	token = master->token_list;
 	while (token)
 	{

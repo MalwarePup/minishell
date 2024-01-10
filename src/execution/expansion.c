@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/09 15:23:01 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:04:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	launch_expansion(t_master *master, t_exec *exec)
 	exp.i = 1;
 	if (!exec || !exec->argv)
 		return ;
-	while (exec->argv[exp.i])
+	while (exec->argc > 0 && exec->argv[exp.i])
 	{
 		exp.j = 0;
 		while (exec->argv[exp.i][exp.j])
