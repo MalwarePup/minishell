@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/18 18:05:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/10 12:32:31 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	launch_execution(t_master *master)
 	status = 0;
 	exec.pid = -1;
 	exec.first_cmd = true;
+	exec.pipefd[0] = -1;
+	exec.pipefd[1] = -1;
 	token = master->token_list;
 	while (token)
 	{
