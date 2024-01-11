@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:47 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/09 15:23:26 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:25:14 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ typedef struct s_exec
 	int			pipefd[2];
 	int			old_pipefd[2];
 	bool		first_cmd;
-	bool		simple_quotes;
+	int			simple_quotes;
 }	t_exec;
 
 typedef struct s_master
 {
 	t_env	*env_list;
-	char	*line_read;
+	char	*line_read;cd
 	t_token	*token_list;
 	t_exec	*exec;
 	int		exit_status;

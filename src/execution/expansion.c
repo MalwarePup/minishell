@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/11 15:01:03 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 17:57:42 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "execution.h"
 #include "libft.h"
 #include "exit.h"
+#include <stdio.h>
 
 typedef struct s_expansion
 {
@@ -117,9 +118,8 @@ void	launch_expansion(t_master *master, t_exec *exec)
 		while (exec->argv[exp.i][exp.j])
 		{
 			if (exec->argv[exp.i][exp.j] == '$'
-				&& !exec->simple_quotes
-				&& (ft_isalpha(exec->argv[exp.i][exp.j + 1])
-				|| exec->argv[exp.i][exp.j + 1] == '?')
+				&& (exec->simple_quotes == 0 || exec->simple_quotes == 2)
+				&& (exec->argv[exp.i][exp.j + 1] != '$')
 				&& (exp.j == 0
 				|| (exp.j > 0 && exec->argv[exp.i][exp.j - 1] != '$')))
 			{

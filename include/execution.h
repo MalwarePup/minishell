@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:12:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 14:31:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:38:28 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ char			*extract_expansion_name(char *str);
 void			launch_expansion(t_master *master, t_exec *exec);
 
 /* split_args.c */
-void			split_args(char *s, char **argv, bool *simple_quotes);
+void			split_args(char *s, char **argv, int *simple_quotes);
 
 #endif /* EXECUTION_H */
