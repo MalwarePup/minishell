@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   split_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/09 15:22:43 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:44:58 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "execution.h"
-#include "exit.h"
+#include "minishell.h"
 #include "libft.h"
 
-static char	*allocate_memory_for_arg(char *s)
+static char	*allocate_memory_for_arg(t_master *master, char *s)
 {
 	char	*arg;
 
@@ -24,7 +23,7 @@ static char	*allocate_memory_for_arg(char *s)
 	if (!arg)
 	{
 		perror("malloc in split_args");
-		cleanup_before_exit();
+		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
 	arg[0] = '\0';
@@ -87,7 +86,8 @@ static char	*handle_unquoted_argument(char *s, char **arg)
 	return (s);
 }
 
-void	split_args(char *s, char **argv, bool *is_simple_quotes)
+void	split_args(t_master *master, char *s, char **argv,
+	bool *is_simple_quotes)
 {
 	char	*arg;
 	int		argc;
@@ -97,7 +97,7 @@ void	split_args(char *s, char **argv, bool *is_simple_quotes)
 	argc = 0;
 	while (*s)
 	{
-		arg = allocate_memory_for_arg(s);
+		arg = allocate_memory_for_arg(master, s);
 		while (*s && *s != ' ')
 		{
 			if (((*s == '\'') || (*s == '\"')) && (*(s - 1) != '\\'))

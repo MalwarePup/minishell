@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/12 21:00:41 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 18:53:42 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ static char	*get_env_value_no_alloc(t_env *env, char *name)
 		if (!ft_strcmp(current->name, name))
 		{
 			if (current->value)
-			{
 				return (current->value);
-			}
 			else
 				return (NULL);
 		}

@@ -14,8 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include "execution.h"
-#include "builtins.h"
+#include "minishell.h"
 #include "libft.h"
 
 static t_builtin_type	inspect_token(char *arg)
@@ -77,7 +76,7 @@ static int	execute_builtin(t_master *master, t_exec *exec, t_builtin_type type)
 	if (type == T_CD)
 		return (ft_cd(exec->argc, exec->argv, master));
 	else if (type == T_ECHO)
-		return (ft_echo(exec->argc, exec->argv));
+		return (ft_echo(exec->argc, exec->argv, master));
 	else if (type == T_ENV)
 		return (ft_env(master), T_ENV);
 	else if (type == T_EXPORT)
@@ -87,7 +86,7 @@ static int	execute_builtin(t_master *master, t_exec *exec, t_builtin_type type)
 	else if (type == T_UNSET)
 		return (ft_unset(exec->argc, exec->argv, master), T_UNSET);
 	else if (type == T_EXIT)
-		ft_exit(exec->argc, exec->argv);
+		ft_exit(master, exec->argc, exec->argv);
 	return (T_ERROR);
 }
 

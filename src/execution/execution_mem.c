@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_mem.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/09 15:23:46 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:43:45 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "execution.h"
-#include "exit.h"
+#include "minishell.h"
 #include "libft.h"
 
 void	free_double_ptr(char **str)
@@ -50,7 +49,7 @@ static size_t	count_spaces(char *str)
 	return (count);
 }
 
-t_exec	*create_arguments(t_token *token)
+t_exec	*create_arguments(t_master *master, t_token *token)
 {
 	t_exec	*new;
 
@@ -58,7 +57,7 @@ t_exec	*create_arguments(t_token *token)
 	if (!new)
 	{
 		perror("ft_calloc in format_arg");
-		cleanup_before_exit();
+		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
 	if (token && token->data)
@@ -67,10 +66,10 @@ t_exec	*create_arguments(t_token *token)
 		if (!new->argv)
 		{
 			perror("malloc in create_arguments");
-			cleanup_before_exit();
+			cleanup_before_exit(master);
 			exit(EXIT_FAILURE);
 		}
-		split_args(token->data, new->argv, &new->simple_quotes);
+		split_args(master, token->data, new->argv, &new->simple_quotes);
 		while (new->argv[new->argc])
 			new->argc++;
 	}

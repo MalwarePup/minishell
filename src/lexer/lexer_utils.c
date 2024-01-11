@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "lexer.h"
+#include "minishell.h"
 #include "libft.h"
 
 int	is_heredoc_pipe(t_token **token_lst)

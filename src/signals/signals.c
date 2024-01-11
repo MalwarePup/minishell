@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/09 12:57:43 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:46:01 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <readline/readline.h>
 #include <signal.h>
+#include "minishell.h"
 
 static void	handle_sigint(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_master.exit_status = 130;
+		// g_master.exit_status = 130;
 		rl_replace_line("", 0);
 		write(STDOUT_FILENO, "^C\n", 3);
 		rl_on_new_line();
