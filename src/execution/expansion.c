@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/11 14:59:14 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:01:03 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ void	launch_expansion(t_master *master, t_exec *exec)
 		{
 			if (exec->argv[exp.i][exp.j] == '$'
 				&& !exec->simple_quotes
-				&& (ft_isalpha(exec->argv[exp.i][exp.j + 1]) || exec->argv[exp.i][exp.j + 1] == '?')
+				&& (ft_isalpha(exec->argv[exp.i][exp.j + 1])
+				|| exec->argv[exp.i][exp.j + 1] == '?')
 				&& (exp.j == 0
 				|| (exp.j > 0 && exec->argv[exp.i][exp.j - 1] != '$')))
 			{
