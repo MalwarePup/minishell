@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/01/11 19:25:59 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 21:47:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,9 @@ int				is_heredoc_pipe(t_token **token_lst);
 int				start_operator(t_token_type type);
 int				is_clean(t_token **token_lst);
 int				is_matched_quotes(const char *line_read);
+
+/* lexer_utils2.c */
+int				is_escaped(const char *str, int index);
 
 /* lexer_mem.c */
 

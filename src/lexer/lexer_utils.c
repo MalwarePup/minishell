@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 21:37:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 21:47:09 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,6 @@ static bool	return_value(bool in_single_quote, bool in_double_quote)
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
-}
-
-int	is_escaped(const char *str, int index)
-{
-	int	backslashes;
-
-	backslashes = 0;
-	while (index > 0 && str[index - 1] == '\\')
-	{
-		backslashes++;
-		index--;
-	}
-	return (backslashes % 2 != 0);
 }
 
 int	is_matched_quotes(const char *line_read)
