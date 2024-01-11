@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 18:44:58 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:19:39 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,9 @@ void	split_args(t_master *master, char *s, char **argv,
 	bool *is_simple_quotes)
 {
 	char	*arg;
-	int		argc;
 
 	if (!s || !argv)
 		return ;
-	argc = 0;
 	while (*s)
 	{
 		arg = allocate_memory_for_arg(master, s);
@@ -110,9 +108,9 @@ void	split_args(t_master *master, char *s, char **argv,
 				s = handle_unquoted_argument(s, &arg);
 		}
 		arg = clean_arg(arg);
-		argv[argc++] = arg;
+		*argv++ = arg;
 		while (*s == ' ')
 			s++;
 	}
-	argv[argc] = NULL;
+	*argv = NULL;
 }

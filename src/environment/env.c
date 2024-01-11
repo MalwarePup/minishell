@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:03:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:14:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	create_add_env_node(t_master *master, char *name, char *value,
 	{
 		free(name);
 		free(value);
-		error_exit(master,  "malloc (create_add_env_node)");
+		error_exit(master, "malloc (create_add_env_node)");
 		return ;
 	}
 	new_node->name = name;

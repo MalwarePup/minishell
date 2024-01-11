@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:43:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:04:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:13:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_error_exit(t_master *master, char *error_str, int errnum)
 	cleanup_before_exit(master);
 	exit(EXIT_FAILURE);
 }
+
 void	handle_eof(t_master *master)
 {
 	rl_clear_history();

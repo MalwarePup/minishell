@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:07:51 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:13:53 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <errno.h>
 #include "minishell.h"
 #include "libft.h"
-
 
 void	free_token_list(t_token *token_list)
 {

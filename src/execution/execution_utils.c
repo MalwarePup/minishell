@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 18:43:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:15:34 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 		env_list = env_list->next;
 		i++;
 	}
-	array[i] = NULL;
-	return (array);
+	return (array[i] = NULL, array);
 }
 
 void	init(t_master *master, t_exec *exec, int *status, t_token **token)
