@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/12 20:35:17 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 14:32:59 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,15 @@ char	**env_list_to_array(t_env *env_list)
 	}
 	array[i] = NULL;
 	return (array);
+}
+
+void	init(t_master *master, t_exec *exec, int *status, t_token **token)
+{
+	*status = 0;
+	exec->pid = -1;
+	exec->first_cmd = true;
+	exec->pipefd[0] = -1;
+	exec->pipefd[1] = -1;
+	exec->argc = 0;
+	token = master->token_list;
 }

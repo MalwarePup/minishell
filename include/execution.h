@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:12:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 11:50:29 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:31:11 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_exec			*create_arguments(t_token *token);
 
 /* execution_utils.c */
 char			**env_list_to_array(t_env *env_list);
+void			init(t_master *mast, t_exec *e, int *s, t_token **t);
 
 /* execution.c */
 void			launch_execution(t_master *master);

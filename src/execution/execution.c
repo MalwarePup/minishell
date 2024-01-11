@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/10 14:52:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 14:34:52 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,7 @@ void	launch_execution(t_master *master)
 	int			status;
 	t_token		*token;
 
-	status = 0;
-	exec.pid = -1;
-	exec.first_cmd = true;
-	exec.pipefd[0] = -1;
-	exec.pipefd[1] = -1;
-	exec.argc = 0;
-	token = master->token_list;
+	init(master, &exec, &status, &token);
 	while (token)
 	{
 		prepare_execution(master, token, &exec);
