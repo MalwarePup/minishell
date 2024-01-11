@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:03:34 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:25:48 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_data_builtins(t_exec	*current)
 	printf("-----------------------------------------------\n\n\n");
 }
 
-void	handle_error_cases(t_master *master, t_exec *exec)
+void	handle_error_cases(t_exec *exec)
 {
 	if (exec->argc == 1)
 	{
@@ -39,17 +39,17 @@ void	handle_error_cases(t_master *master, t_exec *exec)
 		{
 			printf("minishell: .: filename argument required\n");
 			printf(".: usage: . filename [arguments]\n");
-			master->exit_status = 2;
+			g_exit_status = 2;
 		}
 		else if (ft_strcmp(exec->argv[0], "..") == 0)
 		{
 			printf("minishell: %s: command not found\n", exec->argv[0]);
-			master->exit_status = 127;
+			g_exit_status = 127;
 		}
 		else
 		{
 			printf("minishell: %s: command not found\n", exec->argv[0]);
-			master->exit_status = 127;
+			g_exit_status = 127;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/01/11 19:13:29 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:25:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,14 @@ typedef struct s_master
 	char	*line_read;
 	t_token	*token_list;
 	t_exec	*exec;
-	int		exit_status;
 }	t_master;
+
+extern int	g_exit_status;
 
 /* builtin_utils.c */
 
 void			print_data_builtins(t_exec	*current);
-void			handle_error_cases(t_master *master, t_exec *exec);
+void			handle_error_cases(t_exec *exec);
 
 /* builtin.c */
 

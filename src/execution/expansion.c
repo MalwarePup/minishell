@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:04:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:24:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
 	if (exec->argv[(*exp).i][(*exp).j + 1] == '?')
 	{
 		(*exp).name = extract_expansion_name(master, (*exp).substr_start);
-		(*exp).value = ft_itoa(master->exit_status);
+		(*exp).value = ft_itoa(g_exit_status);
 		if (!(*exp).value)
 		{
 			free((*exp).name);

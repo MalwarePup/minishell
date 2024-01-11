@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:04:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:24:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,13 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
 		return (EXIT_FAILURE);
 	if (manage_token(master, line_read, token_list) == EXIT_FAILURE)
 	{
-		master->exit_status = 2;
+		g_exit_status = 2;
 		return (EXIT_FAILURE);
 	}
 	if ((is_heredoc_pipe(token_list) == EXIT_FAILURE)
 		|| (is_clean(token_list) == EXIT_FAILURE))
 	{
-		master->exit_status = 2;
+		g_exit_status = 2;
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

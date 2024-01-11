@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:05:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:23:22 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 #include "minishell.h"
 #include "libft.h"
 
+int	g_exit_status = 0;
+
 int	main(void)
 {
 	t_master	master;
 
-	master.env_list = NULL;
 	rl_catch_signals = 0;
+	master.env_list = NULL;
 	set_sigaction();
 	manage_environment(&master, &master.env_list);
 	while (1)

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 18:43:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:24:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	prepare_execution(t_master *master, t_token *token, t_exec *exec)
 	master->exec = create_arguments(master, token);
 	launch_expansion(master, master->exec);
 	update_executable_path(master->exec, master->env_list);
-	master->exit_status = 0;
+	g_exit_status = 0;
 	type = execute_command_or_builtin(master, master->exec);
-	if (type == T_ERROR && master->exit_status == 127)
+	if (type == T_ERROR && g_exit_status == 127)
 	{
 		cleanup_executable(master);
 		return ;
@@ -54,7 +54,7 @@ void	prepare_execution(t_master *master, t_token *token, t_exec *exec)
 
 void	child_process_execution(t_master *master, t_token *token, t_exec *exec)
 {
-	if (master->exit_status != 127 && exec->pid == 0)
+	if (g_exit_status != 127 && exec->pid == 0)
 	{
 		if (!exec->first_cmd)
 		{
@@ -72,7 +72,7 @@ void	child_process_execution(t_master *master, t_token *token, t_exec *exec)
 			execute_command(master, master->exec, master->env_list);
 		cleanup_before_exit(master);
 		cleanup_executable(master);
-		exit(master->exit_status);
+		exit(g_exit_status);
 	}
 }
 
@@ -110,7 +110,7 @@ void	launch_execution(t_master *master)
 	while (token)
 	{
 		prepare_execution(master, token, &exec);
-		if (master->exit_status == 127)
+		if (g_exit_status == 127)
 			break ;
 		child_process_execution(master, token, &exec);
 		parent_process_execution(master, &token, &exec);
@@ -121,6 +121,6 @@ void	launch_execution(t_master *master)
 		close(exec.old_pipefd[1]);
 	}
 	while ((waitpid(exec.pid, &status, 0)) > 0)
-		if (WIFEXITED(status) && master->exit_status != 127)
-			master->exit_status = WEXITSTATUS(status);
+		if (WIFEXITED(status) && g_exit_status != 127)
+			g_exit_status = WEXITSTATUS(status);
 }

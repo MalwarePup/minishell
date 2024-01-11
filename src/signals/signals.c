@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:14:06 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:26:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	handle_sigint(int signum)
 {
 	if (signum == SIGINT)
 	{
+		g_exit_status = 130;
 		rl_replace_line("", 0);
 		write(STDOUT_FILENO, "^C\n", 3);
 		rl_on_new_line();
