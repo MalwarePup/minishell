@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:12:51 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 21:37:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int	is_heredoc_pipe(t_token **token_lst)
 {
-	t_token			*current;
+	t_token	*current;
 
 	current = *token_lst;
 	while (current)
@@ -46,9 +46,9 @@ int	start_operator(t_token_type type)
 
 int	is_clean(t_token **token_lst)
 {
-	t_token			*current;
-	char			type;
-	const char		*ops[OP] = {"|", "<", "<<", ">", ">>"};
+	char		type;
+	t_token		*current;
+	const char	*ops[OP] = {"|", "<", "<<", ">", ">>"};
 
 	current = *token_lst;
 	while (current && current->next)
@@ -81,6 +81,19 @@ static bool	return_value(bool in_single_quote, bool in_double_quote)
 	return (EXIT_SUCCESS);
 }
 
+int	is_escaped(const char *str, int index)
+{
+	int	backslashes;
+
+	backslashes = 0;
+	while (index > 0 && str[index - 1] == '\\')
+	{
+		backslashes++;
+		index--;
+	}
+	return (backslashes % 2 != 0);
+}
+
 int	is_matched_quotes(const char *line_read)
 {
 	size_t	i;
@@ -94,17 +107,13 @@ int	is_matched_quotes(const char *line_read)
 	{
 		if (line_read[i] == '\'')
 		{
-			if ((line_read[i - 1] == '\\' && line_read[i - 2] == '\\')
-				|| (line_read[i - 1] != '\\'))
-				if (!in_double_quote)
-					in_single_quote = !in_single_quote;
+			if (!is_escaped(line_read, i) && !in_double_quote)
+				in_single_quote = !in_single_quote;
 		}
 		else if (line_read[i] == '\"')
 		{
-			if ((line_read[i - 1] == '\\' && line_read[i - 2] == '\\')
-				|| (line_read[i - 1] != '\\'))
-				if (!in_single_quote)
-					in_double_quote = !in_double_quote;
+			if (!is_escaped(line_read, i) && !in_single_quote)
+				in_double_quote = !in_double_quote;
 		}
 	}
 	return (return_value(in_single_quote, in_double_quote));
