@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:19:39 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 21:50:51 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	split_args(t_master *master, char *s, char **argv,
 		arg = allocate_memory_for_arg(master, s);
 		while (*s && *s != ' ')
 		{
-			if (((*s == '\'') || (*s == '\"')) && (*(s - 1) != '\\'))
+			if (((*s == '\'') || (*s == '\"')) && !is_escaped(s, s - s))
 			{
 				if (*s == '\'')
 					*is_simple_quotes = true;
