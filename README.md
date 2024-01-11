@@ -76,7 +76,7 @@ As beautiful as a shell - Version: 7.1
 - [ ] Nothing should be interpreted.
 
 #### env
-- [x]Check if env shows you the current environment variables.
+- [x] Check if env shows you the current environment variables.
 
 #### export
 - [x] Export environment variables, create new ones and replace old ones.
