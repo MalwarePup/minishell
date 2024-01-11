@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/11 12:39:56 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 12:41:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
 	free((*exp).value);
 }
 
+
 void	launch_expansion(t_master *master, t_exec *exec)
 {
 	t_expansion	exp;
@@ -113,11 +114,12 @@ void	launch_expansion(t_master *master, t_exec *exec)
 		return ;
 	while (exec->argc > 0 && exec->argv[exp.i])
 	{
-		while (exec->argv[exp.i])
+		exp.j = 0;
+		while (exec->argv[exp.i][exp.j])
 		{
 			if (exec->argv[exp.i][exp.j] == '$'
 				&& !exec->simple_quotes
-				&&((exp.j == 0 && exec->argv[exp.i][exp.j + 1] != '$' )
+				&&((exp.j == 0 && exec->argv[exp.i][exp.j + 1] != '$')
 				|| (exp.j > 0
 				&& exec->argv[exp.i][exp.j + 1] != '$'
 				&& exec->argv[exp.i][exp.j - 1] != '$')))
@@ -127,8 +129,8 @@ void	launch_expansion(t_master *master, t_exec *exec)
 			}
 			else
 				exp.j++;
-			exp.i++;
 		}
+		exp.i++;
 	}
 }
 
