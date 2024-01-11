@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:34:21 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/12 21:00:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 07:23:36 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_master	t_master;
 int		ft_cd(int argc, char **argv, t_master *master);
 int		ft_echo(int argc, char **argv);
 void	ft_env(t_master *master);
-void	ft_exit(void);
+void	ft_exit(int argc, char **argv);
 int		ft_export(int argc, char **argv, t_master *master);
 int		ft_pwd(void);
 int		ft_unset(int argc, char **argv, t_master *master);

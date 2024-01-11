@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by chmadran          #+#    #+#             */
-/*   Updated: 2023/07/12 23:50:40 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 07:21:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int	execute_builtin(t_master *master, t_exec *exec, t_builtin_type type)
 	else if (type == T_UNSET)
 		return (ft_unset(exec->argc, exec->argv, master), T_UNSET);
 	else if (type == T_EXIT)
-		ft_exit();
+		ft_exit(exec->argc, exec->argv);
 	return (T_ERROR);
 }
 
