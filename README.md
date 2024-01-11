@@ -25,7 +25,7 @@ As beautiful as a shell - Version: 7.1
 - [x] Repeat multiple times with different commands and arguments.
 
 #### echo
-- [ ] Execute the echo command with or without arguments, or the -n option.
+- [ ] Execute the echo command with or without arguments, or the -n option. [#8](https://github.com/MalwarePup/minishell/issues/8)
 - [ ] Repeat multiple times with different arguments.
 
 #### exit
