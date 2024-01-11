@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 18:43:45 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 19:07:58 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ void	free_double_ptr(char **str)
 	free(str);
 }
 
-/**
- * Count the numbers of spaces in a string.
- *
- * @param str The string to be analyzed
- * @return The number of spaces found in the string
- */
 static size_t	count_spaces(char *str)
 {
 	size_t	count;
