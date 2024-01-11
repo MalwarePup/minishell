@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by chmadran          #+#    #+#              #
-#    Updated: 2023/12/29 09:03:51 by ladloff          ###   ########.fr        #
+#    Updated: 2024/01/10 13:07:50 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,3 +112,6 @@ relib: fcleanlib lib
 
 # Target to clean all the project and lib
 fcleanall: fclean fcleanlib
+
+# Target to rebuild all the project and lib
+reall: fcleanall all

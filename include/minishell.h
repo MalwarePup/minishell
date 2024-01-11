@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:47 by chmadran          #+#    #+#             */
-/*   Updated: 2023/07/12 21:02:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 11:57:56 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_exec
 	int			pipefd[2];
 	int			old_pipefd[2];
 	bool		first_cmd;
+	bool		simple_quotes;
 }	t_exec;
 
 typedef struct s_master

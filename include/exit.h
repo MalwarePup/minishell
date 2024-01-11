@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:35:15 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/18 17:06:35 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/11 09:06:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 # include <errno.h>
 # include "minishell.h"
 
-# define ERR_PREFIX "\n\nError: "
-# define ENV_ERR "the env is empty"
-# define MALLOC_ERR "during memory allocation"
-# define SIGACTION_ERR "during setting signal handler"
+# define NUM_ARG_ERR "minishell: exit: %s: numeric argument required\n"
+# define TOO_MANY_ARGS_ERR "minishell: exit: too many arguments\n"
 
 extern t_master	g_master;
 
