@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/01/12 10:15:26 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:21:35 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_exec
 	int			pipefd[2];
 	int			old_pipefd[2];
 	bool		first_cmd;
-	int			simple_quotes;
+	bool			simple_quotes;
 }	t_exec;
 
 typedef struct s_master
@@ -117,6 +117,7 @@ void			launch_execution(t_master *master);
 
 char			*get_env_value(t_master *master, t_env *env, char *name);
 char			*extract_expansion_name(t_master *master, char *str);
+bool			is_whitespace(char c);
 
 /* expansion.c */
 
