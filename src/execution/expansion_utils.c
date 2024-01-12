@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/12 10:21:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:41:43 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,3 @@ char	*extract_expansion_name(t_master *master, char *str)
 	return (name);
 }
 
-bool	is_whitespace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f')
-		return (true);
-	return (false);
-}

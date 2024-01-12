@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/12 10:20:45 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:42:02 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	launch_expansion(t_master *master, t_exec *exec)
 		while (exec->argv[exp.i][exp.j])
 		{
 			if (exec->argv[exp.i][exp.j] == '$'
-				&& !is_whitespace(exec->argv[exp.i][exp.j + 1])
+				&& !ft_isspace(exec->argv[exp.i][exp.j + 1])
 				&& !exec->simple_quotes
 				&& (exec->argv[exp.i][exp.j + 1] != '$')
 				&& (exp.j == 0
