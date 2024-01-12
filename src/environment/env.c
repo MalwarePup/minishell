@@ -5,16 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 12:42:17 by chmadran          #+#    #+#             */
-/*   Updated: 2023/06/30 18:01:29 by ladloff          ###   ########.fr       */
+/*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
+/*   Updated: 2024/01/11 19:14:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
 #include "minishell.h"
-#include "env.h"
-#include "exit.h"
 #include "libft.h"
 
 void	free_environment_list(t_env *env)
@@ -33,7 +32,8 @@ void	free_environment_list(t_env *env)
 	}
 }
 
-static void	create_add_env_node(char *name, char *value, t_env **env_list)
+static void	create_add_env_node(t_master *master, char *name, char *value,
+	t_env **env_list)
 {
 	t_env	*new_node;
 
@@ -42,7 +42,7 @@ static void	create_add_env_node(char *name, char *value, t_env **env_list)
 	{
 		free(name);
 		free(value);
-		error_exit("malloc (create_add_env_node)");
+		error_exit(master, "malloc (create_add_env_node)");
 		return ;
 	}
 	new_node->name = name;
@@ -60,7 +60,7 @@ static void	create_add_env_node(char *name, char *value, t_env **env_list)
 	}
 }
 
-static void	manage_pwd(t_env **env_list)
+static void	manage_pwd(t_master *master, t_env **env_list)
 {
 	char	*cwd;
 	char	*name;
@@ -78,38 +78,38 @@ static void	manage_pwd(t_env **env_list)
 		perror("ft_strdup (manage_empty_environment)");
 		exit(EXIT_FAILURE);
 	}
-	create_add_env_node(name, cwd, env_list);
+	create_add_env_node(master, name, cwd, env_list);
 }
 
-static void	manage_empty_environment(t_env **env_list)
+static void	manage_empty_environment(t_master *master, t_env **env_list)
 {
 	char	*name;
 	char	*value;
 
-	manage_pwd(env_list);
+	manage_pwd(master, env_list);
 	name = ft_strdup("SHLVL");
 	value = ft_strdup("1");
 	if (!name || !value)
 	{
 		free(name);
 		free(value);
-		ft_error_exit("ft_strdup (manage_empty_environment)", ENOMEM);
+		ft_error_exit(master, "ft_strdup (manage_empty_environment)", ENOMEM);
 		return ;
 	}
-	create_add_env_node(name, value, env_list);
+	create_add_env_node(master, name, value, env_list);
 	name = ft_strdup("_");
 	value = ft_strdup("minishell");
 	if (!name || !value)
 	{
 		free(name);
 		free(value);
-		ft_error_exit("ft_strdup (manage_empty_environment)", ENOMEM);
+		ft_error_exit(master, "ft_strdup (manage_empty_environment)", ENOMEM);
 		return ;
 	}
-	create_add_env_node(name, value, env_list);
+	create_add_env_node(master, name, value, env_list);
 }
 
-void	manage_environment(t_env **env_list)
+void	manage_environment(t_master *master, t_env **env_list)
 {
 	char		*name;
 	char		*value;
@@ -117,23 +117,23 @@ void	manage_environment(t_env **env_list)
 	char		*equals_location;
 
 	if (!*environ)
-		manage_empty_environment(env_list);
+		manage_empty_environment(master, env_list);
 	while (*environ)
 	{
 		equals_location = ft_strchr(*environ, '=');
 		name = ft_strndup(*environ, equals_location - *environ);
 		if (!name)
-			ft_error_exit("ft_strndup (manage_environment)", ENOMEM);
+			ft_error_exit(master, "ft_strndup (manage_environment)", ENOMEM);
 		value = ft_strdup(equals_location + 1);
 		if (!value)
 		{
 			free(name);
-			ft_error_exit("ft_strdup (manage_environment)", ENOMEM);
+			ft_error_exit(master, "ft_strdup (manage_environment)", ENOMEM);
 			return ;
 		}
 		if (!ft_strcmp(name, SHLVL))
-			value = update_shlvl(value, name);
-		create_add_env_node(name, value, env_list);
+			value = update_shlvl(master, value, name);
+		create_add_env_node(master, name, value, env_list);
 		environ++;
 	}
 }

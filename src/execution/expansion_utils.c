@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/09 13:02:14 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:44:47 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "execution.h"
-#include "exit.h"
+#include <errno.h>
+#include "minishell.h"
 #include "libft.h"
 
-char	*get_env_value(t_env *env, char *name)
+char	*get_env_value(t_master *master, t_env *env, char *name)
 {
 	char	*value;
 
@@ -31,8 +31,8 @@ char	*get_env_value(t_env *env, char *name)
 				if (!value)
 				{
 					free(name);
-					cleanup_executable();
-					ft_error_exit("ft_strdup (get_env_value)", ENOMEM);
+					cleanup_executable(master);
+					ft_error_exit(master, "ft_strdup (get_env_value)", ENOMEM);
 				}
 				return (value);
 			}
@@ -44,7 +44,7 @@ char	*get_env_value(t_env *env, char *name)
 	return (NULL);
 }
 
-char	*extract_expansion_name(char *str)
+char	*extract_expansion_name(t_master *master, char *str)
 {
 	size_t	i;
 	char	*name;
@@ -55,8 +55,8 @@ char	*extract_expansion_name(char *str)
 		name = ft_strdup("?");
 		if (!name)
 		{
-			cleanup_executable();
-			ft_error_exit("ft_strdup (extract_expansion_name)", ENOMEM);
+			cleanup_executable(master);
+			ft_error_exit(master, "ft_strdup (extract_expansion_name)", ENOMEM);
 		}
 		return (name);
 	}
@@ -65,8 +65,8 @@ char	*extract_expansion_name(char *str)
 	name = ft_strndup(str + 1, i - 1);
 	if (!name)
 	{
-		cleanup_executable();
-		ft_error_exit("ft_strndup (extract_expansion_name)", ENOMEM);
+		cleanup_executable(master);
+		ft_error_exit(master, "ft_strndup (extract_expansion_name)", ENOMEM);
 	}
 	return (name);
 }

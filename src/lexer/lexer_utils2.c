@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 20:16:31 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/12 13:35:03 by ladloff          ###   ########.fr       */
+/*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
+/*   Updated: 2024/01/11 21:46:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#include "minishell.h"
 
-# include "minishell.h"
+int	is_escaped(const char *str, int index)
+{
+	int	backslashes;
 
-extern t_master	g_master;
-
-/* signals.c */
-void	set_sigaction(void);
-
-#endif /* SIGNALS_H */
+	backslashes = 0;
+	while (index > 0 && str[index - 1] == '\\')
+	{
+		backslashes++;
+		index--;
+	}
+	return (backslashes % 2 != 0);
+}

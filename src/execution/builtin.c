@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 16:10:09 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/11 07:21:38 by ladloff          ###   ########.fr       */
+/*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
+/*   Updated: 2024/01/11 19:26:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include "execution.h"
-#include "builtins.h"
+#include "minishell.h"
 #include "libft.h"
 
 static t_builtin_type	inspect_token(char *arg)
@@ -77,7 +76,7 @@ static int	execute_builtin(t_master *master, t_exec *exec, t_builtin_type type)
 	if (type == T_CD)
 		return (ft_cd(exec->argc, exec->argv, master));
 	else if (type == T_ECHO)
-		return (ft_echo(exec->argc, exec->argv));
+		return (ft_echo(exec->argc, exec->argv, master));
 	else if (type == T_ENV)
 		return (ft_env(master), T_ENV);
 	else if (type == T_EXPORT)
@@ -87,7 +86,7 @@ static int	execute_builtin(t_master *master, t_exec *exec, t_builtin_type type)
 	else if (type == T_UNSET)
 		return (ft_unset(exec->argc, exec->argv, master), T_UNSET);
 	else if (type == T_EXIT)
-		ft_exit(exec->argc, exec->argv);
+		ft_exit(master, exec->argc, exec->argv);
 	return (T_ERROR);
 }
 
@@ -104,7 +103,7 @@ static bool	execute_command(t_master *master, t_exec *exec)
 			if (S_ISDIR(s.st_mode))
 			{
 				printf("minishell: %s: Is a directory\n", exec->argv[0]);
-				master->exit_status = 126;
+				g_exit_status = 126;
 				return (false);
 			}
 			exec->pathname = ft_strdup(exec->argv[0]);
@@ -112,7 +111,7 @@ static bool	execute_command(t_master *master, t_exec *exec)
 		else
 		{
 			printf("minishell: %s: command not found\n", exec->argv[0]);
-			master->exit_status = 127;
+			g_exit_status = 127;
 			return (false);
 		}
 	}
@@ -127,12 +126,12 @@ t_builtin_type	execute_command_or_builtin(t_master *master, t_exec *exec)
 	if (type == T_ERROR || !ft_strcmp(exec->argv[0], ".")
 		|| !ft_strcmp(exec->argv[0], ".."))
 	{
-		handle_error_cases(master, exec);
+		handle_error_cases(exec);
 		return (T_ERROR);
 	}
 	else if (type != T_OTHERS)
 	{
-		master->exit_status = execute_builtin(master, exec, type);
+		g_exit_status = execute_builtin(master, exec, type);
 		return (type);
 	}
 	else if (!execute_command(master, exec))

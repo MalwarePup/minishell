@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 14:55:32 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/01/11 19:15:34 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "execution.h"
-#include "exit.h"
+#include "minishell.h"
 #include "libft.h"
 
 static size_t	get_env_list_size(t_env *env_list)
@@ -28,7 +27,7 @@ static size_t	get_env_list_size(t_env *env_list)
 	return (size);
 }
 
-char	**env_list_to_array(t_env *env_list)
+char	**env_list_to_array(t_master *master, t_env *env_list)
 {
 	size_t	i;
 	char	*tmp;
@@ -38,23 +37,23 @@ char	**env_list_to_array(t_env *env_list)
 		return (NULL);
 	array = malloc((get_env_list_size(env_list) + 1) * sizeof(char *));
 	if (!array)
-		return (cleanup_executable(), error_exit("malloc (env_list_to_array)"),
+		return (cleanup_executable(master),
+			error_exit(master, "malloc (env_list_to_array)"),
 			NULL);
 	i = 0;
 	while (env_list)
 	{
 		tmp = ft_strjoin(env_list->name, "=");
 		if (!tmp)
-			error_exit("Failed to allocate memory for tmp");
+			error_exit(master, "Failed to allocate memory for tmp");
 		array[i] = ft_strjoin(tmp, env_list->value);
 		free(tmp);
 		if (!array[i])
-			error_exit("Failed to allocate memory for array[i]");
+			error_exit(master, "Failed to allocate memory for array[i]");
 		env_list = env_list->next;
 		i++;
 	}
-	array[i] = NULL;
-	return (array);
+	return (array[i] = NULL, array);
 }
 
 void	init(t_master *master, t_exec *exec, int *status, t_token **token)

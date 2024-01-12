@@ -5,16 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/31 16:34:31 by chmadran          #+#    #+#             */
-/*   Updated: 2024/01/11 17:57:42 by alfloren         ###   ########.fr       */
+/*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
+/*   Updated: 2024/01/12 10:10:50 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "execution.h"
+#include <errno.h>
+#include "minishell.h"
 #include "libft.h"
-#include "exit.h"
-#include <stdio.h>
 
 typedef struct s_expansion
 {
@@ -25,7 +24,8 @@ typedef struct s_expansion
 	char	*substr_start;
 }	t_expansion;
 
-static char	*create_new_string_with_value(t_exec *exec, t_expansion *exp)
+static char	*create_new_string_with_value(t_master *master, t_exec *exec,
+	t_expansion *exp)
 {
 	char	*new_str;
 	size_t	len;
@@ -36,8 +36,8 @@ static char	*create_new_string_with_value(t_exec *exec, t_expansion *exp)
 	{
 		free((*exp).name);
 		free((*exp).value);
-		cleanup_executable();
-		ft_error_exit("malloc (create_new_string_with_value)", ENOMEM);
+		cleanup_executable(master);
+		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
 		exit(EXIT_FAILURE);
 	}
 	ft_strlcpy(new_str, exec->argv[(*exp).i],
@@ -48,7 +48,8 @@ static char	*create_new_string_with_value(t_exec *exec, t_expansion *exp)
 	return (new_str);
 }
 
-static char	*create_new_string_without_value(t_exec *exec, t_expansion *exp)
+static char	*create_new_string_without_value(t_master *master,
+	t_exec *exec, t_expansion *exp)
 {
 	char	*new_str;
 	size_t	len;
@@ -58,8 +59,8 @@ static char	*create_new_string_without_value(t_exec *exec, t_expansion *exp)
 	if (!new_str)
 	{
 		free((*exp).name);
-		cleanup_executable();
-		ft_error_exit("malloc (create_new_string_with_value)", ENOMEM);
+		cleanup_executable(master);
+		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
 		exit(EXIT_FAILURE);
 	}
 	ft_strlcpy(new_str, exec->argv[(*exp).i],
@@ -69,14 +70,15 @@ static char	*create_new_string_without_value(t_exec *exec, t_expansion *exp)
 	return (new_str);
 }
 
-static void	process_expansion_replace(t_exec *exec, t_expansion *exp)
+static void	process_expansion_replace(t_master *master, t_exec *exec,
+	t_expansion *exp)
 {
 	char	*new_str;
 
 	if ((*exp).value)
-		new_str = create_new_string_with_value(exec, exp);
+		new_str = create_new_string_with_value(master, exec, exp);
 	else
-		new_str = create_new_string_without_value(exec, exp);
+		new_str = create_new_string_without_value(master, exec, exp);
 	free(exec->argv[(*exp).i]);
 	exec->argv[(*exp).i] = new_str;
 }
@@ -85,22 +87,22 @@ static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
 {
 	if (exec->argv[(*exp).i][(*exp).j + 1] == '?')
 	{
-		(*exp).name = extract_expansion_name((*exp).substr_start);
-		(*exp).value = ft_itoa(master->exit_status);
+		(*exp).name = extract_expansion_name(master, (*exp).substr_start);
+		(*exp).value = ft_itoa(g_exit_status);
 		if (!(*exp).value)
 		{
 			free((*exp).name);
-			cleanup_executable();
-			ft_error_exit("ft_itoa (process_expansion)", ENOMEM);
+			cleanup_executable(master);
+			ft_error_exit(master, "ft_itoa (process_expansion)", ENOMEM);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		(*exp).name = extract_expansion_name((*exp).substr_start);
-		(*exp).value = get_env_value(master->env_list, (*exp).name);
+		(*exp).name = extract_expansion_name(master, (*exp).substr_start);
+		(*exp).value = get_env_value(master, master->env_list, (*exp).name);
 	}
-	process_expansion_replace(exec, exp);
+	process_expansion_replace(master, exec, exp);
 	free((*exp).name);
 	free((*exp).value);
 }

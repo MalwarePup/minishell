@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chmadran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/19 11:51:38 by chmadran         ###   ########.fr       */
+/*   Updated: 2024/01/11 19:02:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "env.h"
+#include <errno.h>
+#include "minishell.h"
 #include "libft.h"
-#include "exit.h"
 
 void	print_environement_list(t_env *env_list)
 {
@@ -40,7 +40,7 @@ void	print_environement_var(t_env *env_list, char *name)
 	printf("%s=%s\n", current->name, current->value);
 }
 
-char	*update_shlvl(char *value, char *name)
+char	*update_shlvl(t_master *master, char *value, char *name)
 {
 	int	new_value;
 
@@ -51,7 +51,7 @@ char	*update_shlvl(char *value, char *name)
 	if (!value)
 	{
 		free(name);
-		ft_error_exit("ft_itoa (update_shlvl)", ENOMEM);
+		ft_error_exit(master, "ft_itoa (update_shlvl)", ENOMEM);
 	}
 	return (value);
 }

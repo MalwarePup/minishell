@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chmadran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2023/07/20 11:38:23 by chmadran         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:47:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "lexer.h"
+#include "minishell.h"
 #include "libft.h"
-#include "exit.h"
 
 static bool	is_in_quotes(const char *line_read, size_t j)
 {
@@ -28,10 +27,10 @@ static bool	is_in_quotes(const char *line_read, size_t j)
 	inside_single_quotes = false;
 	while (line_read[i] && i < j)
 	{
-		if (line_read[i] == '\'' && line_read[i - 1] != '\\'
+		if (line_read[i] == '\'' && !is_escaped(line_read, i)
 			&& !inside_double_quotes)
 			inside_single_quotes = !inside_single_quotes;
-		else if (line_read[i] == '\"' && line_read[i - 1] != '\\'
+		else if (line_read[i] == '\"' && !is_escaped(line_read, i)
 			&& !inside_single_quotes)
 			inside_double_quotes = !inside_double_quotes;
 		i++;
@@ -67,7 +66,8 @@ static t_token_type	check_token_type(char c, const char *line_read, size_t *j)
 	return (token_type);
 }
 
-static char	*trim_spaces(const char *str, size_t start, size_t end)
+static char	*trim_spaces(t_master *master, const char *str, size_t start,
+	size_t end)
 {
 	size_t		i;
 	size_t		length;
@@ -90,12 +90,13 @@ static char	*trim_spaces(const char *str, size_t start, size_t end)
 	length = end - start + 1;
 	trimmed_str = malloc((length + 1) * sizeof(char));
 	if (!trimmed_str)
-		error_exit("malloc error in trim_spaces");
+		error_exit(master, "malloc error in trim_spaces");
 	ft_strlcpy(trimmed_str, &str[start], length + 1);
 	return (trimmed_str);
 }
 
-static int	manage_token(const char *line_read, t_token **token_lst)
+static int	manage_token(t_master *master, const char *line_read,
+	t_token **token_lst)
 {
 	size_t			i;
 	size_t			j;
@@ -112,11 +113,11 @@ static int	manage_token(const char *line_read, t_token **token_lst)
 		type = check_token_type(line_read[i], line_read, &i);
 		while (line_read[i] && type == T_BUILTIN)
 			type = check_token_type(line_read[++i], line_read, &i);
-		data = trim_spaces(line_read, j, i - 1);
-		create_token_node(T_BUILTIN, data, token_lst);
+		data = trim_spaces(master, line_read, j, i - 1);
+		create_token_node(master, T_BUILTIN, data, token_lst);
 		if (type != T_BUILTIN)
 		{
-			create_token_node(type, NULL, token_lst);
+			create_token_node(master, type, NULL, token_lst);
 			if (line_read[i])
 				i++;
 		}
@@ -124,19 +125,19 @@ static int	manage_token(const char *line_read, t_token **token_lst)
 	return (EXIT_SUCCESS);
 }
 
-int	launch_lexer(char *line_read, t_token **token_list)
+int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
 {
 	if (is_matched_quotes(line_read) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (manage_token(line_read, token_list) == EXIT_FAILURE)
+	if (manage_token(master, line_read, token_list) == EXIT_FAILURE)
 	{
-		g_master.exit_status = 2;
+		g_exit_status = 2;
 		return (EXIT_FAILURE);
 	}
 	if ((is_heredoc_pipe(token_list) == EXIT_FAILURE)
 		|| (is_clean(token_list) == EXIT_FAILURE))
 	{
-		g_master.exit_status = 2;
+		g_exit_status = 2;
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
