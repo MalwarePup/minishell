@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_mem.c                                    :+:      :+:    :+:   */
+/*   argument_creation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:07:58 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/12 15:29:10 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 #include <stdio.h>
 #include "minishell.h"
 #include "libft.h"
-
-void	free_double_ptr(char **str)
-{
-	char	**ptr;
-
-	if (!str)
-		return ;
-	ptr = str;
-	while (*ptr)
-		free(*ptr++);
-	free(str);
-}
 
 static size_t	count_spaces(char *str)
 {
@@ -35,9 +23,7 @@ static size_t	count_spaces(char *str)
 	while (*str)
 	{
 		if (*str == ' ')
-		{
 			count++;
-		}
 		str++;
 	}
 	return (count);

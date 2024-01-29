@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:24:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/12 20:35:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 #include <errno.h>
 #include "minishell.h"
 #include "libft.h"
-
-typedef struct s_expansion
-{
-	size_t	i;
-	size_t	j;
-	char	*name;
-	char	*value;
-	char	*substr_start;
-}	t_expansion;
 
 static char	*create_new_string_with_value(t_master *master, t_exec *exec,
 	t_expansion *exp)

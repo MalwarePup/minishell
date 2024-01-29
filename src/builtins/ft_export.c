@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2023/06/20 19:49:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/29 14:33:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 #include <stdbool.h>
 #include "minishell.h"
 #include "libft.h"
+#include "ft_dprintf.h"
 
 static bool	is_valid_variable_name(char	*name, char *var_str)
 {
 	if (!ft_isalpha(name[0]) && name[0] != '_')
 	{
-		printf("minishell: export: '%s': not a valid identifier\n", var_str);
+		ft_dprintf(STDERR_FILENO, ESTR_INVALID_IDENTIFIER, var_str);
 		return (false);
 	}
 	name++;
@@ -28,7 +29,7 @@ static bool	is_valid_variable_name(char	*name, char *var_str)
 	{
 		if (!ft_isalnum(*name) && *name != '_')
 		{
-			printf("minishell: export: '%s': not a valid identifier\n", var_str);
+			ft_dprintf(STDERR_FILENO, ESTR_INVALID_IDENTIFIER, var_str);
 			return (false);
 		}
 		name++;

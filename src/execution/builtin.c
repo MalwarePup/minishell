@@ -6,43 +6,20 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:26:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/29 14:26:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include "minishell.h"
+#include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
-static t_builtin_type	inspect_token(char *arg)
-{
-	size_t					i;
-	t_builtin_type			type;
-	const char				*builtins[8] = {"cd", "echo", "env", "exit", "pwd",
-		"unset", "export", "exit"};
-	const t_builtin_type	types[8] = {T_CD, T_ECHO, T_ENV, T_EXIT, T_PWD,
-		T_UNSET, T_EXPORT, T_EXIT};
-
-	if (!arg)
-		return (T_ERROR);
-	i = 0;
-	type = T_OTHERS;
-	while (i < 8 && *builtins[i])
-	{
-		if (!ft_strcmp(builtins[i], arg))
-		{
-			type = types[i];
-			break ;
-		}
-		i++;
-	}
-	return (type);
-}
-
-static char	*search_path_builtin(t_env *env_list, char *command)
+static char	*search_path_command(t_env *env_list, char *command)
 {
 	int		i;
 	char	*temp;
@@ -71,30 +48,30 @@ static char	*search_path_builtin(t_env *env_list, char *command)
 	return (NULL);
 }
 
-static int	execute_builtin(t_master *master, t_exec *exec, t_builtin_type type)
+static void	handle_command_error(t_exec *exec)
 {
-	if (type == T_CD)
-		return (ft_cd(exec->argc, exec->argv, master));
-	else if (type == T_ECHO)
-		return (ft_echo(exec->argc, exec->argv, master));
-	else if (type == T_ENV)
-		return (ft_env(master), T_ENV);
-	else if (type == T_EXPORT)
-		return (ft_export(exec->argc, exec->argv, master), T_EXPORT);
-	else if (type == T_PWD)
-		return (ft_pwd(), T_PWD);
-	else if (type == T_UNSET)
-		return (ft_unset(exec->argc, exec->argv, master), T_UNSET);
-	else if (type == T_EXIT)
-		ft_exit(master, exec->argc, exec->argv);
-	return (T_ERROR);
+	if (errno == EACCES)
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_PERM_DENIED, exec->argv[0]);
+		g_exit_status = EXIT_CANNOT_EXECUTE;
+	}
+	else if (errno == ENOENT)
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_NO_FILE, exec->argv[0]);
+		g_exit_status = EXIT_NOT_FOUND;
+	}
+	else
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, exec->argv[0]);
+		g_exit_status = EXIT_NOT_FOUND;
+	}
 }
 
-static bool	execute_command(t_master *master, t_exec *exec)
+static bool	is_executable_command(t_master *master, t_exec *exec)
 {
 	struct stat	s;
 
-	exec->pathname = search_path_builtin(master->env_list, exec->argv[0]);
+	exec->pathname = search_path_command(master->env_list, exec->argv[0]);
 	if (!exec->pathname)
 	{
 		if (access(exec->argv[0], X_OK) == 0)
@@ -102,39 +79,76 @@ static bool	execute_command(t_master *master, t_exec *exec)
 			stat(exec->argv[0], &s);
 			if (S_ISDIR(s.st_mode))
 			{
-				printf("minishell: %s: Is a directory\n", exec->argv[0]);
-				g_exit_status = 126;
+				ft_dprintf(STDERR_FILENO, ESTR_DIR, exec->argv[0]);
+				g_exit_status = EXIT_CANNOT_EXECUTE;
 				return (false);
 			}
 			exec->pathname = ft_strdup(exec->argv[0]);
 		}
 		else
 		{
-			printf("minishell: %s: command not found\n", exec->argv[0]);
-			g_exit_status = 127;
+			handle_command_error(exec);
 			return (false);
 		}
 	}
 	return (true);
 }
 
-t_builtin_type	execute_command_or_builtin(t_master *master, t_exec *exec)
+static t_cmd_type	inspect_token(char *arg)
 {
-	t_builtin_type	type;
+	size_t			i;
+	t_cmd_type		type;
+	size_t			num_builtins;
+	const t_builtin	builtins[] = {{"cd", CMD_CD}, {"echo", CMD_ECHO}, {"env",
+		CMD_ENV}, {"exit", CMD_EXIT}, {"pwd", CMD_PWD}, {"unset", CMD_UNSET},
+	{"export", CMD_EXPORT}, {"exit", CMD_EXIT}};
+
+	type = CMD_OTHERS;
+	num_builtins = sizeof(builtins) / sizeof(t_builtin);
+	if (!arg)
+		return (CMD_ERROR);
+	i = -1;
+	while (++i < num_builtins)
+	{
+		if (!ft_strcmp(builtins[i].name, arg))
+		{
+			type = builtins[i].type;
+			break ;
+		}
+	}
+	return (type);
+}
+
+int	execute_builtin(t_master *master, t_exec *exec, t_cmd_type type)
+{
+	if (type == CMD_CD)
+		return (ft_cd(exec->argc, exec->argv, master));
+	else if (type == CMD_ECHO)
+		return (ft_echo(exec->argc, exec->argv, master));
+	else if (type == CMD_ENV)
+		return (ft_env(master), CMD_ENV);
+	else if (type == CMD_EXPORT)
+		return (ft_export(exec->argc, exec->argv, master), CMD_EXPORT);
+	else if (type == CMD_PWD)
+		return (ft_pwd(), CMD_PWD);
+	else if (type == CMD_UNSET)
+		return (ft_unset(exec->argc, exec->argv, master), CMD_UNSET);
+	else if (type == CMD_EXIT)
+		ft_exit(master, exec->argc, exec->argv);
+	return (CMD_ERROR);
+}
+
+t_cmd_type	execute_command_or_builtin(t_master *master, t_exec *exec)
+{
+	t_cmd_type	type;
 
 	type = inspect_token(exec->argv[0]);
-	if (type == T_ERROR || !ft_strcmp(exec->argv[0], ".")
+	if (type == CMD_ERROR || !ft_strcmp(exec->argv[0], ".")
 		|| !ft_strcmp(exec->argv[0], ".."))
-	{
-		handle_error_cases(exec);
-		return (T_ERROR);
-	}
-	else if (type != T_OTHERS)
-	{
-		g_exit_status = execute_builtin(master, exec, type);
+		return (handle_error_cases(exec), CMD_ERROR);
+	else if (type != CMD_OTHERS)
 		return (type);
-	}
-	else if (!execute_command(master, exec))
-		return (T_ERROR);
-	return (T_OTHERS);
+	else if (!is_executable_command(master, exec))
+		return (CMD_ERROR);
+	return (CMD_OTHERS);
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:15:34 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/12 15:51:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 	return (array[i] = NULL, array);
 }
 
-void	init(t_master *master, t_exec *exec, int *status, t_token **token)
+void	init(t_exec *exec, int *status)
 {
 	*status = 0;
 	exec->pid = -1;
@@ -64,5 +64,4 @@ void	init(t_master *master, t_exec *exec, int *status, t_token **token)
 	exec->pipefd[0] = -1;
 	exec->pipefd[1] = -1;
 	exec->argc = 0;
-	*token = master->token_list;
 }

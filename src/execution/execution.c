@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:24:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/21 18:46:11 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,43 +16,50 @@
 #include <sys/wait.h>
 #include "minishell.h"
 
-static void	execute_command(t_master *master, t_exec *exec, t_env *env_list)
+static void	execute_command(t_master *master)
 {
 	char	**envp;
 
-	envp = env_list_to_array(master, env_list);
-	execve(exec->pathname, exec->argv, envp);
+	envp = env_list_to_array(master, master->env_list);
+	execve(master->exec->pathname, master->exec->argv, envp);
 	free_double_ptr(envp);
 	cleanup_executable(master);
 	error_exit(master, "execve (execute_command)");
 }
 
-void	prepare_execution(t_master *master, t_token *token, t_exec *exec)
+// Avoid launching a new process if the command is a builtin, 126, 127
+static t_cmd_type	prepare_execution(t_master *master, t_token *token,
+	t_exec *exec)
 {
-	t_builtin_type	type;
+	t_cmd_type	type;
 
 	master->exec = create_arguments(master, token);
 	launch_expansion(master, master->exec);
 	update_executable_path(master->exec, master->env_list);
-	g_exit_status = 0;
 	type = execute_command_or_builtin(master, master->exec);
-	if (type == T_ERROR && g_exit_status == 127)
+	if (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))
+	{
+		g_exit_status = execute_builtin(master, master->exec, type);
+		cleanup_executable(master);
+		return (CMD_ERROR);
+	}
+	else if (g_exit_status == EXIT_NOT_FOUND
+		|| g_exit_status == EXIT_CANNOT_EXECUTE || g_exit_status == EXIT_MISUSE)
 	{
 		cleanup_executable(master);
-		return ;
+		return (CMD_ERROR);
 	}
-	if (type == T_OTHERS)
-	{
-		if (token->next && token->next->type == T_PIPE)
-			if (pipe(exec->pipefd) == -1)
-				error_exit(master, "pipe (execute_pipeline)");
-		exec->pid = fork();
-		if (exec->pid == -1)
-			error_exit(master, "fork (execute_pipeline)");
-	}
+	if (token->next && token->next->type == T_PIPE)
+		if (pipe(exec->pipefd) == -1)
+			error_exit(master, "pipe (execute_pipeline)");
+	exec->pid = fork();
+	if (exec->pid == -1)
+		error_exit(master, "fork (execute_pipeline)");
+	return (type);
 }
 
-void	child_process_execution(t_master *master, t_token *token, t_exec *exec)
+static void	child_process_execution(t_master *master, t_token *token,
+	t_exec *exec, t_cmd_type type)
 {
 	if (g_exit_status != 127 && exec->pid == 0)
 	{
@@ -69,7 +76,9 @@ void	child_process_execution(t_master *master, t_token *token, t_exec *exec)
 			close(exec->pipefd[1]);
 		}
 		if (master->exec->pathname)
-			execute_command(master, master->exec, master->env_list);
+			execute_command(master);
+		else
+			execute_builtin(master, master->exec, type);
 		cleanup_before_exit(master);
 		cleanup_executable(master);
 		exit(g_exit_status);
@@ -104,15 +113,18 @@ void	launch_execution(t_master *master)
 {
 	t_exec		exec;
 	int			status;
+	t_cmd_type	type;
 	t_token		*token;
 
-	init(master, &exec, &status, &token);
+	init(&exec, &status);
+	g_exit_status = 0;
+	token = master->token_list;
 	while (token)
 	{
-		prepare_execution(master, token, &exec);
-		if (g_exit_status == 127)
+		type = prepare_execution(master, token, &exec);
+		if (type == CMD_ERROR)
 			break ;
-		child_process_execution(master, token, &exec);
+		child_process_execution(master, token, &exec, type);
 		parent_process_execution(master, &token, &exec);
 	}
 	if (!exec.first_cmd)
