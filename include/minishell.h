@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/01/29 14:32:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/30 16:10:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/types.h>
 
 # define OP 5
+# define MAX_PIDS 30
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
@@ -36,8 +37,8 @@
 # define NUM_ARG_ERR "minishell: exit: %s: numeric argument required\n"
 # define TOO_MANY_ARGS_ERR "minishell: exit: too many arguments\n"
 # define ESTR_PERM_DENIED "minishell: %s: Permission denied\n"
-#define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
-#define ESTR_INVALID_IDENTIFIER "minishell: export: '%s': not a valid identifier\n"
+# define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
+# define ESTR_INVALID_IDENTIFIER "minishell: export: '%s': not a valid identifier\n"
 
 # define DEFAULT_PATH_1 "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 # define DEFAULT_PATH_2 ":/opt/homebrew/bin"
@@ -139,7 +140,7 @@ t_exec				*create_arguments(t_master *master, t_token *token);
 /* execution_utils.c */
 
 char				**env_list_to_array(t_master *master, t_env *env_list);
-void				init(t_exec *exec, int *status);
+void				init(t_exec *exec, int *status, int *num_pids);
 
 /* execution.c */
 

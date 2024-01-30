@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/12 15:51:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/30 16:13:58 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 	return (array[i] = NULL, array);
 }
 
-void	init(t_exec *exec, int *status)
+void	init(t_exec *exec, int *status, int *num_pids)
 {
+	g_exit_status = 0;
+	*num_pids = 0;
 	*status = 0;
 	exec->pid = -1;
 	exec->first_cmd = true;

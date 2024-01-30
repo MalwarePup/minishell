@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/21 18:46:11 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/30 16:14:18 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,30 +109,45 @@ static void	parent_process_execution(t_master *master, t_token **token,
 	}
 }
 
-void	launch_execution(t_master *master)
+static void	handle_execution(t_master *master, t_exec *exec, pid_t *pids,
+	int *num_pids)
 {
-	t_exec		exec;
-	int			status;
 	t_cmd_type	type;
 	t_token		*token;
 
-	init(&exec, &status);
-	g_exit_status = 0;
 	token = master->token_list;
 	while (token)
 	{
-		type = prepare_execution(master, token, &exec);
+		type = prepare_execution(master, token, exec);
 		if (type == CMD_ERROR)
 			break ;
-		child_process_execution(master, token, &exec, type);
-		parent_process_execution(master, &token, &exec);
+		child_process_execution(master, token, exec, type);
+		parent_process_execution(master, &token, exec);
+		if (exec->pid != 0)
+			pids[(*num_pids)++] = exec->pid;
 	}
+}
+
+void	launch_execution(t_master *master)
+{
+	int		i;
+	t_exec	exec;
+	int		status;
+	int		num_pids;
+	pid_t	pids[MAX_PIDS];
+
+	init(&exec, &status, &num_pids);
+	handle_execution(master, &exec, pids, &num_pids);
 	if (!exec.first_cmd)
 	{
 		close(exec.old_pipefd[0]);
 		close(exec.old_pipefd[1]);
 	}
-	while ((waitpid(exec.pid, &status, 0)) > 0)
-		if (WIFEXITED(status) && g_exit_status != 127)
-			g_exit_status = WEXITSTATUS(status);
+	i = -1;
+	while (++i < num_pids)
+	{
+		while ((waitpid(pids[i], &status, 0)) > 0)
+			if (WIFEXITED(status) && g_exit_status != 127)
+				g_exit_status = WEXITSTATUS(status);
+	}
 }
