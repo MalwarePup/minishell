@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 21:47:09 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 10:17:31 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "minishell.h"
+#include "ft_dprintf.h"
 #include "libft.h"
 
 int	is_heredoc_pipe(t_token **token_lst)
@@ -38,9 +39,9 @@ int	start_operator(t_token_type type)
 	if (type == T_BUILTIN)
 		return (EXIT_SUCCESS);
 	else if (type == T_PIPE)
-		printf(ESTR_UNEXP, '|');
+		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
 	else if (type != T_BUILTIN)
-		printf(ESTR_OPSTART);
+		ft_dprintf(STDERR_FILENO, ESTR_OPSTART);
 	return (EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/30 16:14:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 10:38:16 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token,
 	if (token->next && token->next->type == T_PIPE)
 		if (pipe(exec->pipefd) == -1)
 			error_exit(master, "pipe (execute_pipeline)");
+	if ((token->next && token->next->type == T_RED_OUT)
+		|| (token->next && token->next->type == T_D_RED_OUT)
+		|| (token && token->type == T_RED_IN))
+	{
+		exec->redir = true;
+		launch_redirection(master, token->next, exec);
+	}
 	exec->pid = fork();
 	if (exec->pid == -1)
 		error_exit(master, "fork (execute_pipeline)");
@@ -101,7 +108,15 @@ static void	parent_process_execution(t_master *master, t_token **token,
 			exec->old_pipefd[1] = exec->pipefd[1];
 			exec->first_cmd = false;
 		}
-		if ((*token)->next)
+		if ((*token) -> next && ((*token)->next->type == T_RED_OUT
+			|| (*token)->next->type == T_D_RED_OUT))
+		{
+				(*token) = (*token)->next->next->next;
+				dup2(exec->stdout_fd, STDOUT_FILENO);
+				dup2(exec->stdin_fd, STDIN_FILENO);
+				exec->redir = false;
+		}
+		else if ((*token)->next)
 			*token = (*token)->next->next;
 		else
 			*token = (*token)->next;

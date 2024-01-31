@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/01/30 16:10:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 10:23:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define ESTR_QUOTE "minishell: syntax error: unmatched quote\n"
 # define ESTR_DQUOTE "minishell: syntax error: unmatched double quote\n"
 # define ESTR_UNEXP "minishell: syntax error: unexpected token '%c'\n"
-# define ESTR_OPSTART "minishell: syntax error near unexpected token 'newline'\n"
+# define ESTR_OPSTART "minishell: syntax error near unexpected token `newline'\n"
 # define ESTR_DOT_P1 "minishell: .: filename argument required\n"
 # define ESTR_DOT_P2 ".: usage: . filename [arguments]\n"
 # define ESTR_DIR "minishell: %s: Is a directory\n"
@@ -95,6 +95,9 @@ typedef struct s_exec
 	int				old_pipefd[2];
 	bool			first_cmd;
 	bool			simple_quotes;
+	bool			redir;
+	int				stdin_fd;
+	int				stdout_fd;
 }					t_exec;
 
 typedef struct s_master
@@ -103,6 +106,7 @@ typedef struct s_master
 	char			*line_read;
 	t_token			*token_list;
 	t_exec			*exec;
+	int				stdout_fd;
 }					t_master;
 
 typedef struct s_expansion
@@ -217,5 +221,9 @@ void				ft_exit(t_master *master, int argc, char **argv);
 int					ft_export(int argc, char **argv, t_master *master);
 int					ft_pwd(void);
 int					ft_unset(int argc, char **argv, t_master *master);
+
+/* redirection.c */
+int					launch_redirection(t_master *master, t_token *tmp,
+						t_exec *exec);
 
 #endif /* MINISHELL_H */

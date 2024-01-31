@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/30 16:13:58 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 10:20:39 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,6 @@ void	init(t_exec *exec, int *status, int *num_pids)
 	exec->pipefd[0] = -1;
 	exec->pipefd[1] = -1;
 	exec->argc = 0;
+	exec->stdout_fd = dup(STDOUT_FILENO);
+	exec->stdin_fd = dup(STDIN_FILENO);
 }
