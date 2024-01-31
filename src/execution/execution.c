@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/31 10:38:16 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 12:24:01 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token,
 		cleanup_executable(master);
 		return (CMD_ERROR);
 	}
-	if (token->next && token->next->type == T_PIPE)
+	if (token->next && token->next->type == CMD_PIPE)
 		if (pipe(exec->pipefd) == -1)
 			error_exit(master, "pipe (execute_pipeline)");
-	if ((token->next && token->next->type == T_RED_OUT)
-		|| (token->next && token->next->type == T_D_RED_OUT)
-		|| (token && token->type == T_RED_IN))
+	if ((token->next && token->next->type == CMD_RED_OUT)
+		|| (token->next && token->next->type == CMD_D_RED_OUT)
+		|| (token && token->type == CMD_RED_IN))
 	{
 		exec->redir = true;
 		launch_redirection(master, token->next, exec);
@@ -76,7 +76,7 @@ static void	child_process_execution(t_master *master, t_token *token,
 			close(exec->old_pipefd[0]);
 			close(exec->old_pipefd[1]);
 		}
-		if (token->next && token->next->type == T_PIPE)
+		if (token->next && token->next->type == CMD_PIPE)
 		{
 			dup2(exec->pipefd[1], STDOUT_FILENO);
 			close(exec->pipefd[0]);
@@ -102,14 +102,14 @@ static void	parent_process_execution(t_master *master, t_token **token,
 			close(exec->old_pipefd[0]);
 			close(exec->old_pipefd[1]);
 		}
-		if ((*token)->next && (*token)->next->type == T_PIPE)
+		if ((*token)->next && (*token)->next->type == CMD_PIPE)
 		{
 			exec->old_pipefd[0] = exec->pipefd[0];
 			exec->old_pipefd[1] = exec->pipefd[1];
 			exec->first_cmd = false;
 		}
-		if ((*token) -> next && ((*token)->next->type == T_RED_OUT
-			|| (*token)->next->type == T_D_RED_OUT))
+		if ((*token) -> next && ((*token)->next->type == CMD_RED_OUT
+			|| (*token)->next->type == CMD_D_RED_OUT))
 		{
 				(*token) = (*token)->next->next->next;
 				dup2(exec->stdout_fd, STDOUT_FILENO);

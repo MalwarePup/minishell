@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_mem.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:13:53 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 12:29:01 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_token_list(t_token *token_list)
 	}
 }
 
-void	create_token_node(t_master *master, t_token_type type, char *data,
+void	create_token_node(t_master *master, t_cmd_type type, char *data,
 	t_token **token_list)
 {
 	t_token	*new_node;

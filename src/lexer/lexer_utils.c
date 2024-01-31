@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/31 10:17:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 12:31:22 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_heredoc_pipe(t_token **token_lst)
 	current = *token_lst;
 	while (current)
 	{
-		if (current->type == T_PIPE && !current->next)
+		if (current->type == CMD_PIPE && !current->next)
 		{
 			free_token_list(*token_lst);
 			return (EXIT_FAILURE);
@@ -34,13 +34,13 @@ int	is_heredoc_pipe(t_token **token_lst)
 	return (EXIT_SUCCESS);
 }
 
-int	start_operator(t_token_type type)
+int	start_operator(t_cmd_type type)
 {
-	if (type == T_BUILTIN)
+	if (type == CMD_OTHERS)
 		return (EXIT_SUCCESS);
-	else if (type == T_PIPE)
+	else if (type == CMD_PIPE)
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
-	else if (type != T_BUILTIN)
+	else if (type != CMD_OTHERS)
 		ft_dprintf(STDERR_FILENO, ESTR_OPSTART);
 	return (EXIT_FAILURE);
 }
@@ -54,8 +54,8 @@ int	is_clean(t_token **token_lst)
 	current = *token_lst;
 	while (current && current->next)
 	{
-		if (current->next->type == T_BUILTIN && !ft_strlen(current->next->data)
-			&& current->type > T_BUILTIN)
+		if (current->next->type == CMD_OTHERS && !ft_strlen(current->next->data)
+			&& current->type > CMD_OTHERS)
 		{
 			type = *ops[current->type - 1];
 			printf(ESTR_UNEXP, type);

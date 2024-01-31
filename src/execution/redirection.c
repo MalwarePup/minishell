@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/01/31 10:32:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 12:24:56 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ int	launch_redirection(t_master *master, t_token *tmp, t_exec *exec)
 
 	while (token && token->next)
 	{
-		if (token->type == T_RED_IN)
+		if (token->type == CMD_RED_IN)
 		{
 			redirect_input(master, token->next->data, &exec);
 			return (EXIT_FAILURE);
 		}
-		if (token->type == T_RED_OUT)
+		if (token->type == CMD_RED_OUT)
 		{
 			redirect_output(master, token->next->data, 0, &exec);
 			return (EXIT_FAILURE);
 		}
-		if (token->type == T_D_RED_OUT)
+		if (token->type == CMD_D_RED_OUT)
 		{
 			redirect_output(master, token->next->data, 1, &exec);
 			return (EXIT_FAILURE);

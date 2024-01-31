@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/01/31 10:23:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/01/31 12:29:27 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdbool.h>
 # include <sys/types.h>
+# include <stdio.h>
 
 # define OP 5
 # define MAX_PIDS 30
@@ -56,17 +57,22 @@ typedef enum e_cmd_type
 	CMD_UNSET,
 	CMD_EXPORT,
 	CMD_OTHERS,
+	CMD_PIPE,
+	CMD_RED_IN,
+	CMD_D_RED_IN,
+	CMD_RED_OUT,
+	CMD_D_RED_OUT,
 }					t_cmd_type;
 
-typedef enum e_token_type
-{
-	T_BUILTIN,
-	T_PIPE,
-	T_RED_IN,
-	T_D_RED_IN,
-	T_RED_OUT,
-	T_D_RED_OUT,
-}					t_token_type;
+// typedef enum e_token_type
+// {
+// 	T_BUILTIN,
+// 	T_PIPE,
+// 	T_RED_IN,
+// 	T_D_RED_IN,
+// 	T_RED_OUT,
+// 	T_D_RED_OUT,
+// }					t_cmd_type;
 
 typedef struct s_env
 {
@@ -78,7 +84,7 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	t_token_type	type;
+	t_cmd_type	type;
 	char			*data;
 	struct s_token	*next;
 	struct s_token	*last;
@@ -184,18 +190,22 @@ int					launch_lexer(t_master *master, char *line_read,
 /* lexer_utils.c */
 
 int					is_heredoc_pipe(t_token **token_lst);
-int					start_operator(t_token_type type);
+int					start_operator(t_cmd_type type);
 int					is_clean(t_token **token_lst);
 int					is_matched_quotes(const char *line_read);
 
 /* lexer_utils2.c */
 
 int					is_escaped(const char *str, int index);
+bool				is_in_quotes(const char *line, size_t *i);
+int					exit_handler(t_token **token_lst);
+t_cmd_type			is_builtin(const char *line_read, size_t *i);
+t_cmd_type			isnot_builtins(char c, const char *line_read, size_t *i);
 
 /* lexer_mem.c */
 
 void				free_token_list(t_token *token_list);
-void				create_token_node(t_master *master, t_token_type type,
+void				create_token_node(t_master *master, t_cmd_type type,
 						char *data, t_token **token_list);
 
 /* signals.c */
