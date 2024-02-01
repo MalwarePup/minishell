@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:23:22 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/01 12:21:17 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(void)
 		master.line_read = readline("\033[32mminishell:~$ \033[0m");
 		if (!master.line_read)
 			return (handle_eof(&master), EXIT_SUCCESS);
-		if (ft_strlen(master.line_read))
+		if (*master.line_read)
 			add_history(master.line_read);
 		if (launch_lexer(&master, master.line_read, &master.token_list)
 			!= EXIT_SUCCESS)

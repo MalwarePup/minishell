@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_creation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/12 15:29:10 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/01 17:45:08 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_exec	*create_arguments(t_master *master, t_token *token)
 		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
-	if (token && token->data)
+	if (token && token->data && token->type < CMD_RED_IN)
 	{
 		new->argv = malloc((count_spaces(token->data) + 2) * sizeof(char *));
 		if (!new->argv)

@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/31 12:24:01 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:45:50 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "minishell.h"
+
+static void	pass_redir(t_token **token)
+{
+	while (*token && (*token)->type >= CMD_RED_IN
+		&& (*token)->type <= CMD_D_RED_OUT)
+		*token = (*token)->next;
+	while (*token && (*token)->next && (*token)->next->type >= CMD_RED_IN
+		&& (*token)->next->type <= CMD_D_RED_OUT)
+		*token = (*token)->next;
+}
 
 static void	execute_command(t_master *master)
 {
@@ -44,21 +54,12 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token,
 		return (CMD_ERROR);
 	}
 	else if (g_exit_status == EXIT_NOT_FOUND
-		|| g_exit_status == EXIT_CANNOT_EXECUTE || g_exit_status == EXIT_MISUSE)
-	{
-		cleanup_executable(master);
-		return (CMD_ERROR);
-	}
+		|| g_exit_status == EXIT_CANNOT_EXECUTE
+		|| g_exit_status == EXIT_MISUSE)
+		return (cleanup_executable(master), CMD_ERROR);
 	if (token->next && token->next->type == CMD_PIPE)
 		if (pipe(exec->pipefd) == -1)
 			error_exit(master, "pipe (execute_pipeline)");
-	if ((token->next && token->next->type == CMD_RED_OUT)
-		|| (token->next && token->next->type == CMD_D_RED_OUT)
-		|| (token && token->type == CMD_RED_IN))
-	{
-		exec->redir = true;
-		launch_redirection(master, token->next, exec);
-	}
 	exec->pid = fork();
 	if (exec->pid == -1)
 		error_exit(master, "fork (execute_pipeline)");
@@ -82,6 +83,7 @@ static void	child_process_execution(t_master *master, t_token *token,
 			close(exec->pipefd[0]);
 			close(exec->pipefd[1]);
 		}
+		launch_redirection(master, token, exec);
 		if (master->exec->pathname)
 			execute_command(master);
 		else
@@ -93,7 +95,7 @@ static void	child_process_execution(t_master *master, t_token *token,
 }
 
 static void	parent_process_execution(t_master *master, t_token **token,
-	t_exec *exec)
+		t_exec *exec)
 {
 	if (exec->pid != 0)
 	{
@@ -102,19 +104,13 @@ static void	parent_process_execution(t_master *master, t_token **token,
 			close(exec->old_pipefd[0]);
 			close(exec->old_pipefd[1]);
 		}
+		pass_redir(token);
 		if ((*token)->next && (*token)->next->type == CMD_PIPE)
 		{
 			exec->old_pipefd[0] = exec->pipefd[0];
 			exec->old_pipefd[1] = exec->pipefd[1];
 			exec->first_cmd = false;
-		}
-		if ((*token) -> next && ((*token)->next->type == CMD_RED_OUT
-			|| (*token)->next->type == CMD_D_RED_OUT))
-		{
-				(*token) = (*token)->next->next->next;
-				dup2(exec->stdout_fd, STDOUT_FILENO);
-				dup2(exec->stdin_fd, STDIN_FILENO);
-				exec->redir = false;
+			*token = (*token)->next->next;
 		}
 		else if ((*token)->next)
 			*token = (*token)->next->next;

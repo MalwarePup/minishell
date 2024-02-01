@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/31 12:22:20 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/01 09:04:02 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int	is_escaped(const char *str, int index)
 	}
 	return (backslashes % 2 != 0);
 }
+
 bool	is_in_quotes(const char *line, size_t *i)
 {
-	while (line[*i] == ' ')
+	while (ft_isspace(line[*i]))
 		(*i)++;
 	if (line[*i] != '\"' && line[*i] != '\'')
 		return (false);

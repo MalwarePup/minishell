@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/01/31 12:29:27 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:44:21 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdbool.h>
 # include <sys/types.h>
 # include <stdio.h>
+# include "libft.h"
+# include "ft_dprintf.h"
 
 # define OP 5
 # define MAX_PIDS 30
@@ -31,6 +33,7 @@
 # define ESTR_DQUOTE "minishell: syntax error: unmatched double quote\n"
 # define ESTR_UNEXP "minishell: syntax error: unexpected token '%c'\n"
 # define ESTR_OPSTART "minishell: syntax error near unexpected token `newline'\n"
+# define ESTR_OPEND "minishell: syntax error near unexpected token"
 # define ESTR_DOT_P1 "minishell: .: filename argument required\n"
 # define ESTR_DOT_P2 ".: usage: . filename [arguments]\n"
 # define ESTR_DIR "minishell: %s: Is a directory\n"
@@ -40,7 +43,6 @@
 # define ESTR_PERM_DENIED "minishell: %s: Permission denied\n"
 # define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
 # define ESTR_INVALID_IDENTIFIER "minishell: export: '%s': not a valid identifier\n"
-
 # define DEFAULT_PATH_1 "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 # define DEFAULT_PATH_2 ":/opt/homebrew/bin"
 
@@ -181,6 +183,8 @@ void				error_exit(t_master *master, char *error_str);
 void				ft_error_exit(t_master *master, char *error_str,
 						int errnum);
 void				handle_eof(t_master *master);
+void				ft_error_exit2(t_master *master, char *error_str,
+						char errnum);
 
 /* lexer.c */
 
@@ -233,7 +237,7 @@ int					ft_pwd(void);
 int					ft_unset(int argc, char **argv, t_master *master);
 
 /* redirection.c */
-int					launch_redirection(t_master *master, t_token *tmp,
-						t_exec *exec);
+int					launch_redirection(t_master *master, t_token *token,
+				t_exec *exec);
 
 #endif /* MINISHELL_H */

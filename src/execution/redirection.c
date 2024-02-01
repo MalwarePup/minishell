@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/01/31 12:24:56 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:31:45 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,45 +41,13 @@ static void	redirect_output(t_master *master, char *file,
 	int	fd;
 
 	(*exec)->redir = true;
-	if (append)
-		flags = O_WRONLY | O_CREAT | O_APPEND;
-	else
-		flags = O_WRONLY | O_CREAT | O_TRUNC;
+	flags = O_WRONLY | O_CREAT | append;
 	fd = open(file, flags, 0644);
 	if (fd == -1)
 		error_exit(master, "open redirect output");
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		error_exit(master, "dup2 redirect output");
 	close(fd);
-}
-
-int	launch_redirection(t_master *master, t_token *tmp, t_exec *exec)
-{
-	t_token	*token;
-
-	token = tmp;
-
-	while (token && token->next)
-	{
-		if (token->type == CMD_RED_IN)
-		{
-			redirect_input(master, token->next->data, &exec);
-			return (EXIT_FAILURE);
-		}
-		if (token->type == CMD_RED_OUT)
-		{
-			redirect_output(master, token->next->data, 0, &exec);
-			return (EXIT_FAILURE);
-		}
-		if (token->type == CMD_D_RED_OUT)
-		{
-			redirect_output(master, token->next->data, 1, &exec);
-			return (EXIT_FAILURE);
-		}
-		token = token->next;
-	}
-	exec->redir = false;
-	return (EXIT_SUCCESS);
 }
 
 void	restore_fd(int saved_stdin, int saved_stdout)
@@ -90,4 +58,25 @@ void	restore_fd(int saved_stdin, int saved_stdout)
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		error_exit(NULL, "dup2 restore stdout");
 	close(saved_stdout);
+}
+
+int	launch_redirection(t_master *master, t_token *token, t_exec *exec)
+{
+	// printf("%p-====%d\n", *token, (*token)->type);
+	// while (token && ((*token)->type == CMD_RED_IN
+	// 		|| (*token)->type == CMD_RED_OUT))
+	// printf("%p-====%d\n", *token, (*token)->type);
+	while (token && token->type != CMD_PIPE)
+	{
+		if (token->type == CMD_RED_IN)
+			redirect_input(master, token->data, &exec);
+		if (token->type == CMD_RED_OUT)
+			redirect_output(master, token->data, O_TRUNC, &exec);
+		if (token->type == CMD_D_RED_OUT)
+			redirect_output(master, token->data, O_APPEND, &exec);
+		token = token->next;
+	}
+	// restore_fd(exec->stdin_fd, exec->stdout_fd);
+	exec->redir = false;
+	return (EXIT_SUCCESS);
 }
