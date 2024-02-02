@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:51:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/02 15:55:03 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:30:10 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ char	*create_data_command(char *line_read, size_t startend[2],
 				trim_spaces(master, line_read, startend[0], startend[1] - 1));
 		if (!tmp)
 			free_exit(data, master);
+		free(data);
 	}
-	free(data);
 	return (tmp);
 }
 

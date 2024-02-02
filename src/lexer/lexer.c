@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 16:09:31 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:28:18 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,31 +84,8 @@ void	create_node_command(t_master *master, char *line_read,
 	data = NULL;
 	while (line_read[i] && line_read[i] != '|')
 	{
-		while (ft_isspace(line_read[i]) && line_read[i])
-			i++;
-		start = i;
-		if (!is_in_quotes(line_read, &i))
-		{
-			while (!ft_isspace(line_read[i])
-				&& line_read[i] != '|'
-				&& line_read[i] != '<'
-				&& line_read[i] != '>'
-				&& line_read[i])
-				i++;
-		}
-		end = i;
-		if (start != end)
-		{
-			if (data && *data)
-				data = ft_strjoin1(data, " ");
-			else
-			{
-				data = malloc(sizeof(char));
-				data[0] = '\0';
-			}
-			data = ft_strjoin2(data,
-					trim_spaces(master, line_read, start, end - 1));
-		}
+		next_sign(line_read, &i, &start, &end);
+		data = create_data_command(line_read, (size_t [2]){start, end}, master, data);
 		if (line_read[i] == '<' || line_read[i] == '>')
 		{
 			if (line_read[i + 1] == line_read[i])
