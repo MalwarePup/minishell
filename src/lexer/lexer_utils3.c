@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:51:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/02 16:30:10 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:28:04 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,33 @@ void	free_exit(char *data, t_master *master)
 	error_exit(master, "malloc error in create_data_command");
 }
 
-char	*create_data_command(char *line_read, size_t startend[2],
-	t_master *master, char *data)
+// free tmp quand ft_join ne fonctionne pas
+int	create_data_command(char *line_read, size_t startend[2],
+	t_master *master, char **tmp)
 {
-	char	*tmp;
+	char	*data;
 
-	tmp = data;
-	if (startend[0] != startend[1])
+	if (*tmp && **tmp)
 	{
-		if (tmp && *tmp)
-		{
-			tmp = ft_strjoin1(tmp, " ");
-			if (!tmp)
-				free_exit(data, master);
-		}
-		else
-		{
-			tmp = malloc(sizeof(char));
-			if (!tmp)
-				free_exit(data, master);
-			tmp[0] = '\0';
-		}
-		tmp = ft_strjoin2(tmp,
-				trim_spaces(master, line_read, startend[0], startend[1] - 1));
-		if (!tmp)
-			free_exit(data, master);
-		free(data);
+		*tmp = ft_strjoin1(*tmp, " ");
+		if (!*tmp)
+			return (EXIT_FAILURE);
 	}
-	return (tmp);
+	else
+	{
+		*tmp = malloc(sizeof(char));
+		if (!*tmp)
+			return (EXIT_FAILURE);
+		*tmp[0] = '\0';
+	}
+	data = trim_spaces(master, line_read,
+			startend[0], startend[1] - 1);
+	if (!data)
+		return (EXIT_FAILURE);
+	*tmp = ft_strjoin2(*tmp, data);
+	if (!*tmp)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 void	pass_redirection(const char *line_read, size_t *i)
@@ -75,3 +74,14 @@ void	pass_redirection(const char *line_read, size_t *i)
 		manage_redirection(line_read, i, false);
 	}
 }
+
+// void	if_redir_command(char *line_read, size_t *i)
+// {
+// 	if (line_read[*i] == '<' || line_read[*i] == '>')
+// 	{
+// 		if (line_read[*i + 1] == line_read[*i])
+// 			(*i)++;
+// 		(*i)++;
+// 		manage_redirection(line_read, i, false);
+// 	}
+// }

@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 16:25:24 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:31:21 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token,
 		error_exit(master, "fork (execute_pipeline)");
 	return (type);
 }
-
 
 static void	child_process_execution(t_master *master, t_token *token,
 	t_exec *exec, t_cmd_type type)

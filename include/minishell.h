@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/02 15:52:10 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:30:01 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <sys/types.h>
 # include <stdio.h>
 # include "libft.h"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <unistd.h>
+# include <errno.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <unistd.h>
 # include "ft_dprintf.h"
 
 # define OP 5
@@ -70,16 +70,6 @@ typedef enum e_cmd_type
 	CMD_RED_OUT,
 	CMD_D_RED_OUT,
 }					t_cmd_type;
-
-// typedef enum e_token_type
-// {
-// 	T_BUILTIN,
-// 	T_PIPE,
-// 	T_RED_IN,
-// 	T_D_RED_IN,
-// 	T_RED_OUT,
-// 	T_D_RED_OUT,
-// }					t_cmd_type;
 
 typedef struct s_env
 {
@@ -223,11 +213,22 @@ t_cmd_type			isnot_builtins(char c, const char *line_read, size_t *i);
 
 /* lexer_utils3.c */
 
-char				*create_data_command(char *line_read, size_t startend[2],
-						t_master *master, char *data);
+int					create_data_command(char *line_read, size_t startend[2],
+						t_master *master, char **data);
 void				next_sign(char *line_read, size_t *i, size_t *start,
 						size_t *end);
 void				pass_redirection(const char *line_read, size_t *i);
+void				free_exit(char *data, t_master *master);
+
+/* lexer_utils4.c */
+
+t_cmd_type			if_redir(char *line_read, size_t *i, t_cmd_type type);
+int					finish_line(char *line_read, size_t *i, t_master *master,
+						t_token **token_list);
+void				next_sign_redir(char *line_read, size_t *i, size_t *k);
+int					create_redir(t_master *master, char *line_read,
+						t_token **token_list, size_t *ik[2]);
+char				*trim_spaces1(const char *str, size_t startend[2]);
 
 /* lexer_mem.c */
 

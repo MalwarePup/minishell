@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 16:28:18 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:30:51 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*trim_spaces(t_master *master, const char *str, size_t start,
 	return (trimmed_str);
 }
 
-
 int	manage_redirection(const char *line_read, size_t *i, bool redir)
 {
 	if (is_in_quotes(line_read, i))
@@ -70,95 +69,51 @@ int	manage_redirection(const char *line_read, size_t *i, bool redir)
 		(*i)++;
 	return (EXIT_SUCCESS);
 }
-void	create_node_command(t_master *master, char *line_read,
+
+int	create_node_command(t_master *master, char *line_read,
 			t_token **token_list, size_t *j)
 {
 	size_t	i;
 	size_t	start;
 	size_t	end;
 	char	*data;
+	char	*tmp;
 
 	i = (*j);
 	start = 0;
 	end = 0;
 	data = NULL;
+	tmp = NULL;
 	while (line_read[i] && line_read[i] != '|')
 	{
 		next_sign(line_read, &i, &start, &end);
-		data = create_data_command(line_read, (size_t [2]){start, end}, master, data);
-		if (line_read[i] == '<' || line_read[i] == '>')
-		{
-			if (line_read[i + 1] == line_read[i])
-				i++;
-			i++;
-			manage_redirection(line_read, &i, false);
-		}
+		if (start != end)
+			if (create_data_command(line_read, (size_t [2]){start, end},
+				master, &data))
+				return (EXIT_FAILURE);
+		pass_redirection(line_read, &i);
 	}
 	if (data && *data)
 		create_token_node(master, CMD_OTHERS, data, token_list);
+	return (EXIT_SUCCESS);
 }
 
-int	create_nodes_redir(t_master *master, char *line_read, t_token **token_list, size_t *i)
+int	create_nodes_redir(t_master *master, char *line_read,
+		t_token **token_list, size_t *i)
 {
-	size_t		j;
 	size_t		k;
-	char		*data;
-	t_cmd_type	type;
 
 	while (line_read[(*i)] && line_read[(*i)] != '|')
 	{
-		while (ft_isspace(line_read[(*i)])
-			|| (line_read[(*i)] != '|'
-				&& line_read[(*i)] != '<'
-				&& line_read[(*i)] != '>'
-				&& line_read[(*i)] != '\''
-				&& line_read[(*i)] != '\"'
-				&& line_read[(*i)]))
-			(*i)++;
-		k = (*i);
-		if (line_read[(*i)] == '\0')
-			return (EXIT_SUCCESS);
-		else if (line_read[(*i)] == '|')
-		{
-			create_token_node(master, CMD_PIPE, NULL, token_list);
-			(*i)++;
-			(*token_list)->last->redir = NULL;
-			return (EXIT_SUCCESS);
-		}
+		next_sign_redir(line_read, i, &k);
+		if (line_read[(*i)] == '|' || line_read[(*i)] == '\0')
+			return (finish_line(line_read, i, master, token_list));
 		else if (is_in_quotes(line_read, i))
 			continue ;
-		else if (line_read[(*i)] == '<')
-		{
-			if (line_read[(*i) + 1] != '<')
-				type = CMD_RED_IN;
-			else
-			{
-				(*i)++;
-				type = CMD_D_RED_IN;
-			}
-			(*i)++;
-		}
-		else if (line_read[(*i)] == '>')
-		{
-			if (line_read[(*i) + 1] != '>')
-				type = CMD_RED_OUT;
-			else
-			{
-				(*i)++;
-				type = CMD_D_RED_OUT;
-			}
-			(*i)++;
-		}
-		if (k != (*i))
-		{
-			j = (*i);
-			if (manage_redirection(line_read, i, true) != EXIT_SUCCESS)
+		else
+			if (create_redir(master, line_read, token_list,
+					(size_t * [2]){i, &k}) != EXIT_SUCCESS)
 				return (EXIT_FAILURE);
-			data = trim_spaces(master, line_read, j, (*i) - 1);
-			if (!(*token_list))
-				create_token_node(master, type, NULL, token_list);
-			create_token_node(master, type, data, &(*token_list)->last->redir);
-		}
 	}
 	return (EXIT_SUCCESS);
 }
@@ -172,98 +127,12 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
 		return (EXIT_FAILURE);
 	while (line_read[i])
 	{
-		create_node_command(master, line_read, token_list, &i);
+		if (create_node_command(master, line_read, token_list, &i)
+			!= EXIT_SUCCESS)
+			return (EXIT_FAILURE);
 		if (create_nodes_redir(master, line_read, token_list, &i)
 			!= EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
 	return (exit_handler(token_list));
 }
-
-// int	launch_lexer(t_master *master, char *line_read, t_token **token_lst)
-// {
-// 	size_t			i;
-// 	size_t			j;
-// 	char			*data;
-// 	t_cmd_type		type;
-
-// 	i = 0;
-// 	type = CMD_OTHERS;
-// 	if (is_matched_quotes(line_read) == EXIT_FAILURE)
-// 		return (EXIT_FAILURE);
-// 	while (line_read[i])
-// 	{
-// 		printf("line_read[%zu] = %c\n", i, line_read[i]);
-// 		while ((line_read[i] == ' ' || line_read[i] == '\t') && line_read[i])
-// 			i++;
-// 		j = i;
-// 		type = check_type(line_read[i], line_read, &i);
-// 		if (type != CMD_OTHERS && type != CMD_PIPE)
-// 		{
-// 			j = i;
-// 			if ((manage_redirection(line_read, &i) == EXIT_FAILURE))
-// 				return (EXIT_FAILURE);
-// 		}
-// 		data = trim_spaces(master, line_read, j, i - 1);
-// 		create_token_node(master, type, data, token_lst);
-// 	}
-// 	return (exit_handler(token_lst));
-// }
-
-// static int	manage_token(t_master *master, const char *line_read,
-// 	t_token **token_lst)
-// {
-// 	size_t			i;
-// 	size_t			j;
-// 	char			*data;
-// 	t_token_type	type;
-
-// 	i = 0;
-// 	type = check_token_type(line_read[i], line_read, &i);
-// 	if (start_operator(type) == EXIT_FAILURE)
-// 		return (EXIT_FAILURE);
-// 	while (line_read[i])
-// 	{
-// 		j = i;
-// 		type = check_token_type(line_read[i], line_read, &i);
-// 		while (line_read[i] && type == T_BUILTIN)
-// 			type = check_token_type(line_read[++i], line_read, &i);
-// 		data = trim_spaces(master, line_read, j, i - 1);
-// 		create_token_node(master, T_BUILTIN, data, token_lst);
-// 		if (type != T_BUILTIN)
-// 		{
-// 			create_token_node(master, type, NULL, token_lst);
-// 			if (line_read[i] == ' ')
-// 				i++;
-// 		}
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
-// int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
-// {
-// 	if (is_matched_quotes(line_read) == EXIT_FAILURE)
-// 		return (EXIT_FAILURE);
-// 	if (manage_token(master, line_read, token_list) == EXIT_FAILURE)
-// 	{
-// 		g_exit_status = 2;
-// 		return (EXIT_FAILURE);
-// 	}
-// 	if ((is_heredoc_pipe(token_list) == EXIT_FAILURE)
-// 		|| (is_clean(token_list) == EXIT_FAILURE))
-// 	{
-// 		g_exit_status = 2;
-// 		return (EXIT_FAILURE);
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
-// t_cmd_type	check_type(char c, const char *line_read, size_t *i)
-// {
-// 	t_cmd_type		token_type;
-
-// 	token_type = isnot_builtins(c, line_read, i);
-// 	if (token_type != CMD_OTHERS)
-// 		return (token_type);
-// 	return (is_builtin(line_read, i));
-// }
