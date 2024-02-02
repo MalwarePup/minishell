@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/01 16:31:45 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:48:27 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,7 @@ void	restore_fd(int saved_stdin, int saved_stdout)
 
 int	launch_redirection(t_master *master, t_token *token, t_exec *exec)
 {
-	// printf("%p-====%d\n", *token, (*token)->type);
-	// while (token && ((*token)->type == CMD_RED_IN
-	// 		|| (*token)->type == CMD_RED_OUT))
-	// printf("%p-====%d\n", *token, (*token)->type);
-	while (token && token->type != CMD_PIPE)
+	while (token)
 	{
 		if (token->type == CMD_RED_IN)
 			redirect_input(master, token->data, &exec);
@@ -76,7 +72,5 @@ int	launch_redirection(t_master *master, t_token *token, t_exec *exec)
 			redirect_output(master, token->data, O_APPEND, &exec);
 		token = token->next;
 	}
-	// restore_fd(exec->stdin_fd, exec->stdout_fd);
-	exec->redir = false;
 	return (EXIT_SUCCESS);
 }

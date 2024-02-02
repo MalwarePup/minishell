@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/01 17:44:21 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:51:42 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_token
 {
 	t_cmd_type	type;
 	char			*data;
+	struct s_token	*redir;
 	struct s_token	*next;
 	struct s_token	*last;
 }					t_token;
@@ -157,6 +158,7 @@ void				init(t_exec *exec, int *status, int *num_pids);
 /* execution.c */
 
 void				launch_execution(t_master *master);
+void				print_token_list(t_token *token);
 
 /* expansion_utils.c */
 
@@ -238,6 +240,6 @@ int					ft_unset(int argc, char **argv, t_master *master);
 
 /* redirection.c */
 int					launch_redirection(t_master *master, t_token *token,
-				t_exec *exec);
+						t_exec *exec);
 
 #endif /* MINISHELL_H */

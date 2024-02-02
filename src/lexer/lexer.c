@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/01 12:21:43 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:15:43 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ void	create_node_command(t_master *master, char *line_read,
 	i = (*j);
 	start = 0;
 	end = 0;
-	data = malloc(sizeof(char));
-	data[0] = '\0';
+	data = NULL;
 	while (line_read[i] && line_read[i] != '|')
 	{
 		while (ft_isspace(line_read[i]) && line_read[i])
@@ -102,8 +101,13 @@ void	create_node_command(t_master *master, char *line_read,
 		end = i;
 		if (start != end)
 		{
-			if (*data)
+			if (data && *data )
 				data = ft_strjoin1(data, " ");
+			else
+			{
+				data = malloc(sizeof(char));
+				data[0] = '\0';
+			}
 			data = ft_strjoin2(data,
 					trim_spaces(master, line_read, start, end - 1));
 		}
@@ -115,7 +119,7 @@ void	create_node_command(t_master *master, char *line_read,
 			manage_redirection(line_read, &i, false);
 		}
 	}
-	if (*data)
+	if (data && *data)
 		create_token_node(master, CMD_OTHERS, data, token_list);
 }
 
@@ -143,13 +147,13 @@ int	create_nodes_redir(t_master *master, char *line_read, t_token **token_list, 
 		{
 			create_token_node(master, CMD_PIPE, NULL, token_list);
 			(*i)++;
+			(*token_list)->last->redir = NULL;
 			return (EXIT_SUCCESS);
 		}
 		else if (is_in_quotes(line_read, i))
 			continue ;
 		else if (line_read[(*i)] == '<')
 		{
-			// k = (*i);
 			if (line_read[(*i) + 1] != '<')
 				type = CMD_RED_IN;
 			else
@@ -161,7 +165,6 @@ int	create_nodes_redir(t_master *master, char *line_read, t_token **token_list, 
 		}
 		else if (line_read[(*i)] == '>')
 		{
-			// k = (*i);
 			if (line_read[(*i) + 1] != '>')
 				type = CMD_RED_OUT;
 			else
@@ -171,33 +174,18 @@ int	create_nodes_redir(t_master *master, char *line_read, t_token **token_list, 
 			}
 			(*i)++;
 		}
-		// else
-		// 	(*i)++;
 		if (k != (*i))
 		{
 			j = (*i);
 			if (manage_redirection(line_read, i, true) != EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			data = trim_spaces(master, line_read, j, (*i) - 1);
-			create_token_node(master, type, data, token_list);
+			if (!(*token_list))
+				create_token_node(master, type, NULL, token_list);
+			create_token_node(master, type, data, &(*token_list)->last->redir);
 		}
 	}
 	return (EXIT_SUCCESS);
-}
-
-static void	print_token_list(t_token *token_list)
-{
-	size_t	i;
-	t_token	*current;
-
-	i = 0;
-	current = token_list;
-	while (current)
-	{
-		// printf("token_list[%zu] = data: %s, type: %d\n", i, current->data, current->type);
-		current = current->next;
-		i++;
-	}
 }
 
 int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
@@ -210,10 +198,10 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
 	while (line_read[i])
 	{
 		create_node_command(master, line_read, token_list, &i);
-		if (create_nodes_redir(master, line_read, token_list, &i) != EXIT_SUCCESS)
+		if (create_nodes_redir(master, line_read, token_list, &i)
+			!= EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
-	print_token_list(*token_list);
 	return (exit_handler(token_list));
 }
 

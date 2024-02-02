@@ -28,7 +28,7 @@ OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 DEP_FILES	:= $(OBJ_FILES:.o=.d)
 
 # Compiler flags
-CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
+CFLAGS		:= -Wall -Wextra -Werror -MMD -MP -g3
 CPPFLAGS	:= -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include
 
 # Linker flags

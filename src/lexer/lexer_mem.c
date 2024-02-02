@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/31 12:29:01 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:57:58 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	free_token_list(t_token *token_list)
 	{
 		next = current->next;
 		free(current->data);
+		if (current->redir)
+			free_token_list(current->redir);
 		free(current);
 		current = next;
 	}

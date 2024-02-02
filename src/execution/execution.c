@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/01 17:45:50 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:12:36 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 #include <sys/wait.h>
 #include "minishell.h"
 
-static void	pass_redir(t_token **token)
+void	print_token_list(t_token *token)
 {
-	while (*token && (*token)->type >= CMD_RED_IN
-		&& (*token)->type <= CMD_D_RED_OUT)
-		*token = (*token)->next;
-	while (*token && (*token)->next && (*token)->next->type >= CMD_RED_IN
-		&& (*token)->next->type <= CMD_D_RED_OUT)
-		*token = (*token)->next;
+	while (token)
+	{
+		printf("token->type = %d, token->data = %s\n", token->type, token->data);
+		token = token->next;
+	}
 }
 
 static void	execute_command(t_master *master)
@@ -43,20 +42,31 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token,
 {
 	t_cmd_type	type;
 
-	master->exec = create_arguments(master, token);
-	launch_expansion(master, master->exec);
-	update_executable_path(master->exec, master->env_list);
-	type = execute_command_or_builtin(master, master->exec);
-	if (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))
+	if (token->type < CMD_RED_IN)
 	{
-		g_exit_status = execute_builtin(master, master->exec, type);
-		cleanup_executable(master);
-		return (CMD_ERROR);
+		master->exec = create_arguments(master, token);
+		launch_expansion(master, master->exec);
+		update_executable_path(master->exec, master->env_list);
+		type = execute_command_or_builtin(master, master->exec);
+		if (token->data)
+		{
+			if (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))
+			{
+				g_exit_status = execute_builtin(master, master->exec, type);
+				cleanup_executable(master);
+				return (CMD_ERROR);
+			}
+			else if (g_exit_status == EXIT_NOT_FOUND
+				|| g_exit_status == EXIT_CANNOT_EXECUTE
+				|| g_exit_status == EXIT_MISUSE)
+				return (cleanup_executable(master), CMD_ERROR);
+		}
 	}
-	else if (g_exit_status == EXIT_NOT_FOUND
-		|| g_exit_status == EXIT_CANNOT_EXECUTE
-		|| g_exit_status == EXIT_MISUSE)
-		return (cleanup_executable(master), CMD_ERROR);
+	else
+	{
+		type = token->type;
+		master->exec = NULL;
+	}
 	if (token->next && token->next->type == CMD_PIPE)
 		if (pipe(exec->pipefd) == -1)
 			error_exit(master, "pipe (execute_pipeline)");
@@ -83,13 +93,17 @@ static void	child_process_execution(t_master *master, t_token *token,
 			close(exec->pipefd[0]);
 			close(exec->pipefd[1]);
 		}
-		launch_redirection(master, token, exec);
-		if (master->exec->pathname)
-			execute_command(master);
-		else
-			execute_builtin(master, master->exec, type);
+		launch_redirection(master, token->redir, exec);
+		if (token->data)
+		{
+			if (master->exec->pathname)
+				execute_command(master);
+			else
+				execute_builtin(master, master->exec, type);
+		}
 		cleanup_before_exit(master);
-		cleanup_executable(master);
+		if (master->exec)
+			cleanup_executable(master);
 		exit(g_exit_status);
 	}
 }
@@ -104,7 +118,6 @@ static void	parent_process_execution(t_master *master, t_token **token,
 			close(exec->old_pipefd[0]);
 			close(exec->old_pipefd[1]);
 		}
-		pass_redir(token);
 		if ((*token)->next && (*token)->next->type == CMD_PIPE)
 		{
 			exec->old_pipefd[0] = exec->pipefd[0];
@@ -116,7 +129,8 @@ static void	parent_process_execution(t_master *master, t_token **token,
 			*token = (*token)->next->next;
 		else
 			*token = (*token)->next;
-		cleanup_executable(master);
+		if (master->exec)
+			cleanup_executable(master);
 	}
 }
 
