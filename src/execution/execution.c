@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 16:11:13 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:25:24 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,7 @@ static void	child_process_execution(t_master *master, t_token *token,
 		}
 		launch_redirection(master, token->redir, exec);
 		if (token->data)
-		{
-			if (master->exec->pathname)
-				execute_command(master);
-			else
-				execute_builtin(master, master->exec, type);
-		}
+			chose_execute(master, exec, type);
 		cleanup_before_exit(master);
 		if (master->exec)
 			cleanup_executable(master);

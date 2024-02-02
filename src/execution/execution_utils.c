@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 14:42:20 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:25:03 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	execute_command(t_master *master)
 
 void	chose_execute(t_master *master, t_exec *exec, t_cmd_type type)
 {
-	if (exec->pathname)
+	if (master->exec->pathname)
 		execute_command(master);
 	else
 		execute_builtin(master, exec, type);
