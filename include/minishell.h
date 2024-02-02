@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/02 11:51:42 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 15:52:10 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 # include <sys/types.h>
 # include <stdio.h>
 # include "libft.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
 # include "ft_dprintf.h"
 
 # define OP 5
@@ -42,7 +47,7 @@
 # define TOO_MANY_ARGS_ERR "minishell: exit: too many arguments\n"
 # define ESTR_PERM_DENIED "minishell: %s: Permission denied\n"
 # define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
-# define ESTR_INVALID_IDENTIFIER "minishell: export: '%s': not a valid identifier\n"
+# define ESTR_INVALID_ID "minishell: export: '%s': not a valid identifier\n"
 # define DEFAULT_PATH_1 "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 # define DEFAULT_PATH_2 ":/opt/homebrew/bin"
 
@@ -86,7 +91,7 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	t_cmd_type	type;
+	t_cmd_type		type;
 	char			*data;
 	struct s_token	*redir;
 	struct s_token	*next;
@@ -144,6 +149,7 @@ void				handle_error_cases(t_exec *exec);
 int					execute_builtin(t_master *master, t_exec *exec,
 						t_cmd_type type);
 t_cmd_type			execute_command_or_builtin(t_master *master, t_exec *exec);
+void				handle_command_error(t_exec *exec);
 
 /* execution_mem.c */
 
@@ -154,6 +160,9 @@ t_exec				*create_arguments(t_master *master, t_token *token);
 
 char				**env_list_to_array(t_master *master, t_env *env_list);
 void				init(t_exec *exec, int *status, int *num_pids);
+void				execute_command(t_master *master);
+void				chose_execute(t_master *master,
+						t_exec *exec, t_cmd_type type);
 
 /* execution.c */
 
@@ -192,6 +201,10 @@ void				ft_error_exit2(t_master *master, char *error_str,
 
 int					launch_lexer(t_master *master, char *line_read,
 						t_token **token_list);
+char				*trim_spaces(t_master *master, const char *str,
+						size_t start, size_t end);
+int					manage_redirection(const char *line_read, size_t *i,
+						bool redir);
 
 /* lexer_utils.c */
 
@@ -207,6 +220,14 @@ bool				is_in_quotes(const char *line, size_t *i);
 int					exit_handler(t_token **token_lst);
 t_cmd_type			is_builtin(const char *line_read, size_t *i);
 t_cmd_type			isnot_builtins(char c, const char *line_read, size_t *i);
+
+/* lexer_utils3.c */
+
+char				*create_data_command(char *line_read, size_t startend[2],
+						t_master *master, char *data);
+void				next_sign(char *line_read, size_t *i, size_t *start,
+						size_t *end);
+void				pass_redirection(const char *line_read, size_t *i);
 
 /* lexer_mem.c */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/29 14:26:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/02 14:49:46 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,6 @@ static char	*search_path_command(t_env *env_list, char *command)
 	}
 	free_double_ptr(paths);
 	return (NULL);
-}
-
-static void	handle_command_error(t_exec *exec)
-{
-	if (errno == EACCES)
-	{
-		ft_dprintf(STDERR_FILENO, ESTR_PERM_DENIED, exec->argv[0]);
-		g_exit_status = EXIT_CANNOT_EXECUTE;
-	}
-	else if (errno == ENOENT)
-	{
-		ft_dprintf(STDERR_FILENO, ESTR_NO_FILE, exec->argv[0]);
-		g_exit_status = EXIT_NOT_FOUND;
-	}
-	else
-	{
-		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, exec->argv[0]);
-		g_exit_status = EXIT_NOT_FOUND;
-	}
 }
 
 static bool	is_executable_command(t_master *master, t_exec *exec)

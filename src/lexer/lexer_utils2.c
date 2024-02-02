@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/01 09:04:02 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:47:48 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ t_cmd_type	isnot_builtins(char c, const char *line_read, size_t *i)
 {
 	size_t					j;
 	const char				*ops[OP] = {"|", "<", "<<", ">", ">>"};
-	const t_cmd_type	types[OP] = {CMD_PIPE, CMD_RED_IN, CMD_D_RED_IN,
+	const t_cmd_type		types[OP] = {CMD_PIPE, CMD_RED_IN, CMD_D_RED_IN,
 		CMD_RED_OUT, CMD_D_RED_OUT};
-	t_cmd_type			token_type;
+	t_cmd_type				token_type;
 
 	j = 0;
 	token_type = CMD_OTHERS;

@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 12:15:43 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:09:31 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-static char	*trim_spaces(t_master *master, const char *str, size_t start,
+char	*trim_spaces(t_master *master, const char *str, size_t start,
 	size_t end)
 {
 	size_t		i;
@@ -46,7 +46,7 @@ static char	*trim_spaces(t_master *master, const char *str, size_t start,
 }
 
 
-static int	manage_redirection(const char *line_read, size_t *i, bool redir)
+int	manage_redirection(const char *line_read, size_t *i, bool redir)
 {
 	if (is_in_quotes(line_read, i))
 		return (EXIT_SUCCESS);
@@ -62,8 +62,6 @@ static int	manage_redirection(const char *line_read, size_t *i, bool redir)
 			ft_dprintf(STDERR_FILENO, ESTR_UNEXP, line_read[*i]);
 		return (EXIT_FAILURE);
 	}
-	// while (ft_isspace(line_read[*i]) && line_read[*i])
-	// 	(*i)++;
 	while (!ft_isspace(line_read[*i])
 		&& line_read[*i] != '|'
 		&& line_read[*i] != '<'
@@ -101,7 +99,7 @@ void	create_node_command(t_master *master, char *line_read,
 		end = i;
 		if (start != end)
 		{
-			if (data && *data )
+			if (data && *data)
 				data = ft_strjoin1(data, " ");
 			else
 			{

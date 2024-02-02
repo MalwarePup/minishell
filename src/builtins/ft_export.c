@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/29 14:33:59 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/02 14:44:59 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	is_valid_variable_name(char	*name, char *var_str)
 {
 	if (!ft_isalpha(name[0]) && name[0] != '_')
 	{
-		ft_dprintf(STDERR_FILENO, ESTR_INVALID_IDENTIFIER, var_str);
+		ft_dprintf(STDERR_FILENO, ESTR_INVALID_ID, var_str);
 		return (false);
 	}
 	name++;
@@ -29,7 +29,7 @@ static bool	is_valid_variable_name(char	*name, char *var_str)
 	{
 		if (!ft_isalnum(*name) && *name != '_')
 		{
-			ft_dprintf(STDERR_FILENO, ESTR_INVALID_IDENTIFIER, var_str);
+			ft_dprintf(STDERR_FILENO, ESTR_INVALID_ID, var_str);
 			return (false);
 		}
 		name++;

@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 14:20:08 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:11:13 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void	print_token_list(t_token *token)
 	}
 }
 
-static void	execute_command(t_master *master)
-{
-	char	**envp;
+// void	execute_command(t_master *master)
+// {
+// 	char	**envp;
 
-	envp = env_list_to_array(master, master->env_list);
-	execve(master->exec->pathname, master->exec->argv, envp);
-	free_double_ptr(envp);
-	cleanup_executable(master);
-	error_exit(master, "execve (execute_command)");
-}
+// 	envp = env_list_to_array(master, master->env_list);
+// 	execve(master->exec->pathname, master->exec->argv, envp);
+// 	free_double_ptr(envp);
+// 	cleanup_executable(master);
+// 	error_exit(master, "execve (execute_command)");
+// }
 
 // Avoid launching a new process if the command is a builtin, 126, 127
 static t_cmd_type	prepare_execution(t_master *master, t_token *token,
@@ -66,6 +66,7 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token,
 		error_exit(master, "fork (execute_pipeline)");
 	return (type);
 }
+
 
 static void	child_process_execution(t_master *master, t_token *token,
 	t_exec *exec, t_cmd_type type)

@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/01 17:36:55 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:42:20 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,23 @@ void	init(t_exec *exec, int *status, int *num_pids)
 	exec->pipefd[0] = -1;
 	exec->pipefd[1] = -1;
 	exec->argc = 0;
+}
+
+void	execute_command(t_master *master)
+{
+	char	**envp;
+
+	envp = env_list_to_array(master, master->env_list);
+	execve(master->exec->pathname, master->exec->argv, envp);
+	free_double_ptr(envp);
+	cleanup_executable(master);
+	error_exit(master, "execve (execute_command)");
+}
+
+void	chose_execute(t_master *master, t_exec *exec, t_cmd_type type)
+{
+	if (exec->pathname)
+		execute_command(master);
+	else
+		execute_builtin(master, exec, type);
 }
