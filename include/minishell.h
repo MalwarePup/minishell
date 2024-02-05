@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/05 10:29:48 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:02:37 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,13 @@ void				chose_execute(t_master *master,
 
 void				launch_execution(t_master *master);
 void				print_token_list(t_token *token);
+
+/* execution_utils2.c */
+void				creation_pipe(t_exec *exec,
+						t_master *master, t_token *token);
+t_cmd_type			preparation_args(t_master *master, t_token *token);
+int					launch_builtin(t_master *master, t_exec *exec,
+						t_cmd_type type, t_token *token);
 
 /* expansion_utils.c */
 

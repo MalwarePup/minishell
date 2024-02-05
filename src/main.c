@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/05 11:03:39 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:43:18 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	main(void)
 			return (handle_eof(&master), EXIT_SUCCESS);
 		if (*master.line_read)
 			add_history(master.line_read);
-		if (launch_lexer(&master, master.line_read, &master.token_list) == EXIT_SUCCESS)
+		if (launch_lexer(&master, master.line_read, &master.token_list)
+			== EXIT_SUCCESS)
 			launch_execution(&master);
 		free_token_list(master.token_list);
 		free(master.line_read);
