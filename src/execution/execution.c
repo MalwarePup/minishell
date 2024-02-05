@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/05 12:11:14 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:13:46 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "minishell.h"
-
-void	print_token_list(t_token *token)
-{
-	while (token)
-	{
-		printf("token->type = %d, token->data = %s\n", token->type, token->data);
-		token = token->next;
-	}
-}
 
 // void	execute_command(t_master *master)
 // {

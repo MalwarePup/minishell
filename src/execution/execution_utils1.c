@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/05 12:09:50 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:13:53 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,13 @@ void	launch_builtin(t_master *master, t_exec *exec, t_cmd_type type,
 {
 	launch_redirection(master, token->redir, exec);
 	g_exit_status = execute_builtin(master, exec, type);
+}
+
+void	print_token_list(t_token *token)
+{
+	while (token)
+	{
+		printf("token->type = %d, token->data = %s\n", token->type, token->data);
+		token = token->next;
+	}
 }
