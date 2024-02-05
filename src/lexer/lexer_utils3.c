@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:51:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/02 19:28:04 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:41:57 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	free_exit(char *data, t_master *master)
 
 // free tmp quand ft_join ne fonctionne pas
 int	create_data_command(char *line_read, size_t startend[2],
-	t_master *master, char **tmp)
+	char **tmp)
 {
 	char	*data;
 
@@ -54,8 +54,7 @@ int	create_data_command(char *line_read, size_t startend[2],
 			return (EXIT_FAILURE);
 		*tmp[0] = '\0';
 	}
-	data = trim_spaces(master, line_read,
-			startend[0], startend[1] - 1);
+	data = trim_spaces1(line_read, (size_t[2]){startend[0], startend[1] - 1});
 	if (!data)
 		return (EXIT_FAILURE);
 	*tmp = ft_strjoin2(*tmp, data);

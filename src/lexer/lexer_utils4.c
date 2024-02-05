@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/02 19:31:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:41:45 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*trim_spaces1(const char *str, size_t startend[2])
 	char		*trimmed_str;
 	const char	ops[4] = "|&<>";
 
-	if (startend[0] >= ft_strlen(str) || startend[2] >= ft_strlen(str))
+	if (startend[0] >= ft_strlen(str) || startend[1] >= ft_strlen(str))
 		return (NULL);
 	i = 0;
 	while (i < 4 && ops[i])

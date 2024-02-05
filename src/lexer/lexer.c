@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 19:30:51 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:30:06 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	create_node_command(t_master *master, char *line_read,
 		next_sign(line_read, &i, &start, &end);
 		if (start != end)
 			if (create_data_command(line_read, (size_t [2]){start, end},
-				master, &data))
+				&data))
 				return (EXIT_FAILURE);
 		pass_redirection(line_read, &i);
 	}

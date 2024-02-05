@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/02 19:30:01 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:29:48 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ t_cmd_type			isnot_builtins(char c, const char *line_read, size_t *i);
 /* lexer_utils3.c */
 
 int					create_data_command(char *line_read, size_t startend[2],
-						t_master *master, char **data);
+						char **data);
 void				next_sign(char *line_read, size_t *i, size_t *start,
 						size_t *end);
 void				pass_redirection(const char *line_read, size_t *i);
