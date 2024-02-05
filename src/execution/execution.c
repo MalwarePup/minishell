@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/05 12:03:24 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:11:14 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,14 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token,
 	if (token->type < CMD_RED_IN)
 	{
 		type = preparation_args(master, token);
-		if (token->data)
+		if (token->data
+			&& ((g_exit_status == EXIT_NOT_FOUND
+					|| g_exit_status == EXIT_CANNOT_EXECUTE)
+				|| (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))))
 		{
-			if (g_exit_status == EXIT_NOT_FOUND
-				|| g_exit_status == EXIT_CANNOT_EXECUTE)
-				return (cleanup_executable(master), CMD_ERROR);
 			if (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))
-				return (launch_builtin(master, master->exec, type, token));
+				launch_builtin(master, master->exec, type, token);
+			return (cleanup_executable(master), CMD_ERROR);
 		}
 	}
 	else

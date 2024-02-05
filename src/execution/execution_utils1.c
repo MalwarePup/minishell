@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/05 12:02:16 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:09:50 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,9 @@ t_cmd_type	preparation_args(t_master *master, t_token *token)
 	return (type);
 }
 
-int	launch_builtin(t_master *master, t_exec *exec, t_cmd_type type,
+void	launch_builtin(t_master *master, t_exec *exec, t_cmd_type type,
 	t_token *token)
 {
 	launch_redirection(master, token->redir, exec);
 	g_exit_status = execute_builtin(master, exec, type);
-	cleanup_executable(master);
-	return (CMD_ERROR);
 }
