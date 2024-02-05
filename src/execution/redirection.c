@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/02 10:48:27 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:11:15 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ void	restore_fd(int saved_stdin, int saved_stdout)
 {
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		error_exit(NULL, "dup2 restore stdin");
-	close(saved_stdin);
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		error_exit(NULL, "dup2 restore stdout");
-	close(saved_stdout);
 }
 
 int	launch_redirection(t_master *master, t_token *token, t_exec *exec)

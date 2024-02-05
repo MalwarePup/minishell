@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/05 12:10:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:08:59 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,5 +270,6 @@ int					ft_unset(int argc, char **argv, t_master *master);
 /* redirection.c */
 int					launch_redirection(t_master *master, t_token *token,
 						t_exec *exec);
+void				restore_fd(int saved_stdin, int saved_stdout);
 
 #endif /* MINISHELL_H */
