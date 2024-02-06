@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/06 12:40:35 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:39:31 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ void	launch_heredoc(t_master *master)
 {
 	t_token	*heredoc;
 	char	*filename;
-	char	*line;
 	int		fd;
-
 
 	filename = "/tmp/heredoc_tmp";
 	heredoc = find_heredoc(master->token_list);
@@ -73,7 +71,6 @@ void	launch_heredoc(t_master *master)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 			error_exit(master, "open (read_heredoc_into_file)");
-		line = NULL;
 		read_heredoc_into_file(master, fd, heredoc->redir->data);
 		close(fd);
 		heredoc->redir->data = filename;

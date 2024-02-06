@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/12 20:35:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/06 16:20:27 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,27 +98,27 @@ static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
 	free((*exp).value);
 }
 
-void	launch_expansion(t_master *master, t_exec *exec)
+void	launch_expansion(t_master *master)
 {
 	t_expansion	exp;
 
 	exp.i = 1;
-	if (!exec || !exec->argv)
+	if (!master->exec || !master->exec->argv)
 		return ;
-	while (exec->argc > 0 && exec->argv[exp.i])
+	while (master->exec->argc > 0 && master->exec->argv[exp.i])
 	{
 		exp.j = 0;
-		while (exec->argv[exp.i][exp.j])
+		while (master->exec->argv[exp.i][exp.j])
 		{
-			if (exec->argv[exp.i][exp.j] == '$'
-				&& !exec->simple_quotes
-				&& (ft_isalpha(exec->argv[exp.i][exp.j + 1])
-				|| exec->argv[exp.i][exp.j + 1] == '?')
+			if (master->exec->argv[exp.i][exp.j] == '$'
+				&& !master->exec->simple_quotes
+				&& (ft_isalpha(master->exec->argv[exp.i][exp.j + 1])
+				|| master->exec->argv[exp.i][exp.j + 1] == '?')
 				&& (exp.j == 0
-				|| (exp.j > 0 && exec->argv[exp.i][exp.j - 1] != '$')))
+				|| (exp.j > 0 && master->exec->argv[exp.i][exp.j - 1] != '$')))
 			{
-				exp.substr_start = exec->argv[exp.i] + exp.j;
-				process_expansion(master, exec, &exp);
+				exp.substr_start = master->exec->argv[exp.i] + exp.j;
+				process_expansion(master, master->exec, &exp);
 			}
 			else
 				exp.j++;

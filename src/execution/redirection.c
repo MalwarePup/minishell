@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/06 12:27:08 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:44:58 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,18 @@ static void	redirect_output(t_master *master, char *file,
 	close(fd);
 }
 
-int	launch_redirection(t_master *master, t_token *token, t_exec *exec)
+int	launch_redirection(t_master *master, t_token *token)
 {
 	while (token)
 	{
 		if (token->type == CMD_RED_IN)
-			redirect_input(master, token->data, &exec);
+			redirect_input(master, token->data, &(master->exec));
 		if (token->type == CMD_RED_OUT)
-			redirect_output(master, token->data, O_TRUNC, &exec);
+			redirect_output(master, token->data, O_TRUNC, &(master->exec));
 		if (token->type == CMD_D_RED_OUT)
-			redirect_output(master, token->data, O_APPEND, &exec);
+			redirect_output(master, token->data, O_APPEND, &(master->exec));
 		if (token->type == CMD_D_RED_IN)
-			redirect_input(master, token->data, &exec);
+			redirect_input(master, token->data, &(master->exec));
 		token = token->next;
 	}
 	return (EXIT_SUCCESS);

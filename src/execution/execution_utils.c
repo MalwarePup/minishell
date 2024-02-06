@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/05 12:03:42 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:53:03 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,21 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 	return (array[i] = NULL, array);
 }
 
-void	init(t_exec *exec, int *status, int *num_pids)
+t_exec	*init(t_master *master, int *status, int *num_pids)
 {
+	t_exec	*new;
+
+	new = ft_calloc(1, sizeof(t_exec));
+	if (!new)
+	{
+		perror("ft_calloc in format_arg");
+		cleanup_before_exit(master);
+		exit(EXIT_FAILURE);
+	}
 	g_exit_status = 0;
 	*num_pids = 0;
 	*status = 0;
-	exec->pid = -1;
-	exec->first_cmd = true;
-	exec->pipefd[0] = -1;
-	exec->pipefd[1] = -1;
-	exec->argc = 0;
+	return (new);
 }
 
 void	execute_command(t_master *master)
@@ -73,16 +78,18 @@ void	execute_command(t_master *master)
 	char	**envp;
 
 	envp = env_list_to_array(master, master->env_list);
+	// printf("bad exec->pathname = %s\n", master->exec->pathname);
+	// printf("test path = %s\n", master->path);
 	execve(master->exec->pathname, master->exec->argv, envp);
 	free_double_ptr(envp);
 	cleanup_executable(master);
 	error_exit(master, "execve (execute_command)");
 }
 
-void	chose_execute(t_master *master, t_exec *exec, t_cmd_type type)
+void	chose_execute(t_master *master, t_cmd_type type)
 {
 	if (master->exec->pathname)
 		execute_command(master);
 	else
-		execute_builtin(master, exec, type);
+		execute_builtin(master, type);
 }

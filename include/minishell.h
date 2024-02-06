@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/06 12:40:03 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:46:54 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,23 +140,22 @@ void				handle_error_cases(t_exec *exec);
 
 /* builtin.c */
 
-int					execute_builtin(t_master *master, t_exec *exec,
+int					execute_builtin(t_master *master,
 						t_cmd_type type);
-t_cmd_type			execute_command_or_builtin(t_master *master, t_exec *exec);
+t_cmd_type			execute_command_or_builtin(t_master *master);
 void				handle_command_error(t_exec *exec);
 
 /* execution_mem.c */
 
 void				free_double_ptr(char **str);
-t_exec				*create_arguments(t_master *master, t_token *token);
+void				create_arguments(t_master *master, t_token *token);
 
 /* execution_utils.c */
 
 char				**env_list_to_array(t_master *master, t_env *env_list);
-void				init(t_exec *exec, int *status, int *num_pids);
+t_exec				*init(t_master *master, int *status, int *num_pids);
 void				execute_command(t_master *master);
-void				chose_execute(t_master *master,
-						t_exec *exec, t_cmd_type type);
+void				chose_execute(t_master *master, t_cmd_type type);
 
 /* execution.c */
 
@@ -164,11 +163,9 @@ void				launch_execution(t_master *master);
 void				print_token_list(t_token *token);
 
 /* execution_utils2.c */
-void				creation_pipe(t_exec *exec,
-						t_master *master, t_token *token);
+void				creation_pipe(t_master *master, t_token *token);
 t_cmd_type			preparation_args(t_master *master, t_token *token);
-void				launch_builtin(t_master *master, t_exec *exec,
-						t_cmd_type type, t_token *token);
+void				launch_builtin(t_master *master, t_cmd_type type, t_token *token);
 
 /* expansion_utils.c */
 
@@ -177,7 +174,7 @@ char				*extract_expansion_name(t_master *master, char *str);
 
 /* expansion.c */
 
-void				launch_expansion(t_master *master, t_exec *exec);
+void				launch_expansion(t_master *master);
 
 /* split_args.c */
 
@@ -272,8 +269,7 @@ int					ft_pwd(void);
 int					ft_unset(int argc, char **argv, t_master *master);
 
 /* redirection.c */
-int					launch_redirection(t_master *master, t_token *token,
-						t_exec *exec);
+int					launch_redirection(t_master *master, t_token *token);
 void				restore_fd(int saved_stdin, int saved_stdout);
 
 /* heredoc.c */

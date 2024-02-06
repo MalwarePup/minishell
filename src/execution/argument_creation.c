@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 11:29:20 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:26:07 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,19 @@ static size_t	count_spaces(char *str)
 	return (count);
 }
 
-t_exec	*create_arguments(t_master *master, t_token *token)
+void	create_arguments(t_master *master, t_token *token)
 {
-	t_exec	*new;
-
-	new = ft_calloc(1, sizeof(t_exec));
-	if (!new)
-	{
-		perror("ft_calloc in format_arg");
-		cleanup_before_exit(master);
-		exit(EXIT_FAILURE);
-	}
 	if (token && token->data && token->type)
 	{
-		new->argv = malloc((count_spaces(token->data) + 2) * sizeof(char *));
-		if (!new->argv)
+		master->exec->argv = malloc((count_spaces(token->data) + 2) * sizeof(char *));
+		if (!master->exec->argv)
 		{
 			perror("malloc in create_arguments");
 			cleanup_before_exit(master);
 			exit(EXIT_FAILURE);
 		}
-		split_args(master, token->data, new->argv, &new->simple_quotes);
-		while (new->argv[new->argc])
-			new->argc++;
+		split_args(master, token->data, master->exec->argv, &(master->exec->simple_quotes));
+		while (master->exec->argv[master->exec->argc])
+			master->exec->argc++;
 	}
-	return (new);
 }
