@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:45:38 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 20:04:30 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	split_args(t_master *master, char *s, char **argv,
 	while (*s)
 	{
 		arg = allocate_memory_for_arg(master, s);
-		while (*s && *s != ' ')
+		while (*s && !ft_isspace(*s))
 		{
 			if (*s == '\'' && !is_escaped(s, s - s))
 				*is_simple_quotes = true;
