@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/06 16:46:54 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:25:26 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void				launch_expansion(t_master *master);
 
 /* split_args.c */
 
-void				split_args(t_master *master, char *s, char **argv,
+void					split_args(t_master *master, char *s, char **argv,
 						bool *simple_quotes);
 
 /* cleanup.c */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/12 15:29:16 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/06 17:56:56 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	cleanup_executable(t_master *master)
 {
 	free_double_ptr(master->exec->argv);
 	free(master->exec->pathname);
-	free(master->exec);
 }
 
 void	cleanup_before_exit(t_master *master)
@@ -40,4 +39,5 @@ void	cleanup_before_exit(t_master *master)
 	free_environment_list(master->env_list);
 	free_token_list(master->token_list);
 	free(master->line_read);
+	free(master->exec);
 }

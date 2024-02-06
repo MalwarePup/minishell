@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_splitting.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/12 15:27:29 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/06 19:27:27 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ void	split_args(t_master *master, char *s, char **argv,
 	bool *is_simple_quotes)
 {
 	char	*arg;
+	int		i;
 
+	i = 0;
 	if (!s || !argv)
 		return ;
 	while (*s)
@@ -98,19 +100,17 @@ void	split_args(t_master *master, char *s, char **argv,
 		arg = allocate_memory_for_arg(master, s);
 		while (*s && *s != ' ')
 		{
+			if (*s == '\'' && !is_escaped(s, s - s))
+				*is_simple_quotes = true;
 			if (((*s == '\'') || (*s == '\"')) && !is_escaped(s, s - s))
-			{
-				if (*s == '\'')
-					*is_simple_quotes = true;
 				s = handle_quoted_argument(s, &arg);
-			}
 			else
 				s = handle_unquoted_argument(s, &arg);
 		}
 		arg = clean_arg(arg);
-		*argv++ = arg;
-		while (*s == ' ')
+		argv[i++] = arg;
+		while (ft_isspace(*s))
 			s++;
 	}
-	*argv = NULL;
+	argv[i] = NULL;
 }
