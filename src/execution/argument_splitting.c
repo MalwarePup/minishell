@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:27:27 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:45:38 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static char	*handle_unquoted_argument(char *s, char **arg)
 	return (s);
 }
 
-void	split_args(t_master *master, char *s, char **argv,
+int	split_args(t_master *master, char *s, char **argv,
 	bool *is_simple_quotes)
 {
 	char	*arg;
@@ -94,7 +94,7 @@ void	split_args(t_master *master, char *s, char **argv,
 
 	i = 0;
 	if (!s || !argv)
-		return ;
+		return (0);
 	while (*s)
 	{
 		arg = allocate_memory_for_arg(master, s);
@@ -113,4 +113,5 @@ void	split_args(t_master *master, char *s, char **argv,
 			s++;
 	}
 	argv[i] = NULL;
+	return (i);
 }

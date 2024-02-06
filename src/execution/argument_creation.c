@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:35:10 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:45:20 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,32 @@ static size_t	count_spaces(char *str)
 	return (count);
 }
 
-static size_t	count_argc(char *s)
-{
-	size_t	i;
-	size_t	count;
-	char	c;
+// static size_t	count_argc(char *s)
+// {
+// 	size_t	i;
+// 	size_t	count;
+// 	char	c;
 
-	i = 0;
-	count = 0;
-	c = 0;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			c = s[i];
-			i++;
-			while (s[i] && s[i] != c)
-				i++;
-			count++;
-		}
-		else if (s[i] == ' ' && s[i + 1] != ' ' && s[i + 1]
-			!= '\0' && s[i + 1] != '\'' && s[i + 1] != '"')
-			count++;
-		i++;
-	}
-	return (count + 1);
-}
+// 	i = 0;
+// 	count = 0;
+// 	c = 0;
+// 	while (s[i])
+// 	{
+// 		if (s[i] == '\'' || s[i] == '"')
+// 		{
+// 			c = s[i];
+// 			i++;
+// 			while (s[i] && s[i] != c)
+// 				i++;
+// 			count++;
+// 		}
+// 		else if (s[i] == ' ' && s[i + 1] != ' ' && s[i + 1]
+// 			!= '\0' && s[i + 1] != '\'' && s[i + 1] != '"')
+// 			count++;
+// 		i++;
+// 	}
+// 	return (count + 1);
+// }
 
 void	create_arguments(t_master *master, t_token *token)
 {
@@ -68,8 +68,7 @@ void	create_arguments(t_master *master, t_token *token)
 			cleanup_before_exit(master);
 			exit(EXIT_FAILURE);
 		}
-		master->exec->argc = count_argc(token->data);
-		split_args(master, token->data, master->exec->argv,
-			&(master->exec->simple_quotes));
+		master->exec->argc = split_args(master, token->data, master->exec->argv,
+				&(master->exec->simple_quotes));
 	}
 }
