@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 16:48:04 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:32:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ static char	*search_path_command(t_env *env_list, char *command)
 		pathname = ft_strjoin(paths[i], temp);
 		free(temp);
 		if (!access(pathname, X_OK))
-		{
-			// printf("pathname = %s\n", pathname);
 			return (free_double_ptr(paths), pathname);
-		}
 		free(pathname);
 	}
 	free_double_ptr(paths);
@@ -55,8 +52,8 @@ static bool	is_executable_command(t_master *master)
 {
 	struct stat	s;
 
-	master->exec->pathname = search_path_command(master->env_list, master->exec->argv[0]);
-	// printf("after ret master->exec->pathname = %s\n", master->exec->pathname);
+	master->exec->pathname = search_path_command(master->env_list,
+			master->exec->argv[0]);
 	if (!master->exec->pathname)
 	{
 		if (access(master->exec->argv[0], X_OK) == 0)
@@ -113,11 +110,13 @@ int	execute_builtin(t_master *master, t_cmd_type type)
 	else if (type == CMD_ENV)
 		return (ft_env(master), CMD_ENV);
 	else if (type == CMD_EXPORT)
-		return (ft_export(master->exec->argc, master->exec->argv, master), CMD_EXPORT);
+		return (ft_export(master->exec->argc,
+				master->exec->argv, master), CMD_EXPORT);
 	else if (type == CMD_PWD)
 		return (ft_pwd(), CMD_PWD);
 	else if (type == CMD_UNSET)
-		return (ft_unset(master->exec->argc, master->exec->argv, master), CMD_UNSET);
+		return (ft_unset(master->exec->argc,
+				master->exec->argv, master), CMD_UNSET);
 	else if (type == CMD_EXIT)
 		ft_exit(master, master->exec->argc, master->exec->argv);
 	return (CMD_ERROR);

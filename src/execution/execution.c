@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 18:58:30 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:30:58 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,12 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 		type = token->type;
 		master->exec = NULL;
 	}
-	// printf("actual_pid = %d\n", master->exec->pid);
 	creation_pipe(master, token);
-	// printf("actual_pid = %d\n", master->exec->pid);
 	return (type);
 }
 
-static void	child_process_execution(t_master *master, t_token *token, t_cmd_type type)
+static void	child_process_execution(t_master *master, t_token *token,
+			t_cmd_type type)
 {
 	if (g_exit_status != 127 && master->exec->pid == 0)
 	{

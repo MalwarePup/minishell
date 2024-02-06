@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 16:53:03 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:30:16 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ void	execute_command(t_master *master)
 	char	**envp;
 
 	envp = env_list_to_array(master, master->env_list);
-	// printf("bad exec->pathname = %s\n", master->exec->pathname);
-	// printf("test path = %s\n", master->path);
 	execve(master->exec->pathname, master->exec->argv, envp);
 	free_double_ptr(envp);
 	cleanup_executable(master);

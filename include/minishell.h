@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/06 19:25:26 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:29:36 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <signal.h>
-
 
 # define OP 5
 # define MAX_PIDS 30
@@ -165,7 +164,8 @@ void				print_token_list(t_token *token);
 /* execution_utils2.c */
 void				creation_pipe(t_master *master, t_token *token);
 t_cmd_type			preparation_args(t_master *master, t_token *token);
-void				launch_builtin(t_master *master, t_cmd_type type, t_token *token);
+void				launch_builtin(t_master *master, t_cmd_type type,
+						t_token *token);
 
 /* expansion_utils.c */
 
@@ -178,7 +178,7 @@ void				launch_expansion(t_master *master);
 
 /* split_args.c */
 
-void					split_args(t_master *master, char *s, char **argv,
+void				split_args(t_master *master, char *s, char **argv,
 						bool *simple_quotes);
 
 /* cleanup.c */

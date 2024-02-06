@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:20:20 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:35:10 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,18 @@ static size_t	count_argc(char *s)
 {
 	size_t	i;
 	size_t	count;
+	char	c;
 
 	i = 0;
 	count = 0;
+	c = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\'' || s[i] == '"')
 		{
+			c = s[i];
 			i++;
-			while (s[i] && s[i] != '\'')
-				i++;
-			count++;
-		}
-		else if (s[i] == '"')
-		{
-			i++;
-			while (s[i] && s[i] != '"')
+			while (s[i] && s[i] != c)
 				i++;
 			count++;
 		}
@@ -64,8 +60,6 @@ void	create_arguments(t_master *master, t_token *token)
 {
 	if (token && token->data && token->type)
 	{
-		// printf("count_argc = %zu\n", count_argc(token->data));
-		// printf("count_spaces = %zu\n", count_spaces(token->data) + 2);
 		master->exec->argv = malloc((count_spaces(token->data) + 2)
 				* sizeof(char *));
 		if (!master->exec->argv)
@@ -77,11 +71,5 @@ void	create_arguments(t_master *master, t_token *token)
 		master->exec->argc = count_argc(token->data);
 		split_args(master, token->data, master->exec->argv,
 			&(master->exec->simple_quotes));
-		// printf("master->exec->argc = %d\n", master->exec->argc);
-		// while (master->exec->argv[master->exec->argc])
-		// {
-		// 	printf("master->exec->argc = %d\n" , master->exec->argc);
-		// 	master->exec->argc++;
-		// }
 	}
 }
