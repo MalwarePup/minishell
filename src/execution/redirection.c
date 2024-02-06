@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/05 16:11:15 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:27:08 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,6 @@ static void	redirect_output(t_master *master, char *file,
 	close(fd);
 }
 
-void	restore_fd(int saved_stdin, int saved_stdout)
-{
-	if (dup2(saved_stdin, STDIN_FILENO) == -1)
-		error_exit(NULL, "dup2 restore stdin");
-	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-		error_exit(NULL, "dup2 restore stdout");
-}
-
 int	launch_redirection(t_master *master, t_token *token, t_exec *exec)
 {
 	while (token)
@@ -68,6 +60,8 @@ int	launch_redirection(t_master *master, t_token *token, t_exec *exec)
 			redirect_output(master, token->data, O_TRUNC, &exec);
 		if (token->type == CMD_D_RED_OUT)
 			redirect_output(master, token->data, O_APPEND, &exec);
+		if (token->type == CMD_D_RED_IN)
+			redirect_input(master, token->data, &exec);
 		token = token->next;
 	}
 	return (EXIT_SUCCESS);

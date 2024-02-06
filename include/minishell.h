@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/05 16:08:59 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:40:03 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # include <sys/stat.h>
 # include <unistd.h>
 # include "ft_dprintf.h"
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <signal.h>
+
 
 # define OP 5
 # define MAX_PIDS 30
@@ -272,4 +276,7 @@ int					launch_redirection(t_master *master, t_token *token,
 						t_exec *exec);
 void				restore_fd(int saved_stdin, int saved_stdout);
 
+/* heredoc.c */
+
+void				launch_heredoc(t_master *master);
 #endif /* MINISHELL_H */

@@ -52,6 +52,7 @@ SRC_FILES	:=	./src/builtins/ft_cd.c \
 				./src/main.c \
 				./src/environment/env_utils.c \
 				./src/environment/env.c \
+				./src/execution/heredoc.c
 
 OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 DEP_FILES	:= $(OBJ_FILES:.o=.d)

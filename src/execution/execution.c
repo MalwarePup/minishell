@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/05 12:13:46 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:29:27 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	child_process_execution(t_master *master, t_token *token,
 			close(exec->pipefd[0]);
 			close(exec->pipefd[1]);
 		}
+		launch_heredoc(master);
 		launch_redirection(master, token->redir, exec);
 		if (token->data)
 			chose_execute(master, exec, type);
