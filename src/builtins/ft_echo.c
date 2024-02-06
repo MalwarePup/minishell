@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 18:39:16 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/06 20:06:54 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ int	ft_echo(int argc, char **argv, t_master *master)
 		is_option = true;
 	}
 	while (++i < argc)
-	{
 		ft_write_stdout(argv[i], ft_strlen(argv[i]), master);
-		if (i < argc - 1 && ft_strlen(argv[i]))
-			ft_write_stdout(" ", 1, master);
-	}
 	if (!is_option)
 		ft_write_stdout("\n", 1, master);
 	return (EXIT_SUCCESS);
