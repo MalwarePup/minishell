@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/05 10:41:45 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:05:13 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ t_cmd_type	if_redir(char *line_read, size_t *i, t_cmd_type type)
 int	finish_line(char *line_read, size_t *i, t_master *master,
 	t_token **token_list)
 {
-	t_cmd_type	type;
-
-	type = CMD_OTHERS;
 	if (line_read[(*i)] == '|')
 	{
 		create_token_node(master, CMD_PIPE, NULL, token_list);

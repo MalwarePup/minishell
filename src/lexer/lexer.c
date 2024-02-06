@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/05 10:30:06 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:04:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,11 @@ int	create_node_command(t_master *master, char *line_read,
 	size_t	start;
 	size_t	end;
 	char	*data;
-	char	*tmp;
 
 	i = (*j);
 	start = 0;
 	end = 0;
 	data = NULL;
-	tmp = NULL;
 	while (line_read[i] && line_read[i] != '|')
 	{
 		next_sign(line_read, &i, &start, &end);
