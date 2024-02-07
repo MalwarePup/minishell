@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/07 12:36:32 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:11:52 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-static bool	is_not_escaped(char *s, int index)
+bool	is_not_escaped(char *s, int index)
 {
 	if (index == 0)
 		return (true);
@@ -82,26 +82,6 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 	return (arg);
 }
 
-int	split_args(t_master *master, char *s, char **argv)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	if (!s || !argv)
-		return (0);
-	while (s[j])
-	{
-		if ((s[j] == '\'' || s[j] == '"' ) && is_not_escaped(s, j))
-			argv[i] = creates_quoted_arg(master, s, &j);
-		else
-			argv[i] = creates_arg(master, s, &j);
-		i++;
-	}
-	argv[i] = NULL;
-	return (i);
-}
 // static char *allocate_memory_for_arg(t_master *master, char *s)
 // {
 // 	char *arg;

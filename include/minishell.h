@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/07 11:09:20 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:12:00 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,9 @@ void				launch_expansion(t_master *master);
 /* split_args.c */
 
 int					split_args(t_master *master, char *s, char **argv);
+char				*creates_arg(t_master *master, char *s, size_t *j);
+char				*creates_quoted_arg(t_master *master, char *s, size_t *j);
+bool				is_not_escaped(char *s, int index);
 
 /* cleanup.c */
 
