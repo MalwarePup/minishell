@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:45:20 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:37:57 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	create_arguments(t_master *master, t_token *token)
 			cleanup_before_exit(master);
 			exit(EXIT_FAILURE);
 		}
-		master->exec->argc = split_args(master, token->data, master->exec->argv,
-				&(master->exec->simple_quotes));
+		master->exec->argc = split_args(master, token->data,
+				master->exec->argv);
 	}
 }
