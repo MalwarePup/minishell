@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 16:20:27 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:44:33 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,14 @@ void	launch_expansion(t_master *master)
 		return ;
 	while (master->exec->argc > 0 && master->exec->argv[exp.i])
 	{
+		exp.double_quote = replace_argv_without_quotes(master, &exp);
 		exp.j = 0;
 		while (master->exec->argv[exp.i][exp.j])
 		{
 			if (master->exec->argv[exp.i][exp.j] == '$'
-				&& !master->exec->simple_quotes
+				&& exp.double_quote
 				&& (ft_isalpha(master->exec->argv[exp.i][exp.j + 1])
-				|| master->exec->argv[exp.i][exp.j + 1] == '?')
-				&& (exp.j == 0
+				|| master->exec->argv[exp.i][exp.j + 1] == '?') && (exp.j == 0
 				|| (exp.j > 0 && master->exec->argv[exp.i][exp.j - 1] != '$')))
 			{
 				exp.substr_start = master->exec->argv[exp.i] + exp.j;

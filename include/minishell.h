@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/07 13:12:00 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:35:57 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_expansion
 	char			*name;
 	char			*value;
 	char			*substr_start;
+	bool			double_quote;
 }					t_expansion;
 
 typedef struct s_builtin
@@ -171,6 +172,8 @@ void				launch_builtin(t_master *master, t_cmd_type type,
 
 char				*get_env_value(t_master *master, t_env *env, char *name);
 char				*extract_expansion_name(t_master *master, char *str);
+int					replace_argv_without_quotes(t_master *master,
+						t_expansion *exp);
 
 /* expansion.c */
 
