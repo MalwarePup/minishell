@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 11:25:42 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:48:43 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 		}
 	}
 	else
-	{
 		type = token->type;
-		master->exec = NULL;
-	}
 	creation_pipe(master, token);
 	return (type);
 }
