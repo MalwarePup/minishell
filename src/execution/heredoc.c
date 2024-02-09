@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/09 14:47:30 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 19:20:16 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	create_file(t_master *master, t_token **token, int i)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		error_exit(master, "open (read_heredoc_into_file)");
-	read_heredoc_into_file(master, fd, (*token)->redir->data);
+	read_heredoc_into_file(master, fd, (*token)->data);
 	close(fd);
-	free((*token)->redir->data);
-	(*token)->redir->data = filename;
+	free((*token)->data);
+	(*token)->data = filename;
 	create_token_node(master, CMD_RED_IN, ft_strdup(filename),
 		&(master->exec->heredoc_list));
 }
@@ -73,7 +73,7 @@ void	launch_heredoc(t_master *master)
 		{
 			if (redir->type == CMD_D_RED_IN)
 			{
-				create_file(master, &current, i);
+				create_file(master, &redir, i);
 				i++;
 			}
 			redir = redir->next;
