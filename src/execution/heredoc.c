@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/06 19:30:27 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:25:05 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@
 t_token	*find_heredoc(t_token *token)
 {
 	t_token	*current;
+	t_token *redir;
 
 	current = token;
 	while (current)
 	{
-		while (current->redir)
+		redir = current->redir;
+		while (redir)
 		{
-			if (current->redir->type == CMD_D_RED_IN)
+			if (redir->type == CMD_D_RED_IN)
 				return (current);
-			current->redir = current->redir->next;
+			redir = redir->next;
 		}
 		current = current->next;
 	}

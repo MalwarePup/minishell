@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 10:15:51 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/09 11:25:42 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	child_process_execution(t_master *master, t_token *token,
 			close(master->exec->pipefd[0]);
 			close(master->exec->pipefd[1]);
 		}
-		launch_heredoc(master);
 		launch_redirection(master, token->redir);
 		if (token->data)
 			chose_execute(master, type);

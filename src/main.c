@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 10:00:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/09 11:25:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	main(void)
 			add_history(master.line_read);
 		if (launch_lexer(&master, master.line_read, &master.token_list)
 			== EXIT_SUCCESS)
+		{
+			launch_heredoc(&master);
 			launch_execution(&master);
+		}
 		free(master.exec);
 		free_token_list(master.token_list);
 		free(master.line_read);
