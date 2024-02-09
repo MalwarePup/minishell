@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/07 13:32:38 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 18:25:30 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,5 @@ int	replace_argv_without_quotes(t_master *master, t_expansion *exp)
 		master->exec->argv[exp->i] = new_str;
 		return (quote == '\"');
 	}
-	return (0);
+	return (1);
 }
