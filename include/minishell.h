@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/09 17:43:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 18:10:08 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ int					ft_unset(int argc, char **argv, t_master *master);
 
 /* redirection.c */
 
-void					launch_redirection(t_master *master, t_token *token);
+void				launch_redirection(t_master *master, t_token *token);
 
 /* heredoc.c */
 

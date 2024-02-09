@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 18:07:04 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 18:09:48 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ static size_t	count_argc(char *s)
 				i++;
 			count++;
 		}
-		else if (s[i] != ' ' && (s[i - 1] == ' ' || s[i - 1] == '"' || s[i - 1] == '\''))
+		else if (s[i] != ' '
+			&& (s[i - 1] == ' ' || s[i - 1] == '"' || s[i - 1] == '\''))
 			count++;
 		i++;
 	}
 	return (count + 1);
 }
+
 size_t	count_argc_for_echo(char *s)
 {
 	size_t	i;
@@ -65,7 +67,7 @@ size_t	count_argc_for_echo(char *s)
 		}
 		else
 		{
-			while (s[i] != '\'' && s[i] !=  '"' && s[i])
+			while (s[i] != '\'' && s[i] != '"' && s[i])
 				i++;
 			count++;
 			if (s[i])
@@ -141,4 +143,3 @@ void	create_arguments(t_master *master, t_token *token)
 				master->exec->argv, echo);
 	}
 }
-
