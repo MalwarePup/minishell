@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 17:22:19 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:00:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(void)
 	manage_environment(&master, &master.env_list);
 	while (1)
 	{
+		master.exec = NULL;
 		master.token_list = NULL;
 		master.line_read = readline("\033[32mminishell:~$ \033[0m");
 		if (!master.line_read)
