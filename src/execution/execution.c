@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:30:58 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:15:51 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,7 @@ void	launch_execution(t_master *master)
 	int		num_pids;
 	pid_t	pids[MAX_PIDS];
 
-	master->exec = init(master, &status, &num_pids);
-	master->exec->pid = -1;
-	master->exec->first_cmd = true;
-	master->exec->pipefd[0] = -1;
-	master->exec->pipefd[1] = -1;
-	master->exec->argc = 0;
+	init_exec(master, &status, &num_pids);
 	handle_execution(master, pids, &num_pids);
 	if (master->exec->first_cmd == 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:30:16 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:16:18 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,22 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 	return (array[i] = NULL, array);
 }
 
-t_exec	*init(t_master *master, int *status, int *num_pids)
+void	init_exec(t_master *master, int *status, int *num_pids)
 {
-	t_exec	*new;
-
-	new = ft_calloc(1, sizeof(t_exec));
-	if (!new)
+	master->exec = ft_calloc(1, sizeof(t_exec));
+	if (!master->exec)
 	{
 		perror("ft_calloc in format_arg");
 		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
-	g_exit_status = 0;
-	*num_pids = 0;
 	*status = 0;
-	return (new);
+	*num_pids = 0;
+	g_exit_status = 0;
+	master->exec->pid = -1;
+	master->exec->pipefd[0] = -1;
+	master->exec->pipefd[1] = -1;
+	master->exec->first_cmd = true;
 }
 
 void	execute_command(t_master *master)
