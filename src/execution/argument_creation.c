@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 18:09:48 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 18:21:17 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,8 @@ int	split_args(t_master *master, char *s, char **argv, bool echo)
 		else if (!echo)
 			argv[i] = creates_arg(master, s, &j);
 		else
-		{
 			argv[i] = creates_arg_for_echo(master, s, &j);
-		}
+		// printf("argv[%zu] = %s\n", i, argv[i]);
 		i++;
 	}
 	argv[i] = NULL;

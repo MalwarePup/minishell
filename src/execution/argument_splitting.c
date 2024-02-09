@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 17:59:01 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 18:19:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*creates_arg_for_echo(t_master *master, char *s, size_t *j)
 	}
 	if (!ft_strncmp(s + *j, "echo ", 5) && *j == 0)
 	{
-		arg = ft_strdup("echo");
+		arg = ft_strncat(arg, "echo", 4);
 		*j = 5;
 		arg[4] = '\0';
 		return (arg);
