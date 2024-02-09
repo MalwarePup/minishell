@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/06 12:05:13 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/09 10:35:29 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	create_redir(t_master *master, char *line_read, t_token **token_list,
 
 	type = CMD_OTHERS;
 	if (line_read[(*ik[0])] == '>' || line_read[(*ik[0])] == '<')
-			type = if_redir(line_read, ik[0], type);
+		type = if_redir(line_read, ik[0], type);
 	if (ik[0] != ik[1])
 	{
 		*ik[1] = *ik[0];

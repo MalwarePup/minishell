@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_splitting.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/07 13:11:52 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:34:44 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 // 	return (arg);
 // }
 
-
 // static char *handle_quoted_argument(char *s, char **arg)
 // {
 // 	char quote;
@@ -154,4 +153,3 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 // 	argv[i] = NULL;
 // 	return (i);
 // }
-

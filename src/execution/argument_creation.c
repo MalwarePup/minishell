@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_creation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/07 13:09:18 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:34:49 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,3 @@ void	create_arguments(t_master *master, t_token *token)
 // 	}
 // 	return (count + 1);
 // }
-

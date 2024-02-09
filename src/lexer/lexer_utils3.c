@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:51:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/05 10:41:57 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:35:44 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	next_sign(char *line_read, size_t *i, size_t *start, size_t *end)
 {
 	while (ft_isspace(line_read[*i]) && line_read[*i])
-			(*i)++;
+		(*i)++;
 	*start = *i;
 	if (!is_in_quotes(line_read, i))
 	{
@@ -24,7 +24,7 @@ void	next_sign(char *line_read, size_t *i, size_t *start, size_t *end)
 			&& line_read[*i] != '<'
 			&& line_read[*i] != '>'
 			&& line_read[*i])
-				(*i)++;
+			(*i)++;
 	}
 	*end = *i;
 }
