@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/09 12:19:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/09 14:50:50 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ typedef struct s_exec
 	bool			redir;
 	int				stdin_fd;
 	int				stdout_fd;
+	t_token			*heredoc_list;
+
 }					t_exec;
 
 typedef struct s_master
@@ -245,7 +247,7 @@ char				*trim_spaces1(const char *str, size_t startend[2]);
 
 /* lexer_mem.c */
 
-void				free_token_list(t_token *token_list);
+void				free_token_list(t_token **token_list);
 void				create_token_node(t_master *master, t_cmd_type type,
 						char *data, t_token **token_list);
 

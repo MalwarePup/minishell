@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/31 12:31:22 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:48:19 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_heredoc_pipe(t_token **token_lst)
 	{
 		if (current->type == CMD_PIPE && !current->next)
 		{
-			free_token_list(*token_lst);
+			free_token_list(token_lst);
 			return (EXIT_FAILURE);
 		}
 		current = current->next;
@@ -59,7 +59,7 @@ int	is_clean(t_token **token_lst)
 		{
 			type = *ops[current->type - 1];
 			printf(ESTR_UNEXP, type);
-			free_token_list(*token_lst);
+			free_token_list(token_lst);
 			return (EXIT_FAILURE);
 		}
 		current = current->next;

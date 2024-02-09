@@ -6,32 +6,12 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/09 11:25:05 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:47:30 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
-
-t_token	*find_heredoc(t_token *token)
-{
-	t_token	*current;
-	t_token *redir;
-
-	current = token;
-	while (current)
-	{
-		redir = current->redir;
-		while (redir)
-		{
-			if (redir->type == CMD_D_RED_IN)
-				return (current);
-			redir = redir->next;
-		}
-		current = current->next;
-	}
-	return (NULL);
-}
 
 void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 {
@@ -59,21 +39,45 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 	}
 }
 
+void	create_file(t_master *master, t_token **token, int i)
+{
+	int		fd;
+	char	*filename;
+
+	filename = ft_strjoin3("/tmp/heredoc_", ft_itoa(i));
+	if (!filename)
+		error_exit(master, "ft_strjoin3 (create_file)");
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		error_exit(master, "open (read_heredoc_into_file)");
+	read_heredoc_into_file(master, fd, (*token)->redir->data);
+	close(fd);
+	free((*token)->redir->data);
+	(*token)->redir->data = filename;
+	create_token_node(master, CMD_RED_IN, ft_strdup(filename),
+		&(master->exec->heredoc_list));
+}
+
 void	launch_heredoc(t_master *master)
 {
-	t_token	*heredoc;
-	char	*filename;
-	int		fd;
+	t_token	*current;
+	t_token	*redir;
+	int		i;
 
-	filename = "/tmp/heredoc_tmp";
-	heredoc = find_heredoc(master->token_list);
-	if (heredoc)
+	current = master->token_list;
+	i = 0;
+	while (current)
 	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
-			error_exit(master, "open (read_heredoc_into_file)");
-		read_heredoc_into_file(master, fd, heredoc->redir->data);
-		close(fd);
-		heredoc->redir->data = filename;
+		redir = current->redir;
+		while (redir)
+		{
+			if (redir->type == CMD_D_RED_IN)
+			{
+				create_file(master, &current, i);
+				i++;
+			}
+			redir = redir->next;
+		}
+		current = current->next;
 	}
 }

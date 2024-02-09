@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 14:47:48 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:48:27 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	exit_handler(t_token **token_lst)
 	if (i || is_clean(token_lst) || is_heredoc_pipe(token_lst))
 	{
 		g_exit_status = 2;
-		return (free_token_list(*token_lst), EXIT_FAILURE);
+		return (free_token_list(token_lst), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
