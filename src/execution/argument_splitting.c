@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_splitting.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 10:34:44 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/09 17:59:01 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
-	while (s[*j] && ft_isspace(s[*j]))
-		*j = *j + 1;
 	while (s[*j + i] != '\0' && !ft_isspace(s[*j + i]) && ((s[*j + i] != '"'
 				&& s[*j + i] != '\'') || (!is_not_escaped(s, *j + i)
 				&& (s[*j + i] == '"' || s[*j + i] == '\''))))
@@ -77,11 +75,40 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 	}
 	arg[i] = '\0';
 	*j = *j + i;
-	while (s[*j] && ft_isspace(s[*j]))
-		*j = *j + 1;
 	return (arg);
 }
 
+char	*creates_arg_for_echo(t_master *master, char *s, size_t *j)
+{
+	size_t	i;
+	char	*arg;
+
+	i = 0;
+	arg = calloc(ft_strlen(s) + 1 - *j, sizeof(char));
+	if (!arg)
+	{
+		perror("malloc in split_args");
+		cleanup_before_exit(master);
+		exit(EXIT_FAILURE);
+	}
+	if (!ft_strncmp(s + *j, "echo ", 5) && *j == 0)
+	{
+		arg = ft_strdup("echo");
+		*j = 5;
+		arg[4] = '\0';
+		return (arg);
+	}
+	while (s[*j + i] != '\0' && ((s[*j + i] != '"'
+				&& s[*j + i] != '\'') || (!is_not_escaped(s, *j + i)
+				&& (s[*j + i] == '"' || s[*j + i] == '\''))))
+	{
+		arg[i] = s[*j + i];
+		i++;
+	}
+	arg[i] = '\0';
+	*j = *j + i;
+	return (arg);
+}
 // static char *allocate_memory_for_arg(t_master *master, char *s)
 // {
 // 	char *arg;
