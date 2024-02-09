@@ -3,66 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/06 16:44:58 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/09 12:27:07 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include "minishell.h"
 
-static void	redirect_input(t_master *master, char *file, t_exec **exec)
+// Need to break more to avoid leaks with executables
+static void	redirect(t_master *master, char *file, int flag, int fd)
 {
-	int	fd;
+	int	new_fd;
 
-	fd = open(file, O_RDONLY);
-	(*exec)->redir = true;
-	if (fd == -1)
-		error_exit(master, "open redirect input");
-	if (dup2(fd, STDIN_FILENO) == -1)
-		error_exit(master, "dup2 redirect input");
-	close(fd);
+	new_fd = open(file, flag, 0644);
+	if (new_fd == -1)
+	{
+		cleanup_executable(master);
+		error_exit(master, "open (redirect)");
+	}
+	if (dup2(new_fd, fd) == -1)
+		error_exit(master, "dup2 (redirect)");
+	close(new_fd);
 }
 
-static void	redirect_output(t_master *master, char *file,
-	int append, t_exec **exec)
-{
-	int	flags;
-	int	fd;
-
-	(*exec)->redir = true;
-	flags = O_WRONLY | O_CREAT | append;
-	fd = open(file, flags, 0644);
-	if (fd == -1)
-		error_exit(master, "open redirect output");
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		error_exit(master, "dup2 redirect output");
-	close(fd);
-}
-
-int	launch_redirection(t_master *master, t_token *token)
+void	launch_redirection(t_master *master, t_token *token)
 {
 	while (token)
 	{
 		if (token->type == CMD_RED_IN)
-			redirect_input(master, token->data, &(master->exec));
-		if (token->type == CMD_RED_OUT)
-			redirect_output(master, token->data, O_TRUNC, &(master->exec));
-		if (token->type == CMD_D_RED_OUT)
-			redirect_output(master, token->data, O_APPEND, &(master->exec));
-		if (token->type == CMD_D_RED_IN)
-			redirect_input(master, token->data, &(master->exec));
+			redirect(master, token->data, O_RDONLY, STDIN_FILENO);
+		else if (token->type == CMD_RED_OUT)
+			redirect(master, token->data,
+				O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
+		else if (token->type == CMD_D_RED_OUT)
+			redirect(master, token->data,
+				O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO);
+		else if (token->type == CMD_D_RED_IN)
+			redirect(master, token->data, O_RDONLY, STDIN_FILENO);
 		token = token->next;
 	}
-	return (EXIT_SUCCESS);
 }

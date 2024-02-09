@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/09 10:16:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/09 12:19:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,8 +274,8 @@ int					ft_pwd(void);
 int					ft_unset(int argc, char **argv, t_master *master);
 
 /* redirection.c */
-int					launch_redirection(t_master *master, t_token *token);
-void				restore_fd(int saved_stdin, int saved_stdout);
+
+void					launch_redirection(t_master *master, t_token *token);
 
 /* heredoc.c */
 
