@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:51:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/09 10:35:44 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 12:37:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	next_sign(char *line_read, size_t *i, size_t *start, size_t *end)
 void	free_exit(char *data, t_master *master)
 {
 	free(data);
-	error_exit(master, "malloc error in create_data_command");
+	error_exit(master, "malloc error in create_data_command", false);
 }
 
 // free tmp quand ft_join ne fonctionne pas

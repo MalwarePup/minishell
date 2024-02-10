@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/06 16:58:21 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:37:37 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	creation_pipe(t_master *master, t_token *token)
 {
 	if (token->next && token->next->type == CMD_PIPE)
 		if (pipe(master->exec->pipefd) == -1)
-			error_exit(master, "pipe (execute_pipeline)");
+			error_exit(master, "pipe (execute_pipeline)", false);
 	master->exec->pid = fork();
 	if (master->exec->pid == -1)
-		error_exit(master, "fork (execute_pipeline)");
+		error_exit(master, "fork (execute_pipeline)", false);
 }
 
 t_cmd_type	preparation_args(t_master *master, t_token *token)

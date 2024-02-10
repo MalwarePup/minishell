@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/09 18:10:08 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:01:47 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,7 @@ void				handle_error_cases(t_exec *exec);
 
 /* builtin.c */
 
-int					execute_builtin(t_master *master,
-						t_cmd_type type);
+int					execute_builtin(t_master *master, t_cmd_type type);
 t_cmd_type			execute_command_or_builtin(t_master *master);
 void				handle_command_error(t_exec *exec);
 
@@ -183,8 +182,8 @@ void				launch_expansion(t_master *master);
 
 /* split_args.c */
 
-int					split_args(t_master *master, char *s,
-						char **argv, bool echo);
+int					split_args(t_master *master, char *s, char **argv,
+						bool echo);
 char				*creates_arg(t_master *master, char *s, size_t *j);
 char				*creates_arg_for_echo(t_master *master, char *s, size_t *j);
 char				*creates_quoted_arg(t_master *master, char *s, size_t *j);
@@ -197,12 +196,11 @@ void				cleanup_before_exit(t_master *master);
 
 /* exit.c */
 
-void				error_exit(t_master *master, char *error_str);
+void				error_exit(t_master *master, char *error_str,
+						bool free_all_exec);
 void				ft_error_exit(t_master *master, char *error_str,
 						int errnum);
 void				handle_eof(t_master *master);
-void				ft_error_exit2(t_master *master, char *error_str,
-						char errnum);
 
 /* lexer.c */
 

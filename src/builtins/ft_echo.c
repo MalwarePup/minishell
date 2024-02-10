@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 20:06:54 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:36:21 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_write_stdout(char *str, size_t size, t_master *master)
 	if (write(STDOUT_FILENO, str, size) == -1)
 	{
 		cleanup_executable(master);
-		error_exit(master, "write (ft_write_stdout)");
+		error_exit(master, "write (ft_write_stdout)", false);
 	}
 }
 

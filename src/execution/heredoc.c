@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/09 19:20:16 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:58:11 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 			break ;
 		}
 		if (write(fd, line_read, ft_strlen(line_read)) == -1)
-			error_exit(master, "write (read_heredoc_into_file)");
+			error_exit(master, "write (read_heredoc_into_file)", false);
 		if (write(fd, "\n", 1) == -1)
-			error_exit(master, "write (read_heredoc_into_file)");
+			error_exit(master, "write (read_heredoc_into_file)", false);
 		free(line_read);
 	}
 }
@@ -46,10 +46,10 @@ void	create_file(t_master *master, t_token **token, int i)
 
 	filename = ft_strjoin3("/tmp/heredoc_", ft_itoa(i));
 	if (!filename)
-		error_exit(master, "ft_strjoin3 (create_file)");
+		error_exit(master, "ft_strjoin3 (create_file)", false);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		error_exit(master, "open (read_heredoc_into_file)");
+		error_exit(master, "open (read_heredoc_into_file)", false);
 	read_heredoc_into_file(master, fd, (*token)->data);
 	close(fd);
 	free((*token)->data);

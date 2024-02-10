@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_creation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 18:25:59 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 11:59:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static size_t	count_argc(char *s)
 	return (count + 1);
 }
 
-size_t	count_argc_for_echo(char *s)
+static size_t	count_argc_for_echo(char *s)
 {
 	size_t	i;
 	size_t	count;

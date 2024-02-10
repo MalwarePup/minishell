@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 10:16:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 12:37:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,18 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 	array = malloc((get_env_list_size(env_list) + 1) * sizeof(char *));
 	if (!array)
 		return (cleanup_executable(master),
-			error_exit(master, "malloc (env_list_to_array)"),
+			error_exit(master, "malloc (env_list_to_array)", false),
 			NULL);
 	i = 0;
 	while (env_list)
 	{
 		tmp = ft_strjoin(env_list->name, "=");
 		if (!tmp)
-			error_exit(master, "Failed to allocate memory for tmp");
+			error_exit(master, "Failed to allocate memory for tmp", false);
 		array[i] = ft_strjoin(tmp, env_list->value);
 		free(tmp);
 		if (!array[i])
-			error_exit(master, "Failed to allocate memory for array[i]");
+			error_exit(master, "Failed to allocate memory for array[i]", false);
 		env_list = env_list->next;
 		i++;
 	}
@@ -81,8 +81,8 @@ void	execute_command(t_master *master)
 	envp = env_list_to_array(master, master->env_list);
 	execve(master->exec->pathname, master->exec->argv, envp);
 	free_double_ptr(envp);
-	cleanup_executable(master);
-	error_exit(master, "execve (execute_command)");
+	// cleanup_executable(master);
+	error_exit(master, "execve (execute_command)", true);
 }
 
 void	chose_execute(t_master *master, t_cmd_type type)

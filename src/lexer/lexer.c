@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 12:04:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 12:37:44 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*trim_spaces(t_master *master, const char *str, size_t start,
 	length = end - start + 1;
 	trimmed_str = malloc((length + 1) * sizeof(char));
 	if (!trimmed_str)
-		error_exit(master, "malloc error in trim_spaces");
+		error_exit(master, "malloc error in trim_spaces", false);
 	ft_strlcpy(trimmed_str, &str[start], length + 1);
 	return (trimmed_str);
 }
