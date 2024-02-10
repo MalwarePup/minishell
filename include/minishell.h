@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/10 13:01:47 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:15:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void				cleanup_before_exit(t_master *master);
 void				error_exit(t_master *master, char *error_str,
 						bool free_all_exec);
 void				ft_error_exit(t_master *master, char *error_str,
-						int errnum);
+						int errnum, bool free_all_exec);
 void				handle_eof(t_master *master);
 
 /* lexer.c */

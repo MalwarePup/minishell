@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/07 13:44:33 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:20:21 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static char	*create_new_string_with_value(t_master *master, t_exec *exec,
 	{
 		free((*exp).name);
 		free((*exp).value);
-		cleanup_executable(master);
-		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
+		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM,
+			true);
 		exit(EXIT_FAILURE);
 	}
 	ft_strlcpy(new_str, exec->argv[(*exp).i],
@@ -50,8 +50,8 @@ static char	*create_new_string_without_value(t_master *master,
 	if (!new_str)
 	{
 		free((*exp).name);
-		cleanup_executable(master);
-		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
+		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM,
+			true);
 		exit(EXIT_FAILURE);
 	}
 	ft_strlcpy(new_str, exec->argv[(*exp).i],
@@ -83,8 +83,7 @@ static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
 		if (!(*exp).value)
 		{
 			free((*exp).name);
-			cleanup_executable(master);
-			ft_error_exit(master, "ft_itoa (process_expansion)", ENOMEM);
+			ft_error_exit(master, "ft_itoa (process_expansion)", ENOMEM, true);
 			exit(EXIT_FAILURE);
 		}
 	}

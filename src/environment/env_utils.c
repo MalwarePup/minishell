@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:02:33 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:18:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*update_shlvl(t_master *master, char *value, char *name)
 	if (!value)
 	{
 		free(name);
-		ft_error_exit(master, "ft_itoa (update_shlvl)", ENOMEM);
+		ft_error_exit(master, "ft_itoa (update_shlvl)", ENOMEM, false);
 	}
 	return (value);
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:43:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 12:50:06 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:14:27 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ void	error_exit(t_master *master, char *error_str, bool free_all_exec)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_error_exit(t_master *master, char *error_str, int errnum)
+void	ft_error_exit(t_master *master, char *error_str, int errnum,
+	bool free_all_exec)
 {
 	ft_dprintf(STDERR_FILENO, "%s: %s\n", error_str, strerror(errnum));
+	if (free_all_exec)
+		cleanup_executable(master);
 	cleanup_before_exit(master);
 	exit(EXIT_FAILURE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_mem.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 14:47:44 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:18:11 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	create_token_node(t_master *master, t_cmd_type type, char *data,
 	if (!new_node)
 	{
 		free(data);
-		ft_error_exit(master, "ft_calloc (create_token_node)", ENOMEM);
+		ft_error_exit(master, "ft_calloc (create_token_node)", ENOMEM, false);
 		return ;
 	}
 	new_node->data = data;
