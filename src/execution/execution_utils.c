@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:23:17 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:47:36 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 	return (array[i] = NULL, array);
 }
 
-void	init_exec(t_master *master, int *status, int *num_pids)
+void	init_exec(t_master *master)
 {
 	master->exec = ft_calloc(1, sizeof(t_exec));
 	if (!master->exec)
@@ -66,8 +66,6 @@ void	init_exec(t_master *master, int *status, int *num_pids)
 		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
-	*status = 0;
-	*num_pids = 0;
 	g_exit_status = 0;
 	master->exec->pid = -1;
 	master->exec->pipefd[0] = -1;

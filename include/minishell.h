@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/10 13:33:16 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:47:49 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void				create_arguments(t_master *master, t_token *token);
 /* execution_utils.c */
 
 char				**env_list_to_array(t_master *master, t_env *env_list);
-void				init_exec(t_master *master, int *status, int *num_pids);
+void				init_exec(t_master *master);
 void				execute_command(t_master *master);
 void				chose_execute(t_master *master, t_cmd_type type);
 

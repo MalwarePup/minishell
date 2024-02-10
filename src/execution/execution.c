@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 14:45:59 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:47:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,9 @@ void	launch_execution(t_master *master)
 	int		num_pids;
 	pid_t	pids[MAX_PIDS];
 
-	init_exec(master, &status, &num_pids);
+	status = 0;
+	num_pids = 0;
+	init_exec(master);
 	launch_heredoc(master);
 	handle_execution(master, pids, &num_pids);
 	if (master->exec->first_cmd == 0)
