@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/10 13:47:49 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:57:09 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,6 @@ int					create_data_command(char *line_read, size_t startend[2],
 void				next_sign(char *line_read, size_t *i, size_t *start,
 						size_t *end);
 void				pass_redirection(const char *line_read, size_t *i);
-void				free_exit(char *data, t_master *master);
 
 /* lexer_utils4.c */
 
