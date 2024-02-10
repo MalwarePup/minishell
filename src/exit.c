@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:43:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 17:26:05 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:32:44 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ void	ft_error_exit(t_master *master, char *error_str, int errnum)
 	cleanup_before_exit(master);
 	exit(EXIT_FAILURE);
 }
-
-// void	ft_error_exit2(t_master *master, char *error_str, char errnum)
-// {
-// 	ft_dprintf(STDERR_FILENO, "%s '%c'\n", error_str, errnum);
-// 	cleanup_before_exit(master);
-// 	exit(EXIT_FAILURE);
-// }
 
 void	handle_eof(t_master *master)
 {
