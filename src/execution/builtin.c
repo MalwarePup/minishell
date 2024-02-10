@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/06 19:32:34 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 16:46:56 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ static bool	is_executable_command(t_master *master)
 			if (S_ISDIR(s.st_mode))
 			{
 				ft_dprintf(STDERR_FILENO, ESTR_DIR, master->exec->argv[0]);
-				g_exit_status = EXIT_CANNOT_EXECUTE;
+				master->exit_status = EXIT_CANNOT_EXECUTE;
 				return (false);
 			}
 			master->exec->pathname = ft_strdup(master->exec->argv[0]);
 		}
 		else
 		{
-			handle_command_error(master->exec);
+			handle_command_error(master);
 			return (false);
 		}
 	}
@@ -129,7 +129,7 @@ t_cmd_type	execute_command_or_builtin(t_master *master)
 	type = inspect_token(master->exec->argv[0]);
 	if (type == CMD_ERROR || !ft_strcmp(master->exec->argv[0], ".")
 		|| !ft_strcmp(master->exec->argv[0], ".."))
-		return (handle_error_cases(master->exec), CMD_ERROR);
+		return (handle_error_cases(master), CMD_ERROR);
 	else if (type != CMD_OTHERS)
 		return (type);
 	else if (!is_executable_command(master))

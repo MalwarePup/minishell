@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/10 13:57:09 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 17:17:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_master
 	t_token			*token_list;
 	t_exec			*exec;
 	int				stdout_fd;
+	int				exit_status;
 }					t_master;
 
 typedef struct s_expansion
@@ -123,17 +124,17 @@ typedef struct s_builtin
 	t_cmd_type		type;
 }					t_builtin;
 
-extern int			g_exit_status;
+extern int			*g_exit_status;
 
 /* builtin_utils.c */
 
-void				handle_error_cases(t_exec *exec);
+void				handle_error_cases(t_master *master);
+void				handle_command_error(t_master *master);
 
 /* builtin.c */
 
 int					execute_builtin(t_master *master, t_cmd_type type);
 t_cmd_type			execute_command_or_builtin(t_master *master);
-void				handle_command_error(t_exec *exec);
 
 /* execution_mem.c */
 
@@ -211,7 +212,7 @@ int					is_matched_quotes(const char *line_read);
 
 int					is_escaped(const char *str, int index);
 bool				is_in_quotes(const char *line, size_t *i);
-int					exit_handler(t_token **token_lst);
+int					exit_handler(t_master *master, t_token **token_lst);
 t_cmd_type			is_builtin(const char *line_read, size_t *i);
 t_cmd_type			isnot_builtins(char c, const char *line_read, size_t *i);
 

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:28:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 16:53:47 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static bool	is_numeric_argument(const char *arg)
 	return (true);
 }
 
-static int	check_arguments(int argc, char **argv)
+static int	check_arguments(t_master *master, int argc, char **argv)
 {
 	if (argc > 1 && !is_numeric_argument(argv[1]))
 	{
@@ -40,7 +40,7 @@ static int	check_arguments(int argc, char **argv)
 	else if (argc > 2)
 	{
 		ft_putstr_fd(TOO_MANY_ARGS_ERR, STDERR_FILENO);
-		g_exit_status = 1;
+		master->exit_status = 1;
 		return (257);
 	}
 	else if (argc > 1)
@@ -50,11 +50,10 @@ static int	check_arguments(int argc, char **argv)
 
 void	ft_exit(t_master *master, int argc, char **argv)
 {
-	int	g_exit_status;
 
-	g_exit_status = 0;
+	master->exit_status = 0;
 	if (argc > 1)
-		g_exit_status = check_arguments(argc, argv);
+		master->exit_status = check_arguments(master, argc, argv);
 	if (write(STDOUT_FILENO, "exit\n", 5) == -1)
 	{
 		cleanup_before_exit(master);
@@ -62,10 +61,10 @@ void	ft_exit(t_master *master, int argc, char **argv)
 		perror("write (handle_eof)");
 		exit(EXIT_FAILURE);
 	}
-	if (g_exit_status != 257)
+	if (master->exit_status != 257)
 	{
 		cleanup_before_exit(master);
 		cleanup_executable(master);
-		exit(g_exit_status);
+		exit(master->exit_status);
 	}
 }

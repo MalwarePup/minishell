@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:47:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 16:48:21 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	{
 		type = preparation_args(master, token);
 		if (token->data
-			&& ((g_exit_status == EXIT_NOT_FOUND
-					|| g_exit_status == EXIT_CANNOT_EXECUTE)
+			&& ((master->exit_status == EXIT_NOT_FOUND
+					|| master->exit_status == EXIT_CANNOT_EXECUTE)
 				|| (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))))
 		{
 			if (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))
@@ -43,7 +43,7 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 static void	child_process_execution(t_master *master, t_token *token,
 			t_cmd_type type)
 {
-	if (g_exit_status != 127 && master->exec->pid == 0)
+	if (master->exit_status != 127 && master->exec->pid == 0)
 	{
 		if (master->exec->first_cmd == 0)
 		{
@@ -63,7 +63,7 @@ static void	child_process_execution(t_master *master, t_token *token,
 		if (master->exec)
 			cleanup_executable(master);
 		cleanup_before_exit(master);
-		exit(g_exit_status);
+		exit(master->exit_status);
 	}
 }
 
@@ -132,7 +132,7 @@ void	launch_execution(t_master *master)
 	while (++i < num_pids)
 	{
 		while ((waitpid(pids[i], &status, 0)) > 0)
-			if (WIFEXITED(status) && g_exit_status != 127)
-				g_exit_status = WEXITSTATUS(status);
+			if (WIFEXITED(status) && master->exit_status != 127)
+				master->exit_status = WEXITSTATUS(status);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 13:24:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 16:47:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	launch_builtin(t_master *master, t_cmd_type type,
 	t_token *token)
 {
 	launch_redirection(master, token->redir);
-	g_exit_status = execute_builtin(master, type);
+	master->exit_status = execute_builtin(master, type);
 	dup2(master->exec->stdin_fd, STDIN_FILENO);
 	dup2(master->exec->stdout_fd, STDOUT_FILENO);
 }

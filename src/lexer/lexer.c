@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:27:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 16:39:35 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,5 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
 			!= EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
-	return (exit_handler(token_list));
+	return (exit_handler(master, token_list));
 }

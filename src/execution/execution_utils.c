@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:55:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 16:54:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	init_exec(t_master *master)
 		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
-	g_exit_status = 0;
 	master->exec->pid = -1;
 	master->exec->pipefd[0] = -1;
 	master->exec->pipefd[1] = -1;

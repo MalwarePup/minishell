@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:28:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 16:40:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_in_quotes(const char *line, size_t *i)
 	return (true);
 }
 
-int	exit_handler(t_token **token_lst)
+int	exit_handler(t_master *master, t_token **token_lst)
 {
 	int	i;
 
@@ -69,7 +69,7 @@ int	exit_handler(t_token **token_lst)
 		printf(ESTR_OPSTART);
 	if (i || is_clean(token_lst) || is_heredoc_pipe(token_lst))
 	{
-		g_exit_status = 2;
+		master->exit_status = 2;
 		return (free_token_list(token_lst), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
