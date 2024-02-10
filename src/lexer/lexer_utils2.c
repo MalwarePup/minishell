@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 14:48:27 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:28:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "minishell.h"
+#include "libft.h"
 
 int	is_escaped(const char *str, int index)
 {

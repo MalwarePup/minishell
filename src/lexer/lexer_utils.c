@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 14:48:19 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:27:56 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "minishell.h"

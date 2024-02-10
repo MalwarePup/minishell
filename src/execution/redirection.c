@@ -6,10 +6,12 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 12:42:53 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:25:35 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
+#include <unistd.h>
 #include "minishell.h"
 
 static void	redirect(t_master *master, char *file, int flag, int fd)

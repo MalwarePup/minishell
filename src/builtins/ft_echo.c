@@ -6,12 +6,11 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 12:36:21 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:28:04 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdbool.h>
 #include <unistd.h>
 #include "minishell.h"
 #include "libft.h"

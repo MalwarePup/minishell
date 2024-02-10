@@ -6,12 +6,18 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 13:19:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:33:04 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <errno.h>
+#include <fcntl.h>
 #include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "libft.h"
+#include "minishell.h"
 
 void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 {

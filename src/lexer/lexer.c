@@ -6,15 +6,15 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 12:37:44 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:27:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include "minishell.h"
+#include <stdlib.h>
+#include "ft_dprintf.h"
 #include "libft.h"
+#include "minishell.h"
 
 char	*trim_spaces(t_master *master, const char *str, size_t start,
 	size_t end)

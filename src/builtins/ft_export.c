@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 14:44:59 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:28:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include "minishell.h"
 #include "libft.h"
 #include "ft_dprintf.h"

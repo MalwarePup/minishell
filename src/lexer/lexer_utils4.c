@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/09 19:19:52 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:29:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
+#include "libft.h"
 
 void	next_sign_redir(char *line_read, size_t *i, size_t	*k)
 {

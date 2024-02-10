@@ -6,11 +6,10 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:25:29 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:28:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

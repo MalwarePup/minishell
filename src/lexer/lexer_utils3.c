@@ -6,11 +6,13 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:51:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 12:37:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:29:11 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
+#include "libft.h"
 
 void	next_sign(char *line_read, size_t *i, size_t *start, size_t *end)
 {

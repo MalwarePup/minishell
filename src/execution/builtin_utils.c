@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/02 14:49:57 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:24:48 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdio.h>
 #include "minishell.h"
 #include "libft.h"

@@ -6,10 +6,12 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 12:37:37 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:24:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <unistd.h>
 #include "minishell.h"
 
 void	creation_pipe(t_master *master, t_token *token)

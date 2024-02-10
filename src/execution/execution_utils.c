@@ -6,10 +6,11 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 12:37:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 13:23:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "minishell.h"
 #include "libft.h"
