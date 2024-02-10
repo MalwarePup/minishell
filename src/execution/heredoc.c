@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 13:35:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 18:00:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include "libft.h"
 #include "minishell.h"
+#include "ft_dprintf.h"
 
 void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 {
@@ -28,7 +29,8 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 		line_read = readline("> ");
 		if (!line_read)
 		{
-			write(STDOUT_FILENO, "warning\n", 8);
+			ft_dprintf(STDERR_FILENO, ESTR_HEREDOC, master->line_count,
+				delimiter);
 			free(line_read);
 			break ;
 		}

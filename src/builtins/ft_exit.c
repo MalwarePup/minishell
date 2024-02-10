@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 16:53:47 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/10 18:02:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static int	check_arguments(t_master *master, int argc, char **argv)
 {
 	if (argc > 1 && !is_numeric_argument(argv[1]))
 	{
-		ft_dprintf(STDERR_FILENO, NUM_ARG_ERR, argv[1]);
+		ft_dprintf(STDERR_FILENO, ESTR_NUM_ARG, argv[1]);
 		return (2);
 	}
 	else if (argc > 2)
 	{
-		ft_putstr_fd(TOO_MANY_ARGS_ERR, STDERR_FILENO);
+		ft_putstr_fd(ESTR_TOO_MANY_ARGS, STDERR_FILENO);
 		master->exit_status = 1;
 		return (257);
 	}
