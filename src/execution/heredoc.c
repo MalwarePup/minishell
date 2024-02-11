@@ -86,7 +86,7 @@ void	launch_heredoc(t_master *master)
 		{
 			if (redir->type == CMD_D_RED_IN)
 			{
-        redir->data =
+        redir->data = ft_strjoin1(redir->data, "\n");
 				create_file(master, &redir, i);
 				i++;
 			}
