@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 13:56:32 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:24:39 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	shell_loop(t_master *master)
 	while (1)
 	{
 		master->exec = NULL;
-		master->token_list = NULL;
+		master->token = NULL;
 		master->prev_exit_status = master->exit_status;
 		master->exit_status = 0;
 		master->line_read = readline("\033[32mminishell:~$ \033[0m");
@@ -33,11 +33,11 @@ static int	shell_loop(t_master *master)
 		master->line_count++;
 		if (*master->line_read)
 			add_history(master->line_read);
-		if (launch_lexer(master, master->line_read, &master->token_list)
+		if (launch_lexer(master, master->line_read, &master->token)
 			== EXIT_SUCCESS)
 			launch_execution(master);
 		free(master->exec);
-		free_token_list(&(master->token_list));
+		free_token(&(master->token));
 		free(master->line_read);
 	}
 }

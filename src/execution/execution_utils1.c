@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/11 12:18:53 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:24:34 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	launch_builtin(t_master *master, t_cmd_type type,
 	dup2(master->exec->stdout_fd, STDOUT_FILENO);
 }
 
-void	print_token_list(t_token *token)
+void	print_token(t_token *token)
 {
 	while (token)
 	{

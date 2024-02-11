@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 16:40:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:25:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,28 @@ bool	is_in_quotes(const char *line, size_t *i)
 	return (true);
 }
 
-int	exit_handler(t_master *master, t_token **token_lst)
+int	exit_handler(t_master *master, t_token **token)
 {
 	int	i;
 
 	i = EXIT_FAILURE;
-	if (!(*token_lst))
+	if (!(*token))
 		return (i);
-	if ((*token_lst)->type == CMD_OTHERS)
+	if ((*token)->type == CMD_OTHERS)
 		i = EXIT_SUCCESS;
-	else if ((*token_lst)->type == CMD_PIPE)
+	else if ((*token)->type == CMD_PIPE)
 		printf(ESTR_UNEXP, '|');
-	else if ((*token_lst)->type == CMD_RED_IN
-		|| (*token_lst)->type == CMD_RED_OUT
-		|| (*token_lst)->type == CMD_D_RED_IN
-		|| (*token_lst)->type == CMD_D_RED_OUT)
+	else if ((*token)->type == CMD_RED_IN
+		|| (*token)->type == CMD_RED_OUT
+		|| (*token)->type == CMD_D_RED_IN
+		|| (*token)->type == CMD_D_RED_OUT)
 		i = EXIT_SUCCESS;
-	else if ((*token_lst)->type != CMD_OTHERS)
+	else if ((*token)->type != CMD_OTHERS)
 		printf(ESTR_OPSTART);
-	if (i || is_clean(token_lst) || is_heredoc_pipe(token_lst))
+	if (i || is_clean(token) || is_heredoc_pipe(token))
 	{
 		master->exit_status = 2;
-		return (free_token_list(token_lst), EXIT_FAILURE);
+		return (free_token(token), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 14:18:36 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:24:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	cleanup_before_exit(t_master *master)
 {
 	rl_clear_history();
 	free_environment_list(master->env_list);
-	free_token_list(&(master->token_list));
+	free_token(&(master->token));
 	free(master->line_read);
 	free(master->exec);
 }

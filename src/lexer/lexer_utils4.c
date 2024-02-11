@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 13:29:33 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:22:48 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ t_cmd_type	if_redir(char *line_read, size_t *i, t_cmd_type type)
 }
 
 int	finish_line(char *line_read, size_t *i, t_master *master,
-	t_token **token_list)
+	t_token **token)
 {
 	if (line_read[(*i)] == '|')
 	{
-		create_token_node(master, CMD_PIPE, NULL, token_list);
+		create_token_node(master, CMD_PIPE, NULL, token);
 		(*i)++;
-		(*token_list)->last->redir = NULL;
+		(*token)->last->redir = NULL;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -94,7 +94,7 @@ char	*trim_spaces1(const char *str, size_t startend[2])
 	return (trimmed_str);
 }
 
-int	create_redir(t_master *master, char *line_read, t_token **token_list,
+int	create_redir(t_master *master, char *line_read, t_token **token,
 	size_t *ik[2])
 {
 	char		*data;
@@ -111,9 +111,9 @@ int	create_redir(t_master *master, char *line_read, t_token **token_list,
 		data = trim_spaces(master, line_read, *ik[1], *ik[0] - 1);
 		if (!data)
 			return (EXIT_FAILURE);
-		if (!(*token_list))
-			create_token_node(master, type, NULL, token_list);
-		create_token_node(master, type, data, &(*token_list)->last->redir);
+		if (!(*token))
+			create_token_node(master, type, NULL, token);
+		create_token_node(master, type, data, &(*token)->last->redir);
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 13:55:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:22:48 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	handle_execution(t_master *master, pid_t *pids, int *num_pids)
 	t_cmd_type	type;
 	t_token		*token;
 
-	token = master->token_list;
+	token = master->token;
 	while (token)
 	{
 		type = prepare_execution(master, token);

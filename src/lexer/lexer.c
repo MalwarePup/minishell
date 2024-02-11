@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 16:39:35 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:22:48 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	manage_redirection(const char *line_read, size_t *i, bool redir)
 }
 
 int	create_node_command(t_master *master, char *line_read,
-			t_token **token_list, size_t *j)
+			t_token **token, size_t *j)
 {
 	size_t	i;
 	size_t	start;
@@ -92,12 +92,12 @@ int	create_node_command(t_master *master, char *line_read,
 		pass_redirection(line_read, &i);
 	}
 	if (data && *data)
-		create_token_node(master, CMD_OTHERS, data, token_list);
+		create_token_node(master, CMD_OTHERS, data, token);
 	return (EXIT_SUCCESS);
 }
 
 int	create_nodes_redir(t_master *master, char *line_read,
-		t_token **token_list, size_t *i)
+		t_token **token, size_t *i)
 {
 	size_t		k;
 
@@ -105,18 +105,18 @@ int	create_nodes_redir(t_master *master, char *line_read,
 	{
 		next_sign_redir(line_read, i, &k);
 		if (line_read[(*i)] == '|' || line_read[(*i)] == '\0')
-			return (finish_line(line_read, i, master, token_list));
+			return (finish_line(line_read, i, master, token));
 		else if (is_in_quotes(line_read, i))
 			continue ;
 		else
-			if (create_redir(master, line_read, token_list,
+			if (create_redir(master, line_read, token,
 					(size_t * [2]){i, &k}) != EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
+int	launch_lexer(t_master *master, char *line_read, t_token **token)
 {
 	size_t	i;
 
@@ -125,12 +125,12 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token_list)
 		return (EXIT_FAILURE);
 	while (line_read[i])
 	{
-		if (create_node_command(master, line_read, token_list, &i)
+		if (create_node_command(master, line_read, token, &i)
 			!= EXIT_SUCCESS)
 			return (EXIT_FAILURE);
-		if (create_nodes_redir(master, line_read, token_list, &i)
+		if (create_nodes_redir(master, line_read, token, &i)
 			!= EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
-	return (exit_handler(master, token_list));
+	return (exit_handler(master, token));
 }

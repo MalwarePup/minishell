@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:27:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:25:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 #include "ft_dprintf.h"
 #include "libft.h"
 
-int	is_heredoc_pipe(t_token **token_lst)
+int	is_heredoc_pipe(t_token **token)
 {
 	t_token	*current;
 
-	current = *token_lst;
+	current = *token;
 	while (current)
 	{
 		if (current->type == CMD_PIPE && !current->next)
 		{
-			free_token_list(token_lst);
+			free_token(token);
 			return (EXIT_FAILURE);
 		}
 		current = current->next;
@@ -44,13 +44,13 @@ int	start_operator(t_cmd_type type)
 	return (EXIT_FAILURE);
 }
 
-int	is_clean(t_token **token_lst)
+int	is_clean(t_token **token)
 {
 	char		type;
 	t_token		*current;
 	const char	*ops[OP] = {"|", "<", "<<", ">", ">>"};
 
-	current = *token_lst;
+	current = *token;
 	while (current && current->next)
 	{
 		if (current->next->type == CMD_OTHERS && !ft_strlen(current->next->data)
@@ -58,7 +58,7 @@ int	is_clean(t_token **token_lst)
 		{
 			type = *ops[current->type - 1];
 			printf(ESTR_UNEXP, type);
-			free_token_list(token_lst);
+			free_token(token);
 			return (EXIT_FAILURE);
 		}
 		current = current->next;
@@ -105,22 +105,3 @@ int	is_matched_quotes(const char *line_read)
 	}
 	return (return_value(in_single_quote, in_double_quote));
 }
-
-// void	print_token_list(t_token *token_list)
-// {
-// 	size_t	i;
-// 	t_token	*current;
-
-// 	i = 0;
-// 	current = token_list;
-// 	printf("\n\n---------------TABLEAU DE TOKENS-------------\n");
-// 	printf("| %-5s | %-25s | %-5s |\n", "#", "Token Data", "Type");
-// 	printf("---------------------------------------------\n");
-// 	while (current)
-// 	{
-// 		printf("| %-5zu | %-25s | %-5d |\n", i, current->data, current->type);
-// 		current = current->next;
-// 		i++;
-// 	}
-// 	printf("---------------------------------------------\n\n\n");
-// }

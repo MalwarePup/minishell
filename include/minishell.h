@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/11 14:18:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:25:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ typedef struct s_master
 {
 	t_env			*env_list;
 	char			*line_read;
-	t_token			*token_list;
+	t_token			*token;
 	t_exec			*exec;
 	int				stdout_fd;
 	int				exit_status;
@@ -155,7 +155,7 @@ void				chose_execute(t_master *master, t_cmd_type type);
 /* execution.c */
 
 void				launch_execution(t_master *master);
-void				print_token_list(t_token *token);
+void				print_token(t_token *token);
 
 /* execution_utils2.c */
 void				creation_pipe(t_master *master, t_token *token);
@@ -199,7 +199,7 @@ void				handle_eof(t_master *master);
 /* lexer.c */
 
 int					launch_lexer(t_master *master, char *line_read,
-						t_token **token_list);
+						t_token **token);
 char				*trim_spaces(t_master *master, const char *str,
 						size_t start, size_t end);
 int					manage_redirection(const char *line_read, size_t *i,
@@ -207,16 +207,16 @@ int					manage_redirection(const char *line_read, size_t *i,
 
 /* lexer_utils.c */
 
-int					is_heredoc_pipe(t_token **token_lst);
+int					is_heredoc_pipe(t_token **token);
 int					start_operator(t_cmd_type type);
-int					is_clean(t_token **token_lst);
+int					is_clean(t_token **token);
 int					is_matched_quotes(const char *line_read);
 
 /* lexer_utils2.c */
 
 int					is_escaped(const char *str, int index);
 bool				is_in_quotes(const char *line, size_t *i);
-int					exit_handler(t_master *master, t_token **token_lst);
+int					exit_handler(t_master *master, t_token **token);
 t_cmd_type			is_builtin(const char *line_read, size_t *i);
 t_cmd_type			isnot_builtins(char c, const char *line_read, size_t *i);
 
@@ -232,17 +232,17 @@ void				pass_redirection(const char *line_read, size_t *i);
 
 t_cmd_type			if_redir(char *line_read, size_t *i, t_cmd_type type);
 int					finish_line(char *line_read, size_t *i, t_master *master,
-						t_token **token_list);
+						t_token **token);
 void				next_sign_redir(char *line_read, size_t *i, size_t *k);
 int					create_redir(t_master *master, char *line_read,
-						t_token **token_list, size_t *ik[2]);
+						t_token **token, size_t *ik[2]);
 char				*trim_spaces1(const char *str, size_t startend[2]);
 
 /* lexer_mem.c */
 
-void				free_token_list(t_token **token_list);
+void				free_token(t_token **token);
 void				create_token_node(t_master *master, t_cmd_type type,
-						char *data, t_token **token_list);
+						char *data, t_token **token);
 
 /* signals.c */
 
