@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/11 13:54:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:18:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ typedef struct s_exec
 	bool			redir;
 	int				stdin_fd;
 	int				stdout_fd;
-	t_token			*heredoc_list;
 
 }					t_exec;
 

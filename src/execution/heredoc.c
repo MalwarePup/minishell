@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 18:00:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:20:06 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	create_file(t_master *master, t_token **token, int i)
 	close(fd);
 	free((*token)->data);
 	(*token)->data = filename;
-	create_token_node(master, CMD_RED_IN, ft_strdup(filename),
-		&(master->exec->heredoc_list));
 }
 
 void	launch_heredoc(t_master *master)
