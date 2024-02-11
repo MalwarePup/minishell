@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 16:47:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 12:18:53 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd_type	preparation_args(t_master *master, t_token *token)
 
 	create_arguments(master, token);
 	launch_expansion(master);
-	// update_executable_path(master->exec, master->env_list);
+	update_executable_path(master->exec, master->env_list);
 	type = execute_command_or_builtin(master);
 	return (type);
 }
