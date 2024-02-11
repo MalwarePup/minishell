@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/10 18:02:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 13:54:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define EXIT_CANNOT_EXECUTE 126
 # define EXIT_NOT_FOUND 127
 # define EXIT_INVALID_EXIT 128
+# define EXIT_INTERRUPTED 130
 
 # define ESTR_QUOTE "minishell: syntax error: unmatched quote\n"
 # define ESTR_DQUOTE "minishell: syntax error: unmatched double quote\n"
@@ -108,6 +109,7 @@ typedef struct s_master
 	t_exec			*exec;
 	int				stdout_fd;
 	int				exit_status;
+	int				prev_exit_status;
 	int				line_count;
 }					t_master;
 

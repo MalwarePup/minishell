@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 17:50:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 13:56:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,29 @@
 
 int	*g_exit_status = NULL;
 
+static int	shell_loop(t_master *master)
+{
+	while (1)
+	{
+		master->exec = NULL;
+		master->token_list = NULL;
+		master->prev_exit_status = master->exit_status;
+		master->exit_status = 0;
+		master->line_read = readline("\033[32mminishell:~$ \033[0m");
+		if (!master->line_read)
+			return (handle_eof(master), EXIT_SUCCESS);
+		master->line_count++;
+		if (*master->line_read)
+			add_history(master->line_read);
+		if (launch_lexer(master, master->line_read, &master->token_list)
+			== EXIT_SUCCESS)
+			launch_execution(master);
+		free(master->exec);
+		free_token_list(&(master->token_list));
+		free(master->line_read);
+	}
+}
+
 int	main(void)
 {
 	t_master	master;
@@ -27,24 +50,8 @@ int	main(void)
 	master.env_list = NULL;
 	master.exit_status = 0;
 	master.line_count = 0;
-	g_exit_status = &master.exit_status;
+	g_exit_status = &master.prev_exit_status;
 	set_sigaction();
 	manage_environment(&master, &master.env_list);
-	while (1)
-	{
-		master.exec = NULL;
-		master.token_list = NULL;
-		master.line_read = readline("\033[32mminishell:~$ \033[0m");
-		if (!master.line_read)
-			return (handle_eof(&master), EXIT_SUCCESS);
-		master.line_count++;
-		if (*master.line_read)
-			add_history(master.line_read);
-		if (launch_lexer(&master, master.line_read, &master.token_list)
-			== EXIT_SUCCESS)
-			launch_execution(&master);
-		free(master.exec);
-		free_token_list(&(master.token_list));
-		free(master.line_read);
-	}
+	return (shell_loop(&master));
 }

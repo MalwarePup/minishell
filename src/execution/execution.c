@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 16:48:21 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/11 13:55:19 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,11 @@ void	launch_execution(t_master *master)
 
 	status = 0;
 	num_pids = 0;
+	master->exit_status = 0;
 	init_exec(master);
 	launch_heredoc(master);
 	handle_execution(master, pids, &num_pids);
-	if (master->exec->first_cmd == 0)
+	if (master->exec->first_cmd == false)
 	{
 		close(master->exec->old_pipefd[0]);
 		close(master->exec->old_pipefd[1]);
