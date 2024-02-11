@@ -58,10 +58,7 @@ void	create_file(t_master *master, t_token **token, int i)
 		ft_error_exit(master, "ft_itoa (create_file)", ENOMEM, false);
 	filename = ft_strjoin3("/tmp/heredoc_", itoa);
 	if (!filename)
-	{
-		free(itoa);
 		ft_error_exit(master, "ft_strjoin3 (create_file)", ENOMEM, false);
-	}
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -89,6 +86,7 @@ void	launch_heredoc(t_master *master)
 		{
 			if (redir->type == CMD_D_RED_IN)
 			{
+        redir->data =
 				create_file(master, &redir, i);
 				i++;
 			}
