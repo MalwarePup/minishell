@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:18:11 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:19:51 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static bool	is_executable_command(t_master *master)
 	return (true);
 }
 
-static t_cmd_type	inspect_token(char *arg)
+static t_cmd_type	identify_builtin_command(char *arg)
 {
 	size_t			i;
 	t_cmd_type		type;
@@ -146,7 +146,7 @@ t_cmd_type	execute_command_or_builtin(t_master *master)
 {
 	t_cmd_type	type;
 
-	type = inspect_token(master->exec->argv[0]);
+	type = identify_builtin_command(master->exec->argv[0]);
 	if (type == CMD_ERROR)
 		return (CMD_ERROR);
 	else if (type != CMD_OTHERS)
