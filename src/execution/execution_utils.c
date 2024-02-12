@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:38:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:56:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,22 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 		return (NULL);
 	array = malloc((get_env_list_size(env_list) + 1) * sizeof(char *));
 	if (!array)
-		return (cleanup_executable(master),
-			error_exit(master, "malloc (env_list_to_array)", false),
-			NULL);
+		error_exit(master, "malloc (env_list_to_array)", true);
 	i = 0;
 	while (env_list)
 	{
 		tmp = ft_strjoin(env_list->name, "=");
 		if (!tmp)
-			error_exit(master, "Failed to allocate memory for tmp", false);
-		array[i] = ft_strjoin(tmp, env_list->value);
-		free(tmp);
+		{
+			free(array);
+			ft_error_exit(master, "ft_strjoin (env_list_to_array)", ENOMEM, true);
+		}
+		array[i] = ft_strjoin1(tmp, env_list->value);
 		if (!array[i])
-			error_exit(master, "Failed to allocate memory for array[i]", false);
+		{
+			free_string_array(array);
+			ft_error_exit(master, "ft_strjoin (env_list_to_array)", ENOMEM, true);
+		}
 		env_list = env_list->next;
 		i++;
 	}
