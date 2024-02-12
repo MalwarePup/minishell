@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 16:46:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:42:27 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	handle_error_cases(t_master *master)
 		}
 		else
 		{
-			ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->exec->argv[0]);
+			ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND,
+				master->exec->argv[0]);
 			master->exit_status = EXIT_NOT_FOUND;
 		}
 	}

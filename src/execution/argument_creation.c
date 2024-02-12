@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_creation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:50:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:35:02 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,15 @@ static size_t	count_argc_for_echo(char *s)
 			i++;
 			while (s[i] && s[i] != c)
 				i++;
-			count++;
-			if (s[i])
-				i++;
 		}
 		else
 		{
 			while (s[i] != '\'' && s[i] != '"' && s[i])
 				i++;
-			count++;
-			if (s[i])
-				i++;
 		}
+		count++;
+		if (s[i])
+			i++;
 	}
 	return (count + 2);
 }

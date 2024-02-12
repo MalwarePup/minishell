@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 18:02:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:28:46 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	check_arguments(t_master *master, int argc, char **argv)
 
 void	ft_exit(t_master *master, int argc, char **argv)
 {
-
 	master->exit_status = 0;
 	if (argc > 1)
 		master->exit_status = check_arguments(master, argc, argv);

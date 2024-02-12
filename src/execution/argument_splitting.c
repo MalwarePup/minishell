@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/09 18:19:34 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/12 10:41:05 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ bool	is_not_escaped(char *s, int index)
 		return (s[index - 1] != '\\');
 	else
 		return (s[index - 1] != '\\' || s[index - 2] == '\\');
+}
+
+char	*create_echo_arg(char *arg, size_t *j)
+{
+	arg = ft_strncat(arg, "echo", 4);
+	*j = 5;
+	arg[4] = '\0';
+	return (arg);
 }
 
 char	*creates_quoted_arg(t_master *master, char *s, size_t *j)
@@ -92,12 +100,7 @@ char	*creates_arg_for_echo(t_master *master, char *s, size_t *j)
 		exit(EXIT_FAILURE);
 	}
 	if (!ft_strncmp(s + *j, "echo ", 5) && *j == 0)
-	{
-		arg = ft_strncat(arg, "echo", 4);
-		*j = 5;
-		arg[4] = '\0';
-		return (arg);
-	}
+		return (create_echo_arg(arg, j));
 	while (s[*j + i] != '\0' && ((s[*j + i] != '"'
 				&& s[*j + i] != '\'') || (!is_not_escaped(s, *j + i)
 				&& (s[*j + i] == '"' || s[*j + i] == '\''))))
