@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:19:51 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:29:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ static void	handle_command_not_found_error(t_master *master)
 
 static bool	is_executable_command(t_master *master)
 {
-	if (ft_strcmp(master->exec->argv[0], "..") &&
-		ft_strcmp(master->exec->argv[0], ".") &&
-		ft_strcmp(master->exec->argv[0], "./"))
+	if (ft_strcmp(master->exec->argv[0], "..")
+		&& ft_strcmp(master->exec->argv[0], ".")
+		&& ft_strcmp(master->exec->argv[0], "./"))
 	{
 		master->exec->pathname = find_executable_command_path(master);
 		if (errno == EACCES)
