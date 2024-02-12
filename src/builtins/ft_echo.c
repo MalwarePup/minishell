@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:28:04 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:00:09 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@
 static void	ft_write_stdout(char *str, size_t size, t_master *master)
 {
 	if (write(STDOUT_FILENO, str, size) == -1)
-	{
-		cleanup_executable(master);
-		error_exit(master, "write (ft_write_stdout)", false);
-	}
+		error_exit(master, "write (ft_write_stdout)", true);
 }
 
 int	ft_echo(int argc, char **argv, t_master *master)
