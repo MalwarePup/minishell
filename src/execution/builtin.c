@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 16:50:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:18:11 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static char	*search_path_command(t_env *env_list, char *command)
+static char	*find_executable_command_path(t_master *master)
 {
 	int		i;
 	char	*temp;
@@ -27,7 +27,7 @@ static char	*search_path_command(t_env *env_list, char *command)
 	t_env	*current;
 	char	*pathname;
 
-	current = env_list;
+	current = master->env_list;
 	while (current && current->name && ft_strcmp(current->name, "PATH"))
 		current = current->next;
 	if (!current || !current->value)
@@ -37,41 +37,61 @@ static char	*search_path_command(t_env *env_list, char *command)
 	i = -1;
 	while (paths[++i])
 	{
-		temp = ft_strjoin("/", command);
-		pathname = ft_strjoin(paths[i], temp);
-		free(temp);
-		if (!access(pathname, X_OK))
+		temp = ft_strjoin("/", master->exec->argv[0]);
+		pathname = ft_strjoin3(paths[i], temp);
+		if (access(pathname, X_OK) == 0)
+			return (free_string_array(paths), pathname);
+		else if (errno == EACCES)
 			return (free_string_array(paths), pathname);
 		free(pathname);
 	}
-	free_string_array(paths);
-	return (NULL);
+	return (free_string_array(paths), NULL);
+}
+
+static void	handle_command_not_found_error(t_master *master)
+{
+	struct stat	s;
+
+	if (access(master->exec->argv[0], X_OK) == 0
+		&& ft_strcmp(master->exec->argv[0], ".."))
+	{
+		stat(master->exec->argv[0], &s);
+		if (S_ISDIR(s.st_mode) && ft_strcmp(master->exec->argv[0], "."))
+		{
+			ft_dprintf(STDERR_FILENO, ESTR_DIR, master->exec->argv[0]);
+			master->exit_status = EXIT_CANNOT_EXECUTE;
+		}
+		else
+		{
+			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
+			master->exit_status = EXIT_MISUSE;
+		}
+	}
+	else
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->exec->argv[0]);
+		master->exit_status = EXIT_NOT_FOUND;
+	}
 }
 
 static bool	is_executable_command(t_master *master)
 {
-	struct stat	s;
-
-	master->exec->pathname = search_path_command(master->env_list,
-			master->exec->argv[0]);
-	if (!master->exec->pathname)
+	if (ft_strcmp(master->exec->argv[0], "..") &&
+		ft_strcmp(master->exec->argv[0], ".") &&
+		ft_strcmp(master->exec->argv[0], "./"))
 	{
-		if (access(master->exec->argv[0], X_OK) == 0)
+		master->exec->pathname = find_executable_command_path(master);
+		if (errno == EACCES)
 		{
-			stat(master->exec->argv[0], &s);
-			if (S_ISDIR(s.st_mode))
-			{
-				ft_dprintf(STDERR_FILENO, ESTR_DIR, master->exec->argv[0]);
-				master->exit_status = EXIT_CANNOT_EXECUTE;
-				return (false);
-			}
-			master->exec->pathname = ft_strdup(master->exec->argv[0]);
-		}
-		else
-		{
-			handle_command_error(master);
+			ft_dprintf(STDERR_FILENO, ESTR_PERM_DENIED, master->exec->pathname);
+			master->exit_status = EXIT_CANNOT_EXECUTE;
 			return (false);
 		}
+	}
+	if (!master->exec->pathname)
+	{
+		handle_command_not_found_error(master);
+		return (false);
 	}
 	return (true);
 }
@@ -127,9 +147,8 @@ t_cmd_type	execute_command_or_builtin(t_master *master)
 	t_cmd_type	type;
 
 	type = inspect_token(master->exec->argv[0]);
-	if (type == CMD_ERROR || !ft_strcmp(master->exec->argv[0], ".")
-		|| !ft_strcmp(master->exec->argv[0], ".."))
-		return (handle_error_cases(master), CMD_ERROR);
+	if (type == CMD_ERROR)
+		return (CMD_ERROR);
 	else if (type != CMD_OTHERS)
 		return (type);
 	else if (!is_executable_command(master))
