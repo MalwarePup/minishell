@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:20:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 19:16:36 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,24 @@ int	replace_argv_without_quotes(t_master *master, t_expansion *exp)
 		return (quote == '\"');
 	}
 	return (1);
+}
+
+char	*replace_redir_without_quotes(t_master *master, char *str)
+{
+	char	*new_str;
+
+	if (str[0] == '\"' || str[0] == '\'')
+	{
+		new_str = ft_strdup(str + 1);
+		if (!new_str)
+		{
+			free(str);
+			ft_error_exit(master, "ft_strdup (replace_redir_without_quotes)",
+				ENOMEM, true);
+		}
+		new_str[ft_strlen(new_str) - 1] = '\0';
+		free(str);
+		return (new_str);
+	}
+	return (str);
 }

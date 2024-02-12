@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 13:25:35 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 19:03:47 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "minishell.h"
 
 static void	redirect(t_master *master, char *file, int flag, int fd)
@@ -20,9 +21,9 @@ static void	redirect(t_master *master, char *file, int flag, int fd)
 
 	new_fd = open(file, flag, 0644);
 	if (new_fd == -1)
-		error_exit(master, "open (redirect)", true);
+		error_exit(master, file, true);
 	if (dup2(new_fd, fd) == -1)
-		error_exit(master, "dup2 (redirect)", true);
+		error_exit(master, file, true);
 	close(new_fd);
 }
 

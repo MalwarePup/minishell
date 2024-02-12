@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/11 14:22:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 19:10:55 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	create_redir(t_master *master, char *line_read, t_token **token,
 		data = trim_spaces(master, line_read, *ik[1], *ik[0] - 1);
 		if (!data)
 			return (EXIT_FAILURE);
+		data = replace_redir_without_quotes(master, data);
 		if (!(*token))
 			create_token_node(master, type, NULL, token);
 		create_token_node(master, type, data, &(*token)->last->redir);

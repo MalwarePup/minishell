@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/12 17:30:30 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 19:24:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ char				*get_env_value(t_master *master, t_env *env, char *name);
 char				*extract_expansion_name(t_master *master, char *str);
 int					replace_argv_without_quotes(t_master *master,
 						t_expansion *exp);
+char				*replace_redir_without_quotes(t_master *master, char *str);
 
 /* expansion.c */
 
