@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_splitting.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 10:41:05 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/12 17:02:10 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,74 +112,3 @@ char	*creates_arg_for_echo(t_master *master, char *s, size_t *j)
 	*j = *j + i;
 	return (arg);
 }
-// static char *allocate_memory_for_arg(t_master *master, char *s)
-// {
-// 	char *arg;
-
-// 	arg = malloc(ft_strlen(s) + 1);
-// 	if (!arg)
-// 	{
-// 		perror("malloc in split_args");
-// 		cleanup_before_exit(master);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	arg[0] = '\0';
-// 	return (arg);
-// }
-
-// static char *handle_quoted_argument(char *s, char **arg)
-// {
-// 	char quote;
-// 	char *start;
-
-// 	quote = *s++;
-// 	start = s;
-// 	while (*s)
-// 	{
-// 		if (*s == quote)
-// 			if ((*(s - 1) != '\\') || (*(s - 1) == '\\' && *(s - 2) == '\\'))
-// 				break;
-// 		s++;
-// 	}
-// 	ft_strncat(*arg, start, s - start);
-// 	if (*s)
-// 		s++;
-// 	return (s);
-// }
-
-// static char *handle_unquoted_argument(char *s, char **arg)
-// {
-// 	ft_strncat(*arg, s, 1);
-// 	s++;
-// 	return (s);
-// }
-
-// int split_args(t_master *master, char *s, char **argv,
-// 			   bool *is_simple_quotes)
-// {
-// 	char *arg;
-// 	int i;
-
-// 	i = 0;
-// 	if (!s || !argv)
-// 		return (0);
-// 	while (*s)
-// 	{
-// 		arg = allocate_memory_for_arg(master, s);
-// 		while (*s && !ft_isspace(*s))
-// 		{
-// 			if (*s == '\'' && !is_escaped(s, s - s))
-// 				*is_simple_quotes = true;
-// 			if (((*s == '\'') || (*s == '\"')) && !is_escaped(s, s - s))
-// 				s = handle_quoted_argument(s, &arg);
-// 			else
-// 				s = handle_unquoted_argument(s, &arg);
-// 		}
-// 		arg = clean_arg(arg);
-// 		argv[i++] = arg;
-// 		while (ft_isspace(*s))
-// 			s++;
-// 	}
-// 	argv[i] = NULL;
-// 	return (i);
-// }
