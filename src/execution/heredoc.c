@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/11 14:22:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:23:02 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 			free(line_read);
 			break ;
 		}
-		else if (!ft_strncmp(line_read, delimiter, ft_strlen(delimiter)))
+		else if (!ft_strncmp(line_read, delimiter, ft_strlen(delimiter) + 1))
 		{
 			free(line_read);
 			break ;
@@ -86,7 +86,6 @@ void	launch_heredoc(t_master *master)
 		{
 			if (redir->type == CMD_D_RED_IN)
 			{
-        redir->data = ft_strjoin1(redir->data, "\n");
 				create_file(master, &redir, i);
 				i++;
 			}
