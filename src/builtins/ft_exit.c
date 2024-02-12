@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 10:28:46 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:57:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	ft_exit(t_master *master, int argc, char **argv)
 	}
 	if (master->exit_status != 257)
 	{
-		cleanup_before_exit(master);
 		cleanup_executable(master);
+		cleanup_before_exit(master);
 		exit(master->exit_status);
 	}
 }
