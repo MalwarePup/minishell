@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 16:50:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:22:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,4 @@ void	execute_command(t_master *master)
 	execve(master->exec->pathname, master->exec->argv, envp);
 	free_string_array(envp);
 	error_exit(master, "execve (execute_command)", true);
-}
-
-void	chose_execute(t_master *master, t_cmd_type type)
-{
-	if (master->exec->pathname)
-		execute_command(master);
-	else
-		execute_builtin(master, type);
 }

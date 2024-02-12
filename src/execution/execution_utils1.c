@@ -6,23 +6,13 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 11:48:59 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/11 14:24:34 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:23:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
 #include "minishell.h"
-
-void	creation_pipe(t_master *master, t_token *token)
-{
-	if (token->next && token->next->type == CMD_PIPE)
-		if (pipe(master->exec->pipefd) == -1)
-			error_exit(master, "pipe (execute_pipeline)", false);
-	master->exec->pid = fork();
-	if (master->exec->pid == -1)
-		error_exit(master, "fork (execute_pipeline)", false);
-}
 
 t_cmd_type	preparation_args(t_master *master, t_token *token)
 {
@@ -42,13 +32,4 @@ void	launch_builtin(t_master *master, t_cmd_type type,
 	master->exit_status = execute_builtin(master, type);
 	dup2(master->exec->stdin_fd, STDIN_FILENO);
 	dup2(master->exec->stdout_fd, STDOUT_FILENO);
-}
-
-void	print_token(t_token *token)
-{
-	while (token)
-	{
-		printf("token->type = %d, token->data = %s\n", token->type, token->data);
-		token = token->next;
-	}
 }

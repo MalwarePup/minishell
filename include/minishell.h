@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/12 16:50:40 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:25:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,13 @@ typedef struct s_exec
 	int				argc;
 	char			**argv;
 	char			*pathname;
-	t_token			*token;
+	bool			pipe;
+	bool			first_cmd;
 	pid_t			pid;
 	int				pipefd[2];
 	int				old_pipefd[2];
-	bool			first_cmd;
-	bool			simple_quotes;
-	bool			redir;
 	int				stdin_fd;
 	int				stdout_fd;
-
 }					t_exec;
 
 typedef struct s_master
@@ -131,8 +128,6 @@ extern int			*g_exit_status;
 
 /* builtin_utils.c */
 
-void				handle_error_cases(t_master *master);
-void				handle_command_error(t_master *master);
 
 /* builtin.c */
 
@@ -148,15 +143,14 @@ void				create_arguments(t_master *master, t_token *token);
 char				**env_list_to_array(t_master *master, t_env *env_list);
 void				init_exec(t_master *master);
 void				execute_command(t_master *master);
-void				chose_execute(t_master *master, t_cmd_type type);
 
 /* execution.c */
 
 void				launch_execution(t_master *master);
 void				print_token(t_token *token);
 
-/* execution_utils2.c */
-void				creation_pipe(t_master *master, t_token *token);
+/* execution_utils1.c */
+
 t_cmd_type			preparation_args(t_master *master, t_token *token);
 void				launch_builtin(t_master *master, t_cmd_type type,
 						t_token *token);
@@ -274,4 +268,5 @@ void				launch_redirection(t_master *master, t_token *token);
 /* heredoc.c */
 
 void				launch_heredoc(t_master *master);
+
 #endif /* MINISHELL_H */
