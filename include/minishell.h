@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/11 14:25:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 16:49:19 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,9 @@ typedef struct s_master
 	char			*line_read;
 	t_token			*token;
 	t_exec			*exec;
-	int				stdout_fd;
+	int				line_count;
 	int				exit_status;
 	int				prev_exit_status;
-	int				line_count;
 }					t_master;
 
 typedef struct s_expansion
