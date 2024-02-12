@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 14:22:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:21:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <sys/wait.h>
 #include "minishell.h"
 
-// Avoid launching a new process if the command is a builtin, 126, 127
 static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 {
 	t_cmd_type	type;
@@ -69,7 +68,6 @@ static void	child_process_execution(t_master *master, t_token *token,
 
 static void	parent_process_execution(t_master *master, t_token **token)
 {
-	(void)master;
 	if (master->exec->pid != 0)
 	{
 		if (master->exec->first_cmd == 0)
