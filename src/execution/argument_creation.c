@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 10:35:02 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:33:58 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static size_t	count_argc(char *s)
 		else if (s[i] != ' '
 			&& (s[i - 1] == ' ' || s[i - 1] == '"' || s[i - 1] == '\''))
 			count++;
-		i++;
+		if (s[i])
+			i++;
 	}
 	return (count + 1);
 }
