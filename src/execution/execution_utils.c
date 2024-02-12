@@ -6,10 +6,11 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:22:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 17:38:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "minishell.h"
@@ -61,11 +62,7 @@ void	init_exec(t_master *master)
 {
 	master->exec = ft_calloc(1, sizeof(t_exec));
 	if (!master->exec)
-	{
-		perror("ft_calloc in format_arg");
-		cleanup_before_exit(master);
-		exit(EXIT_FAILURE);
-	}
+		ft_error_exit(master, "ft_calloc (ft_calloc)", ENOMEM, false);
 	master->exec->pid = -1;
 	master->exec->pipefd[0] = -1;
 	master->exec->pipefd[1] = -1;
