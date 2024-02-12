@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/12 16:49:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 16:50:40 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ t_cmd_type			execute_command_or_builtin(t_master *master);
 
 /* execution_mem.c */
 
-void				free_double_ptr(char **str);
 void				create_arguments(t_master *master, t_token *token);
 
 /* execution_utils.c */
@@ -184,6 +183,7 @@ bool				is_not_escaped(char *s, int index);
 
 /* cleanup.c */
 
+void				free_string_array(char **str);
 void				cleanup_executable(t_master *master);
 void				cleanup_before_exit(t_master *master);
 

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 14:24:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 16:50:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <readline/readline.h>
 #include "minishell.h"
 
-void	free_double_ptr(char **str)
+void	free_string_array(char **str)
 {
 	char	**ptr;
 
@@ -29,7 +29,7 @@ void	free_double_ptr(char **str)
 
 void	cleanup_executable(t_master *master)
 {
-	free_double_ptr(master->exec->argv);
+	free_string_array(master->exec->argv);
 	free(master->exec->pathname);
 }
 

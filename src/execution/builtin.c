@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 16:46:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 16:50:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ static char	*search_path_command(t_env *env_list, char *command)
 		pathname = ft_strjoin(paths[i], temp);
 		free(temp);
 		if (!access(pathname, X_OK))
-			return (free_double_ptr(paths), pathname);
+			return (free_string_array(paths), pathname);
 		free(pathname);
 	}
-	free_double_ptr(paths);
+	free_string_array(paths);
 	return (NULL);
 }
 

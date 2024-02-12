@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 16:54:12 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/12 16:50:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	execute_command(t_master *master)
 
 	envp = env_list_to_array(master, master->env_list);
 	execve(master->exec->pathname, master->exec->argv, envp);
-	free_double_ptr(envp);
+	free_string_array(envp);
 	error_exit(master, "execve (execute_command)", true);
 }
 
