@@ -6,13 +6,14 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/13 13:33:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 14:20:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <signal.h>
 # include <stdbool.h>
 # include <sys/types.h>
 
@@ -90,6 +91,7 @@ typedef struct s_exec
 	char			**argv;
 	char			*pathname;
 	bool			pipe;
+	bool			heredoc;
 	bool			first_cmd;
 	pid_t			pid;
 	int				pipefd[2];
@@ -107,6 +109,9 @@ typedef struct s_master
 	int				line_count;
 	int				exit_status;
 	int				prev_exit_status;
+	struct sigaction	minishell_sa;
+	struct sigaction	heredoc_sa;
+	struct sigaction	temp_sa;
 }					t_master;
 
 typedef struct s_expansion
@@ -235,7 +240,10 @@ void				create_token_node(t_master *master, t_cmd_type type,
 
 /* signals.c */
 
-void				set_sigaction(void);
+void				restore_sigaction(t_master *master);
+void				set_sigaction(t_master *master);
+void				set_sigaction_heredoc(t_master *master);
+void				set_sigaction_temp(t_master *master);
 
 /* env_utils.c */
 

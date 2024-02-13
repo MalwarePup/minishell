@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/13 11:23:09 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:25:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 	while (1)
 	{
 		line_read = readline("> ");
-		if (!line_read)
+		if (!line_read || master->exit_status == 131)
 		{
-			ft_dprintf(STDERR_FILENO, ESTR_HEREDOC_1 ESTR_HEREDOC_2,
-				master->line_count, delimiter);
+			if (master->prev_exit_status != 131)
+				write(STDOUT_FILENO, "warning\n", 8);
 			free(line_read);
 			break ;
 		}
@@ -47,7 +47,7 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 	}
 }
 
-void	create_file(t_master *master, t_token **token, int i)
+int	create_file(t_master *master, t_token **token, int i)
 {
 	int		fd;
 	char	*filename;
@@ -58,7 +58,10 @@ void	create_file(t_master *master, t_token **token, int i)
 		ft_error_exit(master, "ft_itoa (create_file)", ENOMEM, false);
 	filename = ft_strjoin3("/tmp/heredoc_", itoa);
 	if (!filename)
+	{
+		free(itoa);
 		ft_error_exit(master, "ft_strjoin3 (create_file)", ENOMEM, false);
+	}
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -66,19 +69,23 @@ void	create_file(t_master *master, t_token **token, int i)
 		error_exit(master, "open (read_heredoc_into_file)", false);
 	}
 	read_heredoc_into_file(master, fd, (*token)->data);
-	close(fd);
 	free((*token)->data);
 	(*token)->data = filename;
+	return (fd);
 }
 
 void	launch_heredoc(t_master *master)
 {
-	t_token	*current;
-	t_token	*redir;
 	int		i;
+	int		original_stdin;
+	t_token	*redir;
+	t_token	*current;
 
-	current = master->token;
 	i = 0;
+	current = master->token;
+	master->exec->heredoc = true;
+	set_sigaction_heredoc(master);
+	original_stdin = dup(STDIN_FILENO);
 	while (current)
 	{
 		redir = current->redir;
@@ -93,4 +100,7 @@ void	launch_heredoc(t_master *master)
 		}
 		current = current->next;
 	}
+	dup2(original_stdin, STDIN_FILENO);
+	close(original_stdin);
+	restore_sigaction(master);
 }

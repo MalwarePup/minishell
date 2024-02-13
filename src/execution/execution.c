@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 13:39:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 14:55:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 	if (master->exec->pathname)
 		execute_command(master);
 	else
-		master->exit_status = execute_builtin(master, type);
+		master->prev_exit_status = execute_builtin(master, type);
 	cleanup_executable(master);
 	cleanup_before_exit(master);
 	exit(master->exit_status);
@@ -81,6 +81,7 @@ static void	parent_process(t_master *master, t_token **token)
 		*token = (*token)->next->next;
 	else
 		*token = (*token)->next;
+	set_sigaction_temp(master);
 	cleanup_executable(master);
 }
 
@@ -101,9 +102,10 @@ static void	handle_execution(t_master *master, pid_t *pids, int *num_pids)
 		if (master->exec->pid == 0)
 			child_process(master, token, type);
 		else
+		{
 			parent_process(master, &token);
-		if (master->exec->pid != 0)
 			pids[(*num_pids)++] = master->exec->pid;
+		}
 	}
 }
 
@@ -119,6 +121,8 @@ void	launch_execution(t_master *master)
 	master->exit_status = 0;
 	init_exec(master);
 	launch_heredoc(master);
+	if (master->prev_exit_status == 131)
+		return ;
 	handle_execution(master, pids, &num_pids);
 	if (master->exec->first_cmd == false && master->exec->pipe == true)
 	{
