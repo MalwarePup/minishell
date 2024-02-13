@@ -32,7 +32,6 @@ SRC_FILES	:=	./src/builtins/ft_cd.c \
 				./src/builtins/ft_unset.c \
 				./src/execution/execution.c \
 				./src/execution/execution_utils.c \
-				./src/execution/execution_utils1.c \
 				./src/execution/argument_creation.c \
 				./src/execution/argument_splitting.c \
 				./src/execution/builtin_utils.c \

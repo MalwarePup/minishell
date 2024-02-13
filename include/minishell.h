@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/13 11:48:34 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:06:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,6 @@ void				execute_command(t_master *master);
 /* execution.c */
 
 void				launch_execution(t_master *master);
-void				print_token(t_token *token);
-
-/* execution_utils1.c */
-
-t_cmd_type			preparation_args(t_master *master, t_token *token);
-void				launch_builtin(t_master *master, t_cmd_type type,
-						t_token *token);
 
 /* expansion_utils.c */
 
