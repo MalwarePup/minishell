@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/12 10:23:02 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:23:09 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 		line_read = readline("> ");
 		if (!line_read)
 		{
-			ft_dprintf(STDERR_FILENO, ESTR_HEREDOC, master->line_count,
-				delimiter);
+			ft_dprintf(STDERR_FILENO, ESTR_HEREDOC_1 ESTR_HEREDOC_2,
+				master->line_count, delimiter);
 			free(line_read);
 			break ;
 		}
