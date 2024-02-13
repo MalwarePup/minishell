@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 13:37:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 13:39:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,27 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 
 static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 {
-	if (type != CMD_ERROR)
+	if (master->exec->first_cmd == false && master->exec->pipe == true)
 	{
-		if (master->exec->first_cmd == false && master->exec->pipe == true)
-		{
-			dup2(master->exec->old_pipefd[0], STDIN_FILENO);
-			close(master->exec->old_pipefd[0]);
-			close(master->exec->old_pipefd[1]);
-		}
-		if (token->next && token->next->type == CMD_PIPE
-			&& master->exec->pipe == true)
-		{
-			dup2(master->exec->pipefd[1], STDOUT_FILENO);
-			close(master->exec->pipefd[0]);
-			close(master->exec->pipefd[1]);
-		}
-		launch_redirection(master, token->redir);
-		if (master->exec->pathname)
-			execute_command(master);
-		else
-			master->exit_status = execute_builtin(master, type);
-		cleanup_executable(master);
-		cleanup_before_exit(master);
-		exit(master->exit_status);
+		dup2(master->exec->old_pipefd[0], STDIN_FILENO);
+		close(master->exec->old_pipefd[0]);
+		close(master->exec->old_pipefd[1]);
 	}
+	if (token->next && token->next->type == CMD_PIPE
+		&& master->exec->pipe == true)
+	{
+		dup2(master->exec->pipefd[1], STDOUT_FILENO);
+		close(master->exec->pipefd[0]);
+		close(master->exec->pipefd[1]);
+	}
+	launch_redirection(master, token->redir);
+	if (master->exec->pathname)
+		execute_command(master);
+	else
+		master->exit_status = execute_builtin(master, type);
+	cleanup_executable(master);
+	cleanup_before_exit(master);
+	exit(master->exit_status);
 }
 
 static void	parent_process(t_master *master, t_token **token)
