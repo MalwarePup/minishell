@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 19:33:58 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:58:21 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ static size_t	count_argc(char *s)
 	size_t	count;
 	char	c;
 
-	i = 0;
 	count = 0;
-	if (s[i] != ' ' && s[i] != '\0')
+	if (s[0] != ' ' && s[0] != '\0')
 		count++;
-	i++;
+	i = 1;
 	while (s[i])
 	{
 		if (s[i] == '\'' || s[i] == '"')

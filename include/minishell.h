@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/13 11:21:52 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:48:34 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ typedef struct s_builtin
 extern int			*g_exit_status;
 
 /* builtin_utils.c */
+bool				special_cases(t_master *master, char **pathname);
+void				handle_command_not_found_error(t_master *master);
 
 /* builtin.c */
 

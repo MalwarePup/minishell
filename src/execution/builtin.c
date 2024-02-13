@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 11:11:50 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:55:32 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,40 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static char	*find_executable_command_path(t_master *master)
+bool	pathname_is_findable(t_master *master, char **pathname, char **paths)
 {
 	int		i;
 	char	*temp;
+
+	i = 0;
+	while (paths[i])
+	{
+		temp = ft_strjoin("/", master->exec->argv[0]);
+		if (!temp)
+			ft_error_exit(master, "ft_strjoin (pathname_is_findable)",
+				ENOMEM, true);
+		*pathname = ft_strjoin3(paths[i], temp);
+		if (!*pathname)
+			ft_error_exit(master, "ft_strjoin (pathname_is_findable)",
+				ENOMEM, true);
+		if (access(*pathname, X_OK) == 0)
+			return (free_string_array(paths), true);
+		else if (errno == EACCES)
+			return (free_string_array(paths), true);
+		free(*pathname);
+		i++;
+	}
+	return (free_string_array(paths), false);
+}
+
+static char	*find_executable_command_path(t_master *master)
+{
 	char	**paths;
 	t_env	*current;
 	char	*pathname;
 
-	if (master->exec->argv[0][0] == '\0')
-		return (NULL);
-	if (access(master->exec->argv[0], X_OK) == 0)
-	{
-		pathname = ft_strdup(master->exec->argv[0]);
-		if (!pathname)
-			ft_error_exit(master, "ft_strdup (find_executable_command_path)",
-				ENOMEM, true);
+	if (special_cases(master, &pathname))
 		return (pathname);
-	}
 	current = master->env_list;
 	while (current && current->name && ft_strcmp(current->name, "PATH"))
 		current = current->next;
@@ -44,44 +60,9 @@ static char	*find_executable_command_path(t_master *master)
 		paths = ft_split(DEFAULT_PATH_1 DEFAULT_PATH_2, ':');
 	else
 		paths = ft_split(current->value, ':');
-	i = -1;
-	while (paths[++i])
-	{
-		temp = ft_strjoin("/", master->exec->argv[0]);
-		pathname = ft_strjoin3(paths[i], temp);
-		if (access(pathname, X_OK) == 0)
-			return (free_string_array(paths), pathname);
-		else if (errno == EACCES)
-			return (free_string_array(paths), pathname);
-		free(pathname);
-	}
-	return (free_string_array(paths), NULL);
-}
-
-static void	handle_command_not_found_error(t_master *master)
-{
-	struct stat	s;
-
-	if (access(master->exec->argv[0], X_OK) == 0
-		&& ft_strcmp(master->exec->argv[0], ".."))
-	{
-		stat(master->exec->argv[0], &s);
-		if (S_ISDIR(s.st_mode) && ft_strcmp(master->exec->argv[0], "."))
-		{
-			ft_dprintf(STDERR_FILENO, ESTR_DIR, master->exec->argv[0]);
-			master->exit_status = EXIT_CANNOT_EXECUTE;
-		}
-		else
-		{
-			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
-			master->exit_status = EXIT_MISUSE;
-		}
-	}
-	else
-	{
-		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->exec->argv[0]);
-		master->exit_status = EXIT_NOT_FOUND;
-	}
+	if (pathname_is_findable(master, &pathname, paths))
+		return (pathname);
+	return (NULL);
 }
 
 static bool	is_executable_command(t_master *master)
@@ -129,27 +110,6 @@ static t_cmd_type	identify_builtin_command(char *arg)
 		}
 	}
 	return (type);
-}
-
-int	execute_builtin(t_master *master, t_cmd_type type)
-{
-	if (type == CMD_CD)
-		return (ft_cd(master->exec->argc, master->exec->argv, master));
-	else if (type == CMD_ECHO)
-		return (ft_echo(master->exec->argc, master->exec->argv, master));
-	else if (type == CMD_ENV)
-		return (ft_env(master), CMD_ENV);
-	else if (type == CMD_EXPORT)
-		return (ft_export(master->exec->argc,
-				master->exec->argv, master), CMD_EXPORT);
-	else if (type == CMD_PWD)
-		return (ft_pwd(), CMD_PWD);
-	else if (type == CMD_UNSET)
-		return (ft_unset(master->exec->argc,
-				master->exec->argv, master), CMD_UNSET);
-	else if (type == CMD_EXIT)
-		ft_exit(master, master->exec->argc, master->exec->argv);
-	return (CMD_ERROR);
 }
 
 t_cmd_type	execute_command_or_builtin(t_master *master)

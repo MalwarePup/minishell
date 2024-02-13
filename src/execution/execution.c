@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:26:21 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 11:57:02 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	if (token->type < CMD_RED_IN)
 	{
 		type = preparation_args(master, token);
-		if (token->data && (type == CMD_ERROR || (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))))
+		if (token->data && (type == CMD_ERROR || (!token->next
+					&& (type >= CMD_CD && type <= CMD_EXPORT))))
 		{
 			if (!token->next && (type >= CMD_CD && type <= CMD_EXPORT))
 				launch_builtin(master, type, token);
