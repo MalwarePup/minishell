@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 11:00:51 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:11:50 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	handle_command_not_found_error(t_master *master)
 		}
 		else
 		{
-			printf("master->exec->argv[0]: %s\n", master->exec->argv[0]);
 			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
 			master->exit_status = EXIT_MISUSE;
 		}
