@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 13:34:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 13:37:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	launch_execution(t_master *master)
 	while (++i < num_pids)
 	{
 		while ((waitpid(pids[i], &status, 0)) > 0)
-			if (WIFEXITED(status) && master->exit_status != 127)
+			if (WIFEXITED(status) && master->exit_status != EXIT_NOT_FOUND)
 				master->exit_status = WEXITSTATUS(status);
 	}
 }
