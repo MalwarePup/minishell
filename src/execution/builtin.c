@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 10:40:32 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:00:51 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ static char	*find_executable_command_path(t_master *master)
 
 	if (master->exec->argv[0][0] == '\0')
 		return (NULL);
+	if (access(master->exec->argv[0], X_OK) == 0)
+	{
+		pathname = ft_strdup(master->exec->argv[0]);
+		if (!pathname)
+			ft_error_exit(master, "ft_strdup (find_executable_command_path)",
+				ENOMEM, true);
+		return (pathname);
+	}
 	current = master->env_list;
 	while (current && current->name && ft_strcmp(current->name, "PATH"))
 		current = current->next;
@@ -65,6 +73,7 @@ static void	handle_command_not_found_error(t_master *master)
 		}
 		else
 		{
+			printf("master->exec->argv[0]: %s\n", master->exec->argv[0]);
 			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
 			master->exit_status = EXIT_MISUSE;
 		}
