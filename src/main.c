@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 14:54:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:39:31 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	main(void)
 	rl_catch_signals = 0;
 	master.env_list = NULL;
 	master.exit_status = 0;
+	master.prev_exit_status = 0;
 	master.line_count = 0;
 	g_exit_status = &master.prev_exit_status;
 	set_sigaction(&master);
