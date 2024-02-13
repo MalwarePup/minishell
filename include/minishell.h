@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/13 13:06:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 13:33:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ void				manage_environment(t_master *master, t_env **env_list);
 
 int					ft_cd(int argc, char **argv, t_master *master);
 int					ft_echo(int argc, char **argv, t_master *master);
-void				ft_env(t_master *master);
+int					ft_env(t_master *master);
 void				ft_exit(t_master *master, int argc, char **argv);
 int					ft_export(int argc, char **argv, t_master *master);
 int					ft_pwd(void);

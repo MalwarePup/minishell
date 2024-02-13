@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 13:16:04 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 13:34:56 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 		if (master->exec->pathname)
 			execute_command(master);
 		else
-			execute_builtin(master, type);
+			master->exit_status = execute_builtin(master, type);
 		cleanup_executable(master);
 		cleanup_before_exit(master);
 		exit(master->exit_status);

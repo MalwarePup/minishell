@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 11:56:14 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:34:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,13 @@ int	execute_builtin(t_master *master, t_cmd_type type)
 	else if (type == CMD_ECHO)
 		return (ft_echo(master->exec->argc, master->exec->argv, master));
 	else if (type == CMD_ENV)
-		return (ft_env(master), CMD_ENV);
+		return (ft_env(master));
 	else if (type == CMD_EXPORT)
-		return (ft_export(master->exec->argc,
-				master->exec->argv, master), CMD_EXPORT);
+		return (ft_export(master->exec->argc, master->exec->argv, master));
 	else if (type == CMD_PWD)
-		return (ft_pwd(), CMD_PWD);
+		return (ft_pwd());
 	else if (type == CMD_UNSET)
-		return (ft_unset(master->exec->argc,
-				master->exec->argv, master), CMD_UNSET);
+		return (ft_unset(master->exec->argc, master->exec->argv, master));
 	else if (type == CMD_EXIT)
 		ft_exit(master, master->exec->argc, master->exec->argv);
 	return (CMD_ERROR);

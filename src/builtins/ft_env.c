@@ -6,14 +6,14 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:23 by ladloff           #+#    #+#             */
-/*   Updated: 2023/05/16 01:44:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 13:33:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "minishell.h"
 
-void	ft_env(t_master *master)
+int	ft_env(t_master *master)
 {
 	t_env	*current;
 
@@ -23,4 +23,5 @@ void	ft_env(t_master *master)
 		printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}
+	return (EXIT_SUCCESS);
 }
