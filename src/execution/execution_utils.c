@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:56:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 12:05:11 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ static size_t	get_env_list_size(t_env *env_list)
 	return (size);
 }
 
+static void	handle_error(t_master *master, char **array)
+{
+	free_string_array(array);
+	ft_error_exit(master, "ft_strjoin (env_list_to_array)", ENOMEM, true);
+}
+
 char	**env_list_to_array(t_master *master, t_env *env_list)
 {
 	size_t	i;
@@ -45,16 +51,10 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 	{
 		tmp = ft_strjoin(env_list->name, "=");
 		if (!tmp)
-		{
-			free(array);
-			ft_error_exit(master, "ft_strjoin (env_list_to_array)", ENOMEM, true);
-		}
+			handle_error(master, array);
 		array[i] = ft_strjoin1(tmp, env_list->value);
 		if (!array[i])
-		{
-			free_string_array(array);
-			ft_error_exit(master, "ft_strjoin (env_list_to_array)", ENOMEM, true);
-		}
+			handle_error(master, array);
 		env_list = env_list->next;
 		i++;
 	}
