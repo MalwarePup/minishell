@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 19:57:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:06:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	check_arguments(t_master *master, int argc, char **argv)
 	}
 	else if (argc > 2)
 	{
-		ft_putstr_fd(ESTR_TOO_MANY_ARGS, STDERR_FILENO);
+		ft_putstr_fd(ESTR_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
 		master->exit_status = 1;
 		return (257);
 	}

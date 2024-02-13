@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:21:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:08:27 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,12 @@ int	ft_cd(int argc, char **argv, t_master *master)
 {
 	const char	*home_path;
 
-	if (argc != 2)
+	if (argc > 2)
+	{
+		ft_putstr_fd(ESTR_CD_TOO_MANY_ARGS, STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	else if (argc != 2)
 	{
 		home_path = get_env_value_no_alloc(master->env_list, "HOME");
 		if (!home_path)
@@ -90,5 +95,6 @@ int	ft_cd(int argc, char **argv, t_master *master)
 		}
 		return (change_directory_and_update(master, home_path));
 	}
-	return (change_directory_and_update(master, (const char *)argv[1]));
+	else
+		return (change_directory_and_update(master, (const char *)argv[1]));
 }

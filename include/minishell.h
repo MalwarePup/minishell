@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/13 14:20:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:04:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@
 # define ESTR_DIR "minishell: %s: Is a directory\n"
 # define ESTR_CMD_NOT_FOUND "minishell: %s: command not found\n"
 # define ESTR_NUM_ARG "minishell: exit: %s: numeric argument required\n"
-# define ESTR_TOO_MANY_ARGS "minishell: exit: too many arguments\n"
+# define ESTR_EXIT_TOO_MANY_ARGS "minishell: exit: too many arguments\n"
+# define ESTR_CD_TOO_MANY_ARGS "minishell: cd: too many arguments\n"
 # define ESTR_PERM_DENIED "minishell: %s: Permission denied\n"
 # define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
 # define ESTR_INVALID_ID "minishell: export: '%s': not a valid identifier\n"
