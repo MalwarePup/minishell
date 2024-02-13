@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:29:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/13 10:40:32 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static char	*find_executable_command_path(t_master *master)
 	t_env	*current;
 	char	*pathname;
 
+	if (master->exec->argv[0][0] == '\0')
+		return (NULL);
 	current = master->env_list;
 	while (current && current->name && ft_strcmp(current->name, "PATH"))
 		current = current->next;
