@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/14 13:04:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 13:22:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define ESTR_PERM_DENIED "minishell: %s: Permission denied\n"
 # define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
 # define ESTR_INVALID_ID "minishell: export: '%s': not a valid identifier\n"
-# define ESTR_HEREDOC_P1 "minishell: warning: here-document at line"
+# define ESTR_HEREDOC_P1 "\nminishell: warning: here-document at line"
 # define ESTR_HEREDOC_P2 " %d delimited by end-of-file (wanted `%s')\n"
 
 # define DEFAULT_PATH_1 "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
