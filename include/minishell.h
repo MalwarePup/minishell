@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/13 16:04:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:31:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,6 @@ int					manage_redirection(const char *line_read, size_t *i,
 /* lexer_utils.c */
 
 int					is_heredoc_pipe(t_token **token);
-int					start_operator(t_cmd_type type);
 int					is_clean(t_token **token);
 int					is_matched_quotes(const char *line_read);
 
@@ -213,7 +212,6 @@ int					is_escaped(const char *str, int index);
 bool				is_in_quotes(const char *line, size_t *i);
 int					exit_handler(t_master *master, t_token **token);
 t_cmd_type			is_builtin(const char *line_read, size_t *i);
-t_cmd_type			isnot_builtins(char c, const char *line_read, size_t *i);
 
 /* lexer_utils3.c */
 
@@ -225,7 +223,6 @@ void				pass_redirection(const char *line_read, size_t *i);
 
 /* lexer_utils4.c */
 
-t_cmd_type			if_redir(char *line_read, size_t *i, t_cmd_type type);
 int					finish_line(char *line_read, size_t *i, t_master *master,
 						t_token **token);
 void				next_sign_redir(char *line_read, size_t *i, size_t *k);
@@ -249,8 +246,6 @@ void				set_sigaction_temp(t_master *master);
 /* env_utils.c */
 
 void				update_executable_path(t_exec *exec, t_env *env_list);
-void				print_environement_list(t_env *env_list);
-void				print_environement_var(t_env *env_list, char *name);
 char				*update_shlvl(t_master *master, char *value, char *name);
 
 /* env.c */

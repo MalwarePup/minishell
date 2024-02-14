@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:18:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:28:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,6 @@
 #include <errno.h>
 #include "minishell.h"
 #include "libft.h"
-
-void	print_environement_list(t_env *env_list)
-{
-	t_env	*current;
-
-	current = env_list;
-	while (current)
-	{
-		printf("%s=%s\n", current->name, current->value);
-		current = current->next;
-	}
-}
-
-void	print_environement_var(t_env *env_list, char *name)
-{
-	t_env	*current;
-
-	current = env_list;
-	while (current && ft_strcmp(current->name, name))
-		current = current->next;
-	if (!current)
-		return ;
-	printf("%s=%s\n", current->name, current->value);
-}
 
 char	*update_shlvl(t_master *master, char *value, char *name)
 {

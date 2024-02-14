@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 14:25:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:31:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,6 @@ int	is_heredoc_pipe(t_token **token)
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
-}
-
-int	start_operator(t_cmd_type type)
-{
-	if (type == CMD_OTHERS)
-		return (EXIT_SUCCESS);
-	else if (type == CMD_PIPE)
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
-	else if (type != CMD_OTHERS)
-		ft_dprintf(STDERR_FILENO, ESTR_OPSTART);
-	return (EXIT_FAILURE);
 }
 
 int	is_clean(t_token **token)

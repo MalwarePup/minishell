@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 14:25:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:30:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,34 +73,6 @@ int	exit_handler(t_master *master, t_token **token)
 		return (free_token(token), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
-}
-
-t_cmd_type	isnot_builtins(char c, const char *line_read, size_t *i)
-{
-	size_t					j;
-	const char				*ops[OP] = {"|", "<", "<<", ">", ">>"};
-	const t_cmd_type		types[OP] = {CMD_PIPE, CMD_RED_IN, CMD_D_RED_IN,
-		CMD_RED_OUT, CMD_D_RED_OUT};
-	t_cmd_type				token_type;
-
-	j = 0;
-	token_type = CMD_OTHERS;
-	while (j < OP)
-	{
-		if (c == *ops[j])
-		{
-			token_type = types[j];
-			if (line_read[*i + 1] == c)
-			{
-				token_type = types[j + 1];
-				(*i)++;
-			}
-			(*i)++;
-			break ;
-		}
-		j++;
-	}
-	return (token_type);
 }
 
 t_cmd_type	is_builtin(const char *line_read, size_t *i)

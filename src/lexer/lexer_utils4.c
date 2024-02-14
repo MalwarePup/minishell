@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/12 19:10:55 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:29:22 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	next_sign_redir(char *line_read, size_t *i, size_t	*k)
 	(*k) = (*i);
 }
 
-t_cmd_type	if_redir(char *line_read, size_t *i, t_cmd_type type)
+static t_cmd_type	if_redir(char *line_read, size_t *i, t_cmd_type type)
 {
 	if (line_read[(*i)] == '<')
 	{
