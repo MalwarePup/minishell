@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/14 12:31:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:34:34 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct s_builtin
 extern int			*g_exit_status;
 
 /* builtin_utils.c */
+
 bool				special_cases(t_master *master, char **pathname);
 void				handle_command_not_found_error(t_master *master);
 
@@ -180,6 +181,7 @@ bool				is_not_escaped(char *s, int index);
 /* cleanup.c */
 
 void				free_string_array(char **str);
+void				free_token(t_token **token);
 void				cleanup_executable(t_master *master);
 void				cleanup_before_exit(t_master *master);
 
@@ -232,7 +234,6 @@ char				*trim_spaces1(const char *str, size_t startend[2]);
 
 /* lexer_mem.c */
 
-void				free_token(t_token **token);
 void				create_token_node(t_master *master, t_cmd_type type,
 						char *data, t_token **token);
 

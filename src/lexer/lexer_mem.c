@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 14:24:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:33:47 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,6 @@
 #include <errno.h>
 #include "minishell.h"
 #include "libft.h"
-
-void	free_token(t_token **token)
-{
-	t_token	*next;
-	t_token	*current;
-
-	current = *token;
-	while (current)
-	{
-		next = current->next;
-		free(current->data);
-		if (current->redir)
-			free_token(&(current->redir));
-		free(current);
-		current = next;
-	}
-	*token = NULL;
-}
 
 void	create_token_node(t_master *master, t_cmd_type type, char *data,
 	t_token **token)

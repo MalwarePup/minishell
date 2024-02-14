@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 16:59:00 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:33:54 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,24 @@ void	free_string_array(char **str)
 	while (*ptr)
 		free(*ptr++);
 	free(str);
+}
+
+void	free_token(t_token **token)
+{
+	t_token	*next;
+	t_token	*current;
+
+	current = *token;
+	while (current)
+	{
+		next = current->next;
+		free(current->data);
+		if (current->redir)
+			free_token(&(current->redir));
+		free(current);
+		current = next;
+	}
+	*token = NULL;
 }
 
 void	cleanup_executable(t_master *master)
