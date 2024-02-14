@@ -23,37 +23,37 @@ INCLUDE_DIR	:= ./include
 LIBFT_DIR	:= ./lib/libft
 
 # Source, object, dependency files
-SRC_FILES	:=	./src/builtins/ft_cd.c \
-				./src/builtins/ft_echo.c \
-				./src/builtins/ft_env.c \
-				./src/builtins/ft_exit.c \
-				./src/builtins/ft_export.c \
-				./src/builtins/ft_pwd.c \
-				./src/builtins/ft_unset.c \
-				./src/execution/execution.c \
-				./src/execution/execution_utils.c \
-				./src/execution/argument_creation.c \
-				./src/execution/argument_splitting.c \
-				./src/execution/builtin_utils.c \
-				./src/execution/builtin.c \
-				./src/execution/expansion.c \
-				./src/execution/expansion_utils.c \
-				./src/execution/redirection.c \
-				./src/lexer/lexer.c \
-				./src/lexer/lexer_utils.c \
-				./src/lexer/lexer_utils2.c \
-				./src/lexer/lexer_utils3.c \
-				./src/lexer/lexer_utils4.c \
-				./src/lexer/lexer_mem.c \
-				./src/signals/signals.c \
-				./src/cleanup.c \
-				./src/exit.c \
-				./src/main.c \
-				./src/environment/env_utils.c \
-				./src/environment/env.c \
-				./src/execution/heredoc.c
+SRC_FILES	:=	builtins/ft_cd.c \
+				builtins/ft_echo.c \
+				builtins/ft_env.c \
+				builtins/ft_exit.c \
+				builtins/ft_export.c \
+				builtins/ft_pwd.c \
+				builtins/ft_unset.c \
+				environment/env_utils.c \
+				environment/env.c \
+				execution/argument_creation.c \
+				execution/argument_splitting.c \
+				execution/builtin_utils.c \
+				execution/builtin.c \
+				execution/execution_utils.c \
+				execution/execution.c \
+				execution/expansion_utils.c \
+				execution/expansion.c \
+				execution/redirection.c \
+				execution/heredoc.c \
+				lexer/lexer_mem.c \
+				lexer/lexer_utils.c \
+				lexer/lexer_utils2.c \
+				lexer/lexer_utils3.c \
+				lexer/lexer_utils4.c \
+				lexer/lexer.c \
+				signals/signals.c \
+				cleanup.c \
+				exit.c \
+				main.c \
 
-OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
+OBJ_FILES	:= $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 DEP_FILES	:= $(OBJ_FILES:.o=.d)
 
 # Compiler flags
