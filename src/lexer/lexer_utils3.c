@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:51:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/10 13:57:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:33:09 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	next_sign(char *line_read, size_t *i, size_t *start, size_t *end)
 	*end = *i;
 }
 
-// free tmp quand ft_join ne fonctionne pas
 int	create_data_command(char *line_read, size_t startend[2],
 	char **tmp)
 {
@@ -69,14 +68,3 @@ void	pass_redirection(const char *line_read, size_t *i)
 		manage_redirection(line_read, i, false);
 	}
 }
-
-// void	if_redir_command(char *line_read, size_t *i)
-// {
-// 	if (line_read[*i] == '<' || line_read[*i] == '>')
-// 	{
-// 		if (line_read[*i + 1] == line_read[*i])
-// 			(*i)++;
-// 		(*i)++;
-// 		manage_redirection(line_read, i, false);
-// 	}
-// }
