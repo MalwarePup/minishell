@@ -42,12 +42,13 @@ SRC_FILES	:=	builtins/ft_cd.c \
 				execution/expansion.c \
 				execution/redirection.c \
 				execution/heredoc.c \
-				lexer/lexer_mem.c \
 				lexer/lexer_utils.c \
 				lexer/lexer_utils2.c \
 				lexer/lexer_utils3.c \
 				lexer/lexer_utils4.c \
 				lexer/lexer.c \
+				lexer/quote_handling.c \
+				signals/handlers.c \
 				signals/signals.c \
 				cleanup.c \
 				exit.c \

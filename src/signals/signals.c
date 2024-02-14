@@ -6,50 +6,15 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 14:30:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 13:04:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <readline/readline.h>
+#include <stdlib.h>
 #include "minishell.h"
 
-static void	handle_minishell_sig(int signum)
-{
-	if (signum == SIGINT)
-	{
-		*g_exit_status = EXIT_INTERRUPTED;
-		rl_replace_line("", 0);
-		write(STDOUT_FILENO, "^C\n", 3);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-static void	handle_heredoc_sig(int signum)
-{
-	if (signum == SIGINT)
-	{
-		*g_exit_status = 131;
-		write(STDOUT_FILENO, "^C\n", 3);
-		close(STDIN_FILENO);
-	}
-}
-
-static void	handle_temp_sig(int signum)
-{
-	if (signum == SIGINT)
-	{
-		*g_exit_status = 132;
-		rl_replace_line("", 0);
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-	}
-}
-
-void	set_sigaction(t_master *master)
+static void	initialize_signal_handlers(t_master *master)
 {
 	master->minishell_sa.sa_handler = handle_minishell_sig;
 	master->minishell_sa.sa_flags = 0;
@@ -72,6 +37,11 @@ void	set_sigaction(t_master *master)
 		perror("sigaction");
 		exit(EXIT_FAILURE);
 	}
+}
+
+void	set_sigaction(t_master *master)
+{
+	initialize_signal_handlers(master);
 	if (sigaction(SIGINT, &master->minishell_sa, NULL) == -1
 		|| sigaction(SIGQUIT, &master->minishell_sa, NULL) == -1)
 	{

@@ -6,43 +6,41 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/11 14:22:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:56:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
 
-char	*trim_spaces(t_master *master, const char *str, size_t start,
-	size_t end)
+void	create_token_node(t_master *master, t_cmd_type type, char *data,
+	t_token **token)
 {
-	size_t		i;
-	size_t		length;
-	char		*trimmed_str;
-	const char	ops[4] = "|&<>";
+	t_token	*new_node;
 
-	if (start >= ft_strlen(str) || end >= ft_strlen(str))
-		return (NULL);
-	i = 0;
-	while (i < 4 && ops[i])
+	new_node = ft_calloc(1, sizeof(t_token));
+	if (!new_node)
 	{
-		if (ops[i] == str[end])
-			end--;
-		i++;
+		free(data);
+		ft_error_exit(master, "ft_calloc (create_token_node)", ENOMEM, false);
+		return ;
 	}
-	while (ft_isspace(str[start]) && start <= end)
-		start++;
-	while (ft_isspace(str[end]) && end >= start)
-		end--;
-	length = end - start + 1;
-	trimmed_str = malloc((length + 1) * sizeof(char));
-	if (!trimmed_str)
-		error_exit(master, "malloc error in trim_spaces", false);
-	ft_strlcpy(trimmed_str, &str[start], length + 1);
-	return (trimmed_str);
+	new_node->data = data;
+	new_node->type = type;
+	if (*token == NULL)
+	{
+		*token = new_node;
+		(*token)->last = new_node;
+	}
+	else
+	{
+		(*token)->last->next = new_node;
+		(*token)->last = new_node;
+	}
 }
 
 int	manage_redirection(const char *line_read, size_t *i, bool redir)
@@ -52,7 +50,7 @@ int	manage_redirection(const char *line_read, size_t *i, bool redir)
 	if (line_read[*i] == '\0')
 	{
 		if (redir)
-			ft_dprintf(STDERR_FILENO, ESTR_OPSTART);
+			ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
 		return (EXIT_FAILURE);
 	}
 	else if (line_read[*i] == '>' || line_read[*i] == '<')
@@ -105,7 +103,15 @@ int	create_nodes_redir(t_master *master, char *line_read,
 	{
 		next_sign_redir(line_read, i, &k);
 		if (line_read[(*i)] == '|' || line_read[(*i)] == '\0')
-			return (finish_line(line_read, i, master, token));
+		{
+			if (line_read[(*i)] == '|')
+			{
+				create_token_node(master, CMD_PIPE, NULL, token);
+				(*i)++;
+				(*token)->last->redir = NULL;
+			}
+			return (EXIT_SUCCESS);
+		}
 		else if (is_in_quotes(line_read, i))
 			continue ;
 		else
@@ -121,7 +127,7 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token)
 	size_t	i;
 
 	i = 0;
-	if (is_matched_quotes(line_read) == EXIT_FAILURE)
+	if (!is_matched_quotes(master, line_read))
 		return (EXIT_FAILURE);
 	while (line_read[i])
 	{

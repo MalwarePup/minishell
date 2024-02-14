@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 15:52:39 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:59:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	launch_expansion(master);
 	update_executable_path(master->exec, master->env_list);
 	type = execute_command_or_builtin(master);
-	if (type == CMD_ERROR || (!token->next && (type == CMD_CD || type == CMD_EXPORT)))
+	if (type == CMD_ERROR || (!token->next && (type == CMD_CD
+				|| type == CMD_EXPORT)))
 	{
 		master->exit_status = execute_builtin(master, type);
 		return (CMD_ERROR);
