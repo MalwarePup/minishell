@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 19:51:48 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:29:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	launch_expansion(t_master *master)
 	if (!master->exec || !master->exec->argv)
 		return ;
 	exp.double_quote = replace_argv_without_quotes(master, &exp);
-	exp.i++;
 	while (master->exec->argc > 0 && master->exec->argv[exp.i])
 	{
 		exp.double_quote = replace_argv_without_quotes(master, &exp);
