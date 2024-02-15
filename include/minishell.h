@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/15 18:27:09 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 19:13:07 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,7 @@ char					*get_env_value(t_master *master, t_env *env,
 char					*extract_expansion_name(t_master *master, char *str);
 int						replace_argv_without_quotes(t_master *master,
 							t_expansion *exp);
-char					*replace_redir_without_quotes(t_master *master,
-							char *str);
+int						replace_redir_without_quotes(char **str);
 
 /* expansion.c */
 
@@ -171,8 +170,7 @@ void					launch_expansion(t_master *master);
 
 /* split_args.c */
 
-int						split_args(t_master *master, char *s, char **argv,
-							bool echo);
+int						split_args(t_master *master, char *s, char **argv);
 char					*creates_arg(t_master *master, char *s, size_t *j);
 char					*creates_arg_for_echo(t_master *master, char *s,
 							size_t *j);
@@ -211,7 +209,7 @@ bool					is_matched_quotes(t_master *master,
 
 /* lexer_utils.c */
 int						is_heredoc_pipe(t_token **token);
-int						start_operator(t_cmd_type type);
+int						start_operator(t_cmd_type type, t_token **token);
 int						is_clean(t_token **token);
 int						exit_handler(t_master *master, t_token **token);
 

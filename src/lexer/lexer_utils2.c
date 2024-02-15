@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 18:26:41 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 19:51:26 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	ft_lstdupp(t_token **token, t_token **new)
 	return (free(*token), (*token) = NULL, EXIT_SUCCESS);
 }
 
-bool	condition_while(char *line_read, size_t i, bool command, char *quote)
+bool	condition_while(char *line_read, size_t i,
+					bool command, char *quote)
 {
 	if (line_read[i] && ((line_read[i] != '|'
 				&& (!ft_isspace(line_read[i])
@@ -77,24 +78,33 @@ bool	condition_while(char *line_read, size_t i, bool command, char *quote)
 	return (false);
 }
 
-int	creates_redir(char *line_read, size_t *i, t_token **redirect)
+int	creates_redir(char *line_read, size_t *i,
+	t_token **redirect)
 {
 	t_cmd_type	type;
 	char		*redir;
+	char		sign;
 
 	type = CMD_OTHERS;
+	sign = line_read[*i];
 	type = redir_type(line_read, i);
 	if (type == CMD_ERROR)
 		return (EXIT_FAILURE);
 	redir = creates_data(line_read, i, false);
 	if (!redir)
 		return (EXIT_FAILURE);
+	redir = trim_spaces(redir);
+	if (!redir)
+		return (EXIT_FAILURE);
+	if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
 		return (free(redir), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-char	*creates_data(char *line_read, size_t *i, bool command)
+char	*creates_data(char *line_read,
+				size_t *i, bool command)
 {
 	size_t	start;
 	size_t	end;
@@ -111,7 +121,7 @@ char	*creates_data(char *line_read, size_t *i, bool command)
 		end++;
 	if ((*i) != end)
 	{
-		data = malloc((end - (*i) + 1) * sizeof(char));
+		data = calloc((end - (*i) + 1), sizeof(char));
 		if (!data)
 			return (NULL);
 		ft_strlcpy(data, &line_read[(*i)], end - (*i) + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/15 18:19:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 20:02:40 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	exit_handler(t_master *master, t_token **token)
 {
 	int	i;
 
-	if (start_operator((*token)->type))
+	if (start_operator((*token)->type, token))
 		return (EXIT_FAILURE);
 	i = EXIT_FAILURE;
 	if (!(*token))
