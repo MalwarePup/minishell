@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/14 19:29:32 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 18:16:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <errno.h>
 #include "minishell.h"
 #include "libft.h"
+#include <stdio.h>
 
 static char	*create_new_string_with_value(t_master *master, t_exec *exec,
 	t_expansion *exp)
@@ -101,18 +102,19 @@ static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
 void	launch_expansion(t_master *master)
 {
 	t_expansion	exp;
+	char		quote;
 
 	exp.i = 0;
+	quote = 0;
 	if (!master->exec || !master->exec->argv)
 		return ;
-	exp.double_quote = replace_argv_without_quotes(master, &exp);
 	while (master->exec->argc > 0 && master->exec->argv[exp.i])
 	{
-		exp.double_quote = replace_argv_without_quotes(master, &exp);
 		exp.j = 0;
 		while (master->exec->argv[exp.i][exp.j])
 		{
-			if (master->exec->argv[exp.i][exp.j] == '$' && exp.double_quote
+			condition_while(master->exec->argv[exp.i], exp.j, true, &quote);
+			if (master->exec->argv[exp.i][exp.j] == '$' && quote != '\''
 				&& (ft_isalpha(master->exec->argv[exp.i][exp.j + 1])
 				|| master->exec->argv[exp.i][exp.j + 1] == '?') && (exp.j == 0
 				|| (exp.j > 0 && master->exec->argv[exp.i][exp.j - 1] != '$')))
@@ -120,6 +122,7 @@ void	launch_expansion(t_master *master)
 			else
 				exp.j++;
 		}
+		replace_argv_without_quotes(master, &exp);
 		exp.i++;
 	}
 }

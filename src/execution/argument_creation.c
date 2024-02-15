@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 11:58:21 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/15 18:59:57 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,78 +15,51 @@
 #include "minishell.h"
 #include "libft.h"
 
-static size_t	count_argc(char *s)
+static size_t	count_words(char *s)
 {
 	size_t	i;
 	size_t	count;
-	char	c;
-
-	count = 0;
-	if (s[0] != ' ' && s[0] != '\0')
-		count++;
-	i = 1;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			c = s[i];
-			i++;
-			while (s[i] && s[i] != c)
-				i++;
-			count++;
-		}
-		else if (s[i] != ' '
-			&& (s[i - 1] == ' ' || s[i - 1] == '"' || s[i - 1] == '\''))
-			count++;
-		if (s[i])
-			i++;
-	}
-	return (count + 1);
-}
-
-static size_t	count_argc_for_echo(char *s)
-{
-	size_t	i;
-	size_t	count;
-	char	c;
 
 	i = 0;
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			c = s[i];
+		while (ft_isspace(s[i]) && s[i])
 			i++;
-			while (s[i] && s[i] != c)
-				i++;
-		}
-		else
-		{
-			while (s[i] != '\'' && s[i] != '"' && s[i])
-				i++;
-		}
-		count++;
 		if (s[i])
+			count++;
+		while (!ft_isspace(s[i]) && s[i])
 			i++;
 	}
-	return (count + 2);
+	return (count);
 }
 
-bool	is_echo(t_master *master, t_token *token)
+char	*create_arg(t_master *master, char *str, size_t *j)
 {
-	int	i;
+	char	*arg;
+	char	quote;
+	size_t	i;
 
+	arg = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	quote = 0;
 	i = 0;
-	(void)master;
-	while (ft_isspace(token->data[i]))
+	if (!arg)
+	{
+		perror("malloc in create_arguments");
+		cleanup_before_exit(master);
+		exit(EXIT_FAILURE);
+	}
+	while (condition_while(str, *j, false, &quote))
+	{
+		arg[i] = str[(*j)];
+		(*j)++;
 		i++;
-	if (!ft_strncmp(token->data + i, "echo ", 5))
-		return (true);
-	return (false);
+	}
+	arg[i] = '\0';
+	return (arg);
 }
 
-int	split_args(t_master *master, char *s, char **argv, bool echo)
+int	split_args(t_master *master, char *s, char **argv)
 {
 	size_t	i;
 	size_t	j;
@@ -97,18 +70,10 @@ int	split_args(t_master *master, char *s, char **argv, bool echo)
 		return (0);
 	while (s[j])
 	{
-		if (!echo)
-		{
-			while (ft_isspace(s[j]) && s[j])
-				j++;
-		}
-		if ((s[j] == '\'' || s[j] == '"' ) && is_not_escaped(s, j))
-			argv[i] = creates_quoted_arg(master, s, &j);
-		else if (!echo)
-			argv[i] = creates_arg(master, s, &j);
-		else
-			argv[i] = creates_arg_for_echo(master, s, &j);
-		i++;
+		while (ft_isspace(s[j]) && s[j])
+			j++;
+		if (s[j])
+			argv[i++] = create_arg(master, s, &j);
 	}
 	argv[i] = NULL;
 	return (i);
@@ -116,16 +81,11 @@ int	split_args(t_master *master, char *s, char **argv, bool echo)
 
 void	create_arguments(t_master *master, t_token *token)
 {
-	bool	echo;
 	int		argc;
 
-	echo = is_echo(master, token);
+	argc = count_words(token->data) + 1;
 	if (token && token->data && token->type)
 	{
-		if (echo)
-			argc = count_argc_for_echo(token->data);
-		else
-			argc = count_argc(token->data);
 		master->exec->argv = malloc(argc * sizeof(char *));
 		if (!master->exec->argv)
 		{
@@ -134,6 +94,6 @@ void	create_arguments(t_master *master, t_token *token)
 			exit(EXIT_FAILURE);
 		}
 		master->exec->argc = split_args(master, token->data,
-				master->exec->argv, echo);
+				master->exec->argv);
 	}
 }
