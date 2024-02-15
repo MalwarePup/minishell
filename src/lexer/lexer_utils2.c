@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 19:51:26 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:22:05 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_lstdupp(t_token **token, t_token **new)
 		(*new)->last = tmp;
 		current = current->next;
 	}
-	return (free(*token), (*token) = NULL, EXIT_SUCCESS);
+	return (free_token(token), (*token) = NULL, EXIT_SUCCESS);
 }
 
 bool	condition_while(char *line_read, size_t i,
