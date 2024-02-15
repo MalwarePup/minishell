@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+         #
+#    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/18 12:00:50 by ladloff          #+#    #+#              #
-#    Updated: 2024/01/11 14:19:59 by alfloren         ###   ########.fr        #
+#    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
+#    Updated: 2024/02/15 12:13:07 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC_FILES	:=	builtins/ft_cd.c \
 				execution/expansion_utils.c \
 				execution/expansion.c \
 				execution/redirection.c \
+				execution/heredoc_utils.c \
 				execution/heredoc.c \
 				lexer/lexer_utils.c \
 				lexer/lexer_utils2.c \

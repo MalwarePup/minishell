@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/15 11:25:41 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 12:05:37 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,5 +275,10 @@ void					launch_redirection(t_master *master, t_token *token);
 /* heredoc.c */
 
 void					launch_heredoc(t_master *master);
+
+/* heredoc_files.c */
+
+char					*create_filename(int index);
+int						create_or_open_file(char **filename, int *index);
 
 #endif /* MINISHELL_H */
