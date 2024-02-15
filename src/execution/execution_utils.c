@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 12:05:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:15:56 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	execute_command(t_master *master)
 	char	**envp;
 
 	envp = env_list_to_array(master, master->env_list);
-	execve(master->exec->pathname, master->exec->argv, envp);
+	execve(master->exec->argv[0], master->exec->argv, envp);
 	free_string_array(envp);
 	error_exit(master, "execve (execute_command)", true);
 }

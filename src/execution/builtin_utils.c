@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 13:34:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 11:35:56 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,65 +17,72 @@
 #include "libft.h"
 #include <errno.h>
 
-void	handle_command_not_found_error(t_master *master)
+static bool	check_file_executability(char *path)
 {
 	struct stat	s;
 
-	if (access(master->exec->argv[0], X_OK) == 0
-		&& ft_strcmp(master->exec->argv[0], ".."))
+	if (stat(path, &s) == 0)
+		if (S_ISREG(s.st_mode) && (s.st_mode & S_IXUSR))
+			return (true);
+	return (false);
+}
+
+static bool	handle_directory_access_error(t_master *master)
+{
+	struct stat	s;
+
+	if (stat(master->exec->argv[0], &s) == 0)
 	{
-		stat(master->exec->argv[0], &s);
-		if (S_ISDIR(s.st_mode) && ft_strcmp(master->exec->argv[0], "."))
+		if ((S_ISDIR(s.st_mode) && ft_strcmp(master->exec->argv[0], "."))
+			&& (!ft_strncmp(master->exec->argv[0], "./", 2)
+				|| !ft_strncmp(master->exec->argv[0], "/", 1)))
 		{
 			ft_dprintf(STDERR_FILENO, ESTR_DIR, master->exec->argv[0]);
-			master->exit_status = EXIT_CANNOT_EXECUTE;
+			return (master->exit_status = EXIT_CANNOT_EXECUTE, false);
 		}
-		else
-		{
-			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
-			master->exit_status = EXIT_MISUSE;
-		}
+	}
+	else
+		error_exit(master, "stat (handle_command_not_found_error)", true);
+	return (true);
+}
+
+static bool	handle_file_access_and_errors(t_master *master)
+{
+	if (access(master->exec->argv[0], X_OK) == 0)
+		return (handle_directory_access_error(master));
+	else if (errno == EACCES)
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_PERM_DENIED, master->exec->argv[0]);
+		return (master->exit_status = EXIT_CANNOT_EXECUTE, false);
+	}
+	else if (errno == ENOENT
+		&& (!ft_strncmp(master->exec->argv[0], "./", 2)
+			|| !ft_strncmp(master->exec->argv[0], "/", 1)))
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_NO_FILE, master->exec->argv[0]);
+		return (master->exit_status = EXIT_NOT_FOUND, false);
 	}
 	else
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->exec->argv[0]);
-		master->exit_status = EXIT_NOT_FOUND;
+		return (master->exit_status = EXIT_NOT_FOUND, false);
 	}
 }
 
-int	execute_builtin(t_master *master, t_cmd_type type)
+bool	handle_command_not_found_error(t_master *master)
 {
-	if (type == CMD_CD)
-		return (ft_cd(master->exec->argc, master->exec->argv, master));
-	else if (type == CMD_ECHO)
-		return (ft_echo(master->exec->argc, master->exec->argv, master));
-	else if (type == CMD_ENV)
-		return (ft_env(master));
-	else if (type == CMD_EXPORT)
-		return (ft_export(master->exec->argc, master->exec->argv, master));
-	else if (type == CMD_PWD)
-		return (ft_pwd());
-	else if (type == CMD_UNSET)
-		return (ft_unset(master->exec->argc, master->exec->argv, master));
-	else if (type == CMD_EXIT)
-		ft_exit(master, master->exec->argc, master->exec->argv);
-	return (CMD_ERROR);
-}
-
-bool	special_cases(t_master *master, char **pathname)
-{
-	if (master->exec->argv[0][0] == '\0')
+	if (!check_file_executability(master->exec->argv[0])
+		&& ft_strncmp(master->exec->argv[0], "/", 1)
+		&& ft_strncmp(master->exec->argv[0], "./", 2))
 	{
-		*pathname = NULL;
-		return (true);
+		if (ft_strcmp(master->exec->argv[0], ".") == 0
+			&& master->exec->argv[0][1] == '\0')
+		{
+			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
+			return (master->exit_status = EXIT_MISUSE, false);
+		}
+		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->exec->argv[0]);
+		return (master->exit_status = EXIT_NOT_FOUND, false);
 	}
-	if (access(master->exec->argv[0], X_OK) == 0)
-	{
-		*pathname = ft_strdup(master->exec->argv[0]);
-		if (!*pathname)
-			ft_error_exit(master, "ft_strdup (find_executable_command_path)",
-				ENOMEM, true);
-		return (true);
-	}
-	return (false);
+	return (handle_file_access_and_errors(master));
 }

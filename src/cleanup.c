@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/14 15:20:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 10:15:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	cleanup_executable(t_master *master)
 {
 	free_string_array(master->exec->argv);
 	master->exec->argv = NULL;
-	free(master->exec->pathname);
-	master->exec->pathname = NULL;
 }
 
 void	cleanup_before_exit(t_master *master)

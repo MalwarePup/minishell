@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/14 13:22:30 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 11:25:41 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,16 @@
 # define ESTR_UNEXP "minishell: syntax error: unexpected token '%c'\n"
 # define ESTR_OPSTART_P1 "minishell: syntax error near unexpected token"
 # define ESTR_OPSTART_P2 " `newline'\n"
-# define ESTR_OPEND "minishell: syntax error near unexpected token"
-# define ESTR_DOT_P1 "minishell: .: filename argument required\n"
-# define ESTR_DOT_P2 ".: usage: . filename [arguments]\n"
-# define ESTR_DIR "minishell: %s: Is a directory\n"
-# define ESTR_CMD_NOT_FOUND "minishell: %s: command not found\n"
 # define ESTR_NUM_ARG "minishell: exit: %s: numeric argument required\n"
 # define ESTR_EXIT_TOO_MANY_ARGS "minishell: exit: too many arguments\n"
 # define ESTR_CD_TOO_MANY_ARGS "minishell: cd: too many arguments\n"
-# define ESTR_PERM_DENIED "minishell: %s: Permission denied\n"
-# define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
 # define ESTR_INVALID_ID "minishell: export: '%s': not a valid identifier\n"
+# define ESTR_DOT_P1 "minishell: .: filename argument required\n"
+# define ESTR_DOT_P2 ".: usage: . filename [arguments]\n"
+# define ESTR_NO_FILE "minishell: %s: No such file or directory\n"
+# define ESTR_PERM_DENIED "minishell: %s: Permission denied\n"
+# define ESTR_CMD_NOT_FOUND "minishell: %s: command not found\n"
+# define ESTR_DIR "minishell: %s: Is a directory\n"
 # define ESTR_HEREDOC_P1 "\nminishell: warning: here-document at line"
 # define ESTR_HEREDOC_P2 " %d delimited by end-of-file (wanted `%s')\n"
 
@@ -91,7 +90,6 @@ typedef struct s_exec
 {
 	int					argc;
 	char				**argv;
-	char				*pathname;
 	bool				pipe;
 	bool				heredoc;
 	bool				first_cmd;
@@ -136,8 +134,7 @@ extern int				*g_exit_status;
 
 /* builtin_utils.c */
 
-bool					special_cases(t_master *master, char **pathname);
-void					handle_command_not_found_error(t_master *master);
+bool					handle_command_not_found_error(t_master *master);
 
 /* builtin.c */
 

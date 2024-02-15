@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/14 16:07:00 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/15 11:14:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	if (type == CMD_ERROR || (!token->next && (type == CMD_CD
 				|| type == CMD_EXPORT)))
 	{
-		master->exit_status = execute_builtin(master, type);
+		if (!token->next && (type == CMD_CD || type == CMD_EXPORT))
+			master->exit_status = execute_builtin(master, type);
 		return (CMD_ERROR);
 	}
 	if (token->next && token->next->type == CMD_PIPE)
@@ -60,9 +61,9 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 			close(master->exec->pipefd[1]);
 		}
 		launch_redirection(master, token->redir);
-		if (master->exec->pathname)
+		if (type == CMD_OTHERS)
 			execute_command(master);
-		else if (type)
+		else
 			master->prev_exit_status = execute_builtin(master, type);
 		cleanup_executable(master);
 		cleanup_before_exit(master);
