@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/15 20:02:40 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:11:28 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	exit_handler(t_master *master, t_token **token)
 {
 	int	i;
 
-	if (start_operator((*token)->type, token))
+	if (*token == NULL || start_operator((*token)->type, token))
 		return (EXIT_FAILURE);
 	i = EXIT_FAILURE;
 	if (!(*token))
