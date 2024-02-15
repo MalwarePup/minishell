@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 20:05:18 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:14:08 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,5 @@ int	replace_redir_without_quotes(char **str)
 		new_str[ij[1]++] = test[ij[0]++];
 	}
 	new_str[ij[1]] = '\0';
-	return (free(*str), *str = new_str, EXIT_SUCCESS);
+	return (free(*str), *str = new_str, free(test), EXIT_SUCCESS);
 }
