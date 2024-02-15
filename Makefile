@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/02/15 12:13:07 by ladloff          ###   ########.fr        #
+#    Updated: 2024/02/15 12:17:47 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,8 @@ SRC_FILES	:=	builtins/ft_cd.c \
 				environment/env.c \
 				execution/argument_creation.c \
 				execution/argument_splitting.c \
-				execution/builtin_utils.c \
-				execution/builtin.c \
+				execution/command_execution_utils.c \
+				execution/command_execution.c \
 				execution/execution_utils.c \
 				execution/execution.c \
 				execution/expansion_utils.c \
