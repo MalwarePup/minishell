@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/02/15 12:17:47 by ladloff          ###   ########.fr        #
+#    Updated: 2024/02/15 18:27:28 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,9 +43,9 @@ SRC_FILES	:=	builtins/ft_cd.c \
 				execution/redirection.c \
 				execution/heredoc_utils.c \
 				execution/heredoc.c \
+				lexer/lexer_mem.c \
 				lexer/lexer_utils.c \
 				lexer/lexer_utils2.c \
-				lexer/lexer_utils3.c \
 				lexer/lexer_utils4.c \
 				lexer/lexer.c \
 				lexer/quote_handling.c \
