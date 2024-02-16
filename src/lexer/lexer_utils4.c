@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/15 20:11:28 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:59:52 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,31 @@ char	*trim_spaces(char *str)
 	return (new_str);
 }
 
+int	two_consecutive_pipe(t_token **token)
+{
+	t_token	*tmp;
+
+	tmp = *token;
+	while (tmp)
+	{
+		if ((tmp)->type == CMD_PIPE
+			&& (tmp)->next && (tmp)->next->type == CMD_PIPE)
+		{
+			printf(ESTR_UNEXP, '|');
+			return (free_token(token), EXIT_FAILURE);
+		}
+		tmp = (tmp)->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	exit_handler(t_master *master, t_token **token)
 {
 	int	i;
 
 	if (*token == NULL || start_operator((*token)->type, token))
+		return (EXIT_FAILURE);
+	if (two_consecutive_pipe(token) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	i = EXIT_FAILURE;
 	if (!(*token))
@@ -83,8 +103,7 @@ int	exit_handler(t_master *master, t_token **token)
 		i = EXIT_SUCCESS;
 	else if ((*token)->type == CMD_PIPE)
 		printf(ESTR_UNEXP, '|');
-	else if ((*token)->type == CMD_RED_IN
-		|| (*token)->type == CMD_RED_OUT
+	else if ((*token)->type == CMD_RED_IN || (*token)->type == CMD_RED_OUT
 		|| (*token)->type == CMD_D_RED_IN
 		|| (*token)->type == CMD_D_RED_OUT)
 		i = EXIT_SUCCESS;
@@ -97,3 +116,4 @@ int	exit_handler(t_master *master, t_token **token)
 	}
 	return (EXIT_SUCCESS);
 }
+
