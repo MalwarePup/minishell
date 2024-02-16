@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_mem.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 18:20:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:54:15 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "minishell.h"
 #include "libft.h"
 #include <stdio.h>
+#include "ft_dprintf.h"
 
 void	create_node(char *data, t_token **new_node,
 	t_cmd_type type, t_token **token)
@@ -49,6 +50,14 @@ int	create_token_node(t_cmd_type type, char **data, t_token **token)
 		*data = trim_spaces(*data);
 		if (!(*data))
 			return (EXIT_FAILURE);
+		if (type != CMD_D_RED_IN)
+		{
+			if (replace_str_without_quotes(data) == EXIT_FAILURE)
+				return (free(new_node), free(*data), EXIT_FAILURE);
+			if (!data)
+				return (free(new_node), ft_dprintf(2,
+						ESTR_OPSTART_P1 ESTR_OPSTART_P2), EXIT_FAILURE);
+		}
 		tmp = ft_strdup(*data);
 		if (!tmp)
 			return (free(new_node), free(*data), EXIT_FAILURE);

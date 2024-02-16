@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/16 10:16:14 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:53:52 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,9 @@ typedef struct s_master
 
 typedef struct s_expansion
 {
-	size_t				i;
-	size_t				j;
 	char				*name;
 	char				*value;
 	char				*substr_start;
-	bool				double_quote;
-  t_token     *current;
-  t_token     *redir;
 }						t_expansion;
 
 typedef struct s_builtin
@@ -168,11 +163,12 @@ char					*get_env_value(t_master *master, t_env *env,
 char					*extract_expansion_name(t_master *master, char *str);
 int						replace_argv_without_quotes(t_master *master,
 							t_expansion *exp);
-int						replace_redir_without_quotes(char **str);
+int						replace_str_without_quotes(char **str);
 
 /* expansion.c */
 
-void					launch_expansion(t_master *master);
+void					launch_expansion(t_master *master, char **str);
+void					launch_expansion_main(t_master *master);
 
 /* split_args.c */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 18:16:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 19:22:56 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #include "libft.h"
 #include <stdio.h>
 
-static char	*create_new_string_with_value(t_master *master, t_exec *exec,
-	t_expansion *exp)
+static char	*create_new_string_with_value(t_master *master,
+	t_expansion *exp, char **str)
 {
 	char	*new_str;
 	size_t	len;
 
-	len = ft_strlen(exec->argv[(*exp).i]) + ft_strlen((*exp).value) + 1;
+	len = ft_strlen(*str) + ft_strlen((*exp).value) + 1;
 	new_str = malloc(len);
 	if (!new_str)
 	{
@@ -32,8 +32,8 @@ static char	*create_new_string_with_value(t_master *master, t_exec *exec,
 			true);
 		exit(EXIT_FAILURE);
 	}
-	ft_strlcpy(new_str, exec->argv[(*exp).i],
-		(*exp).substr_start - exec->argv[(*exp).i] + 1);
+	ft_strlcpy(new_str, *str,
+		(*exp).substr_start - *str + 1);
 	ft_strlcat(new_str, (*exp).value, len);
 	ft_strlcat(new_str, (*exp).substr_start + ft_strlen((*exp).name) + 1,
 		len);
@@ -41,12 +41,12 @@ static char	*create_new_string_with_value(t_master *master, t_exec *exec,
 }
 
 static char	*create_new_string_without_value(t_master *master,
-	t_exec *exec, t_expansion *exp)
+	t_expansion *exp, char **str)
 {
 	char	*new_str;
 	size_t	len;
 
-	len = ft_strlen(exec->argv[(*exp).i]) + 1;
+	len = ft_strlen(*str) + 1;
 	new_str = malloc(len);
 	if (!new_str)
 	{
@@ -55,30 +55,31 @@ static char	*create_new_string_without_value(t_master *master,
 			true);
 		exit(EXIT_FAILURE);
 	}
-	ft_strlcpy(new_str, exec->argv[(*exp).i],
-		(*exp).substr_start - exec->argv[(*exp).i] + 1);
+	ft_strlcpy(new_str, *str,
+		(*exp).substr_start - *str + 1);
 	ft_strlcat(new_str, (*exp).substr_start + ft_strlen((*exp).name) + 1,
 		len);
 	return (new_str);
 }
 
-static void	process_expansion_replace(t_master *master, t_exec *exec,
+static void	process_expansion_replace(t_master *master, char **str,
 	t_expansion *exp)
 {
 	char	*new_str;
 
 	if ((*exp).value)
-		new_str = create_new_string_with_value(master, exec, exp);
+		new_str = create_new_string_with_value(master, exp, str);
 	else
-		new_str = create_new_string_without_value(master, exec, exp);
-	free(exec->argv[(*exp).i]);
-	exec->argv[(*exp).i] = new_str;
+		new_str = create_new_string_without_value(master, exp, str);
+	free(*str);
+	*str = new_str;
 }
 
-static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
+static void	process_expansion(t_master *master,
+	t_expansion *exp, char **str, size_t *i)
 {
-	exp->substr_start = master->exec->argv[exp->i] + exp->j;
-	if (exec->argv[(*exp).i][(*exp).j + 1] == '?')
+	exp->substr_start = *str + *i;
+	if (*str[*i + 1] == '?')
 	{
 		(*exp).name = extract_expansion_name(master, (*exp).substr_start);
 		(*exp).value = ft_itoa(master->prev_exit_status);
@@ -94,35 +95,36 @@ static void	process_expansion(t_master *master, t_exec *exec, t_expansion *exp)
 		(*exp).name = extract_expansion_name(master, (*exp).substr_start);
 		(*exp).value = get_env_value(master, master->env_list, (*exp).name);
 	}
-	process_expansion_replace(master, exec, exp);
+	process_expansion_replace(master, str, exp);
 	free((*exp).name);
 	free((*exp).value);
 }
 
-void	launch_expansion(t_master *master)
+char	*launch_expansion(t_master *master, char *str)
 {
-	t_expansion	exp;
 	char		quote;
+	size_t		i;
+	t_expansion	exp;
 
-	exp.i = 0;
+	i = 0;
 	quote = 0;
-	if (!master->exec || !master->exec->argv)
+	if (!(*str))
 		return ;
-	while (master->exec->argc > 0 && master->exec->argv[exp.i])
+	while (**str)
+			printf("%c\n", **str++);
+	while (*str[i])
 	{
-		exp.j = 0;
-		while (master->exec->argv[exp.i][exp.j])
+		printf("i: %zu\n", i);
+		condition_while(*str, i, true, &quote);
+		printf("str[i]: %c\n", *str[i]);
+		printf("str[i + 1]: %c\n", *str[i + 1]);
+		if (*str[i] == '$' && quote != '\'' && (ft_isalpha(*str[i + 1])
+				|| *str[i + 1] == '?')
+				&& (i == 0 || (i > 0 && *str[i - 1] != '$')))
 		{
-			condition_while(master->exec->argv[exp.i], exp.j, true, &quote);
-			if (master->exec->argv[exp.i][exp.j] == '$' && quote != '\''
-				&& (ft_isalpha(master->exec->argv[exp.i][exp.j + 1])
-				|| master->exec->argv[exp.i][exp.j + 1] == '?') && (exp.j == 0
-				|| (exp.j > 0 && master->exec->argv[exp.i][exp.j - 1] != '$')))
-				process_expansion(master, master->exec, &exp);
-			else
-				exp.j++;
+			return (process_expansion(master, &exp, str, &i));
 		}
-		replace_argv_without_quotes(master, &exp);
-		exp.i++;
+		else
+			i++;
 	}
 }

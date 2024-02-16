@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:45:30 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:35:18 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,11 @@ int	creates_redir(char *line_read, size_t *i,
 	redir = trim_spaces(redir);
 	if (!redir)
 		return (free_token(redirect), EXIT_FAILURE);
-	if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
-		return (free_token(redirect), EXIT_FAILURE);
-	if (!redir)
-		return (free_token(redirect), free(redir),
-			ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2), EXIT_FAILURE);
+	// if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
+	// 	return (free_token(redirect), EXIT_FAILURE);
+	// if (!redir)
+	// 	return (free_token(redirect), free(redir),
+	// 		ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2), EXIT_FAILURE);
 	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
 		return (free_token(redirect), free(redir), EXIT_FAILURE);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 20:14:08 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:52:04 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*extract_expansion_name(t_master *master, char *str)
 		return (name);
 	}
 	while (str[i] && str[i] != '$' && !ft_isspace(str[i])
-		&& str[i] != '\'' && str[i] != '\"')
+		&& str[i] != '\'' && str[i] != '\"' && str[i] != '\n' && str[i] != ']')
 		i++;
 	name = ft_strndup(str + 1, i - 1);
 	if (!name)
@@ -81,34 +81,34 @@ int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)
 	return (false);
 }
 
-int	replace_argv_without_quotes(t_master *master, t_expansion *exp)
-{
-	char	*new_str;
-	char	quote;
-	char	ex_quote;
-	size_t	ij[2];
+// int	replace_argv_without_quotes(t_master *master, t_expansion *exp)
+// {
+// 	char	*new_str;
+// 	char	quote;
+// 	char	ex_quote;
+// 	size_t	ij[2];
 
-	quote = 0;
-	ex_quote = 0;
-	ij[0] = 0;
-	ij[1] = 0;
-	new_str = malloc(sizeof(char)
-			* (ft_strlen(master->exec->argv[exp->i]) + 1));
-	if (!new_str)
-		return (EXIT_FAILURE);
-	while (master->exec->argv[exp->i][ij[0]])
-	{
-		if (to_pass(master->exec->argv[exp->i], &quote, &ex_quote, &ij[0]))
-			continue ;
-		new_str[ij[1]++] = master->exec->argv[exp->i][ij[0]++];
-	}
-	new_str[ij[1]] = '\0';
-	free(master->exec->argv[exp->i]);
-	master->exec->argv[exp->i] = new_str;
-	return (EXIT_SUCCESS);
-}
+// 	quote = 0;
+// 	ex_quote = 0;
+// 	ij[0] = 0;
+// 	ij[1] = 0;
+// 	new_str = malloc(sizeof(char)
+// 			* (ft_strlen(master->exec->argv[exp->i]) + 1));
+// 	if (!new_str)
+// 		return (EXIT_FAILURE);
+// 	while (master->exec->argv[exp->i][ij[0]])
+// 	{
+// 		if (to_pass(master->exec->argv[exp->i], &quote, &ex_quote, &ij[0]))
+// 			continue ;
+// 		new_str[ij[1]++] = master->exec->argv[exp->i][ij[0]++];
+// 	}
+// 	new_str[ij[1]] = '\0';
+// 	free(master->exec->argv[exp->i]);
+// 	master->exec->argv[exp->i] = new_str;
+// 	return (EXIT_SUCCESS);
+// }
 
-int	replace_redir_without_quotes(char **str)
+int	replace_str_without_quotes(char **str)
 {
 	char	*new_str;
 	char	*test;
@@ -133,5 +133,7 @@ int	replace_redir_without_quotes(char **str)
 		new_str[ij[1]++] = test[ij[0]++];
 	}
 	new_str[ij[1]] = '\0';
+	if (!new_str)
+		return (free(*str), str = NULL, EXIT_FAILURE);
 	return (free(*str), *str = new_str, free(test), EXIT_SUCCESS);
 }
