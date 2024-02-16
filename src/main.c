@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 12:15:58 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 12:38:11 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	shell_loop(t_master *master)
 	{
 		if (master->prev_exit_status == 131 || master->prev_exit_status == 132)
 			master->exit_status = 130;
+		master->pids = NULL;
 		master->exec = NULL;
 		master->token = NULL;
 		master->prev_exit_status = master->exit_status;

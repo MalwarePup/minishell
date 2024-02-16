@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/16 13:13:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:36:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	exit_handler(t_master *master, t_token **token)
 {
 	int	i;
 
-	if (*token == NULL || start_operator(master, (*token)->type, token))
+	if (*token == NULL)
 		return (EXIT_FAILURE);
 	if (two_consecutive_pipe(token) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
