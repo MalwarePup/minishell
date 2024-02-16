@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 14:40:00 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:44:28 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,15 @@ bool	check_option(int argc, char **argv, int *i)
 		*i = 1;
 		while (*i < argc && argv[*i][0] == '-')
 		{
-			is_option = true;
 			j = 1;
 			while (argv[*i][j] == 'n')
 				j++;
 			if (argv[*i][j] == '\0')
+			{
+				if (j != 1)
+					is_option = true;
 				(*i)++;
+			}
 			else
 				break ;
 		}
