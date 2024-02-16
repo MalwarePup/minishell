@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/12 17:02:10 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:47:36 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*creates_quoted_arg(t_master *master, char *s, size_t *j)
 
 	i = 0;
 	quote = s[*j];
-	arg = calloc(ft_strlen(s) + 1 - *j, sizeof(char));
+	arg = ft_calloc(ft_strlen(s) + 1 - *j, sizeof(char));
 	if (!arg)
 	{
 		perror("malloc in split_args");
@@ -67,7 +67,7 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 	char	*arg;
 
 	i = 0;
-	arg = calloc(ft_strlen(s) + 1 - *j, sizeof(char));
+	arg = ft_calloc(ft_strlen(s) + 1 - *j, sizeof(char));
 	if (!arg)
 	{
 		perror("malloc in split_args");
@@ -92,7 +92,7 @@ char	*creates_arg_for_echo(t_master *master, char *s, size_t *j)
 	char	*arg;
 
 	i = 0;
-	arg = calloc(ft_strlen(s) + 1 - *j, sizeof(char));
+	arg = ft_calloc(ft_strlen(s) + 1 - *j, sizeof(char));
 	if (!arg)
 	{
 		perror("malloc in split_args");

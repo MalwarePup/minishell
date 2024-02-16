@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 13:15:32 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:47:41 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*creates_data(char *line_read, size_t *i,
 		end++;
 	if ((*i) != end)
 	{
-		data = calloc((end - (*i) + 1), sizeof(char));
+		data = ft_calloc((end - (*i) + 1), sizeof(char));
 		if (!data)
 			return (NULL);
 		ft_strlcpy(data, &line_read[(*i)], end - (*i) + 1);
