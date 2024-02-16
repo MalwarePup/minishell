@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:31:44 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:20:35 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	t_cmd_type	type;
 
 	create_arguments(master, token);
-	launch_expansion(master);
 	update_executable_path(master->exec, master->env_list);
 	type = execute_command_or_builtin(master);
 	if (type == CMD_ERROR || (!token->next && (type == CMD_CD
