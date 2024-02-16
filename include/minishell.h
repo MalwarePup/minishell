@@ -122,6 +122,8 @@ typedef struct s_expansion
 	char				*value;
 	char				*substr_start;
 	bool				double_quote;
+  t_token     *current;
+  t_token     *redir;
 }						t_expansion;
 
 typedef struct s_builtin
