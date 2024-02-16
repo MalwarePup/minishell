@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/16 13:36:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:36:47 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,18 @@ int	exit_handler(t_master *master, t_token **token)
 		return (i);
 	if ((*token)->type == CMD_OTHERS)
 		i = EXIT_SUCCESS;
-	else if ((*token)->type == CMD_PIPE)
+	else if ((*token)->type == CMD_PIPE || (*token)->last->type == CMD_PIPE)
 		printf(ESTR_UNEXP, '|');
 	else if ((*token)->type == CMD_RED_IN || (*token)->type == CMD_RED_OUT
 		|| (*token)->type == CMD_D_RED_IN
 		|| (*token)->type == CMD_D_RED_OUT)
 		i = EXIT_SUCCESS;
 	else if ((*token)->type != CMD_OTHERS)
+		printf(ESTR_OPSTART_P1 ESTR_OPSTART_P2);
+	if (i || is_clean(token) || is_heredoc_pipe(token))
 	{
 		master->exit_status = 2;
-		printf(ESTR_OPSTART_P1 ESTR_OPSTART_P2);
+		return (free_token(token), EXIT_FAILURE);
 	}
-	if (i || is_clean(token) || is_heredoc_pipe(token))
-		return (free_token(token), master->exit_status = 2, EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

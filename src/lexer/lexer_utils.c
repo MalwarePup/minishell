@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 12:40:54 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:37:21 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,8 @@ int	is_heredoc_pipe(t_token **token)
 	return (EXIT_SUCCESS);
 }
 
-int	start_operator(t_master *master, t_cmd_type type, t_token **token)
+int	start_operator(t_master *master, t_cmd_type type)
 {
-	if ((*token)->last && (*token)->last->type == CMD_PIPE)
-	{
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
-		master->exit_status = 2;
-		free_token(token);
-		return (EXIT_FAILURE);
-	}
 	if (type == CMD_OTHERS)
 		return (EXIT_SUCCESS);
 	else if (type == CMD_PIPE)

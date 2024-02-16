@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/16 13:15:45 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:37:54 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,8 +205,7 @@ int						create_token_node(t_cmd_type type, char **data,
 							t_token **token);
 
 /* lexer_utils.c */
-int						start_operator(t_master *master, t_cmd_type type,
-							t_token **token);
+int						start_operator(t_master *master, t_cmd_type type);
 int						is_clean(t_token **token);
 
 /* lexer_utils2.c */

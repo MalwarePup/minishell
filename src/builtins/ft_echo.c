@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 13:12:44 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:40:00 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_echo(int argc, char **argv, t_master *master)
 	int		i;
 	bool	is_option;
 
-	i = 0;
+	i = 1;
 	is_option = check_option(argc, argv, &i);
 	while (i < argc)
 	{
