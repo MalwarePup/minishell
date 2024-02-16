@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:11:55 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:08:32 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,5 @@ int	count_pipe(t_token *token)
 			i++;
 		token = token->next;
 	}
-	return (i);
+	return (i + 1);
 }
