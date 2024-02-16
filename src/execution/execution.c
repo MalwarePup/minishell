@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 11:14:02 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 10:17:25 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ void	launch_execution(t_master *master)
 	int		i;
 	int		status;
 	int		num_pids;
-	pid_t	pids[MAX_PIDS];
 
 	status = 0;
 	num_pids = 0;
@@ -133,11 +132,11 @@ void	launch_execution(t_master *master)
 	launch_heredoc(master);
 	if (master->prev_exit_status == 131)
 		return ;
-	handle_execution(master, pids, &num_pids);
+	handle_execution(master, master->pids, &num_pids);
 	i = -1;
 	while (++i < num_pids)
 	{
-		while ((waitpid(pids[i], &status, 0)) > 0)
+		while ((waitpid(master->pids[i], &status, 0)) > 0)
 			if (WIFEXITED(status) && master->exit_status != EXIT_NOT_FOUND)
 				master->exit_status = WEXITSTATUS(status);
 	}

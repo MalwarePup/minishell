@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*   command_execution_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 11:35:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 10:11:55 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,18 @@ bool	handle_command_not_found_error(t_master *master)
 		return (master->exit_status = EXIT_NOT_FOUND, false);
 	}
 	return (handle_file_access_and_errors(master));
+}
+
+int	count_pipe(t_token *token)
+{
+	int	i;
+
+	i = 0;
+	while (token)
+	{
+		if (token->type == CMD_PIPE)
+			i++;
+		token = token->next;
+	}
+	return (i);
 }

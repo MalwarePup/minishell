@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 09:54:33 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 10:10:00 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,17 @@ int	creates_redir(char *line_read, size_t *i,
 	type = CMD_OTHERS;
 	type = redir_type(line_read, i);
 	if (type == CMD_ERROR)
-		return (EXIT_FAILURE);
+		return (free_token(redirect),EXIT_FAILURE);
 	redir = creates_data(line_read, i, false);
 	if (!redir)
-		return (EXIT_FAILURE);
+		return (free_token(redirect), EXIT_FAILURE);
 	redir = trim_spaces(redir);
 	if (!redir)
-		return (EXIT_FAILURE);
+		return (free_token(redirect), EXIT_FAILURE);
 	if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (free_token(redirect),EXIT_FAILURE);
 	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
-		return (free(redir), EXIT_FAILURE);
+		return (free_token(redirect), free(redir), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

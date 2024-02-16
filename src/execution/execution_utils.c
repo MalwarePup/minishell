@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 10:15:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 10:15:48 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ char	**env_list_to_array(t_master *master, t_env *env_list)
 
 void	init_exec(t_master *master)
 {
+	pid_t	*pid;
+
+	pid = malloc(sizeof(pid_t) * count_pipes(master->token));
+	if (!pid)
+		ft_error_exit(master, "malloc (init_exec)", ENOMEM, false);
+	master->pids = pid;
 	master->exec = ft_calloc(1, sizeof(t_exec));
 	if (!master->exec)
 		ft_error_exit(master, "ft_calloc (ft_calloc)", ENOMEM, false);

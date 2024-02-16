@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/15 19:13:07 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:16:14 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_master
 	char				*line_read;
 	t_token				*token;
 	t_exec				*exec;
+	pid_t				*pids;
 	int					line_count;
 	int					exit_status;
 	int					prev_exit_status;
@@ -143,6 +144,9 @@ bool					handle_command_not_found_error(t_master *master);
 int						execute_builtin(t_master *master, t_cmd_type type);
 t_cmd_type				execute_command_or_builtin(t_master *master);
 
+/*command_execution_utils.c */
+
+int						count_pipe(t_token *token);
 /* execution_mem.c */
 
 void					create_arguments(t_master *master, t_token *token);
