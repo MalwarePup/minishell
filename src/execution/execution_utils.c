@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:15:48 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:20:55 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	init_exec(t_master *master)
 {
 	pid_t	*pid;
 
-	pid = malloc(sizeof(pid_t) * count_pipes(master->token));
+	pid = malloc(sizeof(pid_t) * count_pipe(master->token));
 	if (!pid)
 		ft_error_exit(master, "malloc (init_exec)", ENOMEM, false);
 	master->pids = pid;

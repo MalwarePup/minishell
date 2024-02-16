@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 18:18:12 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 10:20:15 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	creates_command_pipe(char *line_read,
 		{
 			if (creates_redir(line_read, i,
 					redirect) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
+				return (free(*data), EXIT_FAILURE);
 		}
 		else if (line_read[*i] != '|')
 		{

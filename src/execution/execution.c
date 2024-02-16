@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:17:25 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 10:31:44 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	parent_process(t_master *master, t_token **token)
 	cleanup_executable(master);
 }
 
-static void	handle_execution(t_master *master, pid_t *pids, int *num_pids)
+static void	handle_execution(t_master *master, int *num_pids)
 {
 	t_cmd_type	type;
 	t_token		*token;
@@ -115,7 +115,7 @@ static void	handle_execution(t_master *master, pid_t *pids, int *num_pids)
 		}
 		child_process(master, token, type);
 		parent_process(master, &token);
-		pids[(*num_pids)++] = master->exec->pid;
+		master->pids[(*num_pids)++] = master->exec->pid;
 	}
 }
 
@@ -132,7 +132,7 @@ void	launch_execution(t_master *master)
 	launch_heredoc(master);
 	if (master->prev_exit_status == 131)
 		return ;
-	handle_execution(master, master->pids, &num_pids);
+	handle_execution(master, &num_pids);
 	i = -1;
 	while (++i < num_pids)
 	{
