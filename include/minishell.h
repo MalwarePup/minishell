@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/16 10:16:14 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:15:45 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ typedef struct s_expansion
 	char				*value;
 	char				*substr_start;
 	bool				double_quote;
-  t_token     *current;
-  t_token     *redir;
+	t_token				*current;
+	t_token				*redir;
 }						t_expansion;
 
 typedef struct s_builtin
@@ -199,28 +199,19 @@ void					ft_error_exit(t_master *master, char *error_str,
 							int errnum, bool free_all_exec);
 void					handle_eof(t_master *master);
 
-/* lexer.c */
+/* lexer_mem.c */
 
-char					*trim_spaces(char *str);
-int						creates_redir(char *line_read, size_t *i,
-							t_token **redirect);
-
-int						launch_lexer(t_master *master, char *line_read,
+int						create_token_node(t_cmd_type type, char **data,
 							t_token **token);
 
-/* quote_handling.c */
-
-bool					is_matched_quotes(t_master *master,
-							const char *line_read);
-
 /* lexer_utils.c */
-int						is_heredoc_pipe(t_token **token);
-int						start_operator(t_cmd_type type, t_token **token);
+int						start_operator(t_master *master, t_cmd_type type,
+							t_token **token);
 int						is_clean(t_token **token);
-int						exit_handler(t_master *master, t_token **token);
 
 /* lexer_utils2.c */
 
+t_cmd_type				redir_type(char *line_read, size_t *i);
 int						ft_lstdupp(t_token **token, t_token **new);
 bool					condition_while(char *line_read, size_t i, bool command,
 							char *quote);
@@ -228,12 +219,19 @@ char					*creates_data(char *line_read, size_t *i, bool command);
 
 /* lexer_utils4.c */
 
-t_cmd_type				redir_type(char *line_read, size_t *i);
+int						is_heredoc_pipe(t_token **token);
+int						exit_handler(t_master *master, t_token **token);
 
-/* lexer_mem.c */
+/* lexer.c */
 
-int						create_token_node(t_cmd_type type, char **data,
+char					*trim_spaces(char *str);
+int						launch_lexer(t_master *master, char *line_read,
 							t_token **token);
+
+/* quote_handling.c */
+
+bool					is_matched_quotes(t_master *master,
+							const char *line_read);
 
 /* handlers.c */
 

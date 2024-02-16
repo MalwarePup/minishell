@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 20:06:33 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:40:54 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,27 @@ int	is_heredoc_pipe(t_token **token)
 	return (EXIT_SUCCESS);
 }
 
-int	start_operator(t_cmd_type type, t_token **token)
+int	start_operator(t_master *master, t_cmd_type type, t_token **token)
 {
 	if ((*token)->last && (*token)->last->type == CMD_PIPE)
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
+		master->exit_status = 2;
 		free_token(token);
 		return (EXIT_FAILURE);
 	}
 	if (type == CMD_OTHERS)
 		return (EXIT_SUCCESS);
 	else if (type == CMD_PIPE)
+	{
+		master->exit_status = 2;
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
+	}
 	else if (type != CMD_OTHERS)
+	{
+		master->exit_status = 2;
 		ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
+	}
 	return (EXIT_FAILURE);
 }
 

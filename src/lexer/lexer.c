@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:20:15 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:22:45 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,30 @@
 #include "libft.h"
 #include "minishell.h"
 
-void	print_token(t_token *token)
+static int	creates_redir(t_master *master, char *line_read, size_t *i,
+	t_token **redirect)
 {
-	t_token	*current;
+	t_cmd_type	type;
+	char		*redir;
 
-	current = token;
-	while (current)
-	{
-		printf("type: >%d., data: >%s.\n", current->type, current->data);
-		current = current->next;
-	}
+	type = CMD_OTHERS;
+	type = redir_type(line_read, i);
+	if (type == CMD_ERROR)
+		return (free_token(redirect), EXIT_FAILURE);
+	redir = creates_data(line_read, i, false);
+	if (!redir)
+		return (free_token(redirect), EXIT_FAILURE);
+	redir = trim_spaces(redir);
+	if (!redir)
+		return (free_token(redirect), EXIT_FAILURE);
+	if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
+		return (free_token(redirect), EXIT_FAILURE);
+	if (!redir)
+		return (free_token(redirect), free(redir), master->exit_status = 2,
+			ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2), EXIT_FAILURE);
+	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
+		return (free_token(redirect), free(redir), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	creates_command(size_t *i, char **data, char *line_read)
@@ -41,24 +55,24 @@ int	creates_command(size_t *i, char **data, char *line_read)
 	return (EXIT_SUCCESS);
 }
 
-int	creates_command_pipe(char *line_read,
-	size_t *i, char **data, t_token **redirect)
+int	creates_command_pipe(t_master *master, size_t *i, char **data,
+	t_token **redirect)
 {
-	while (line_read[*i] && line_read[*i] != '|')
+	while (master->line_read[*i] && master->line_read[*i] != '|')
 	{
-		while (ft_isspace(line_read[(*i)]) && line_read[(*i)])
+		while (ft_isspace(master->line_read[(*i)]) && master->line_read[(*i)])
 			(*i)++;
-		if (line_read[(*i)] == '|')
+		if (master->line_read[(*i)] == '|')
 			break ;
-		if (line_read[(*i)] == '<' || line_read[(*i)] == '>')
+		if (master->line_read[(*i)] == '<' || master->line_read[(*i)] == '>')
 		{
-			if (creates_redir(line_read, i,
-					redirect) == EXIT_FAILURE)
-				return (free(*data), EXIT_FAILURE);
+			if (creates_redir(master, master->line_read, i, redirect)
+				== EXIT_FAILURE)
+				return (free(*data), master->exit_status = 2, EXIT_FAILURE);
 		}
-		else if (line_read[*i] != '|')
+		else if (master->line_read[*i] != '|')
 		{
-			if (creates_command(i, data, line_read) == EXIT_FAILURE)
+			if (creates_command(i, data, master->line_read) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 		}
 	}
@@ -103,7 +117,7 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token)
 			i++;
 			continue ;
 		}
-		if (creates_command_pipe(line_read, &i, &data, &redirect)
+		if (creates_command_pipe(master, &i, &data, &redirect)
 			== EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		if (create_token(&data, token, &redirect) == EXIT_FAILURE)

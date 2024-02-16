@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:45:30 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:15:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,33 @@
 #include <stdlib.h>
 #include "ft_dprintf.h"
 
-int	is_escaped(const char *str, int index)
+t_cmd_type	redir_type(char *line_read, size_t *i)
 {
-	int	backslashes;
+	char		redir;
+	t_cmd_type	type;
 
-	backslashes = 0;
-	while (index > 0 && str[index - 1] == '\\')
+	redir = line_read[(*i)++];
+	if (line_read[(*i)] == redir)
 	{
-		backslashes++;
-		index--;
+		if (line_read[(*i) + 1] != redir)
+		{
+			if (redir == '>')
+				type = CMD_D_RED_OUT;
+			else
+				type = CMD_D_RED_IN;
+			(*i)++;
+		}
+		else
+			return (ft_dprintf(STDOUT_FILENO, ESTR_UNEXP, redir), CMD_ERROR);
 	}
-	return (backslashes % 2 != 0);
+	else
+	{
+		if (redir == '>')
+			type = CMD_RED_OUT;
+		else
+			type = CMD_RED_IN;
+	}
+	return (type);
 }
 
 int	ft_lstdupp(t_token **token, t_token **new)
@@ -79,34 +95,8 @@ bool	condition_while(char *line_read, size_t i,
 	return (false);
 }
 
-int	creates_redir(char *line_read, size_t *i,
-	t_token **redirect)
-{
-	t_cmd_type	type;
-	char		*redir;
-
-	type = CMD_OTHERS;
-	type = redir_type(line_read, i);
-	if (type == CMD_ERROR)
-		return (free_token(redirect), EXIT_FAILURE);
-	redir = creates_data(line_read, i, false);
-	if (!redir)
-		return (free_token(redirect), EXIT_FAILURE);
-	redir = trim_spaces(redir);
-	if (!redir)
-		return (free_token(redirect), EXIT_FAILURE);
-	if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
-		return (free_token(redirect), EXIT_FAILURE);
-	if (!redir)
-		return (free_token(redirect), free(redir),
-			ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2), EXIT_FAILURE);
-	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
-		return (free_token(redirect), free(redir), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-char	*creates_data(char *line_read,
-				size_t *i, bool command)
+char	*creates_data(char *line_read, size_t *i,
+	bool command)
 {
 	size_t	start;
 	size_t	end;

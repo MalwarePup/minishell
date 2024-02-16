@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/16 10:59:52 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:13:01 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,6 @@
 #include "ft_dprintf.h"
 #include <stdio.h>
 #include <errno.h>
-
-t_cmd_type	redir_type(char *line_read, size_t *i)
-{
-	char		redir;
-	t_cmd_type	type;
-
-	redir = line_read[(*i)++];
-	if (line_read[(*i)] == redir)
-	{
-		if (line_read[(*i) + 1] != redir)
-		{
-			if (redir == '>')
-				type = CMD_D_RED_OUT;
-			else
-				type = CMD_D_RED_IN;
-			(*i)++;
-		}
-		else
-			return (ft_dprintf(STDOUT_FILENO, ESTR_UNEXP, redir), CMD_ERROR);
-	}
-	else
-	{
-		if (redir == '>')
-			type = CMD_RED_OUT;
-		else
-			type = CMD_RED_IN;
-	}
-	return (type);
-}
 
 char	*trim_spaces(char *str)
 {
@@ -92,7 +63,7 @@ int	exit_handler(t_master *master, t_token **token)
 {
 	int	i;
 
-	if (*token == NULL || start_operator((*token)->type, token))
+	if (*token == NULL || start_operator(master, (*token)->type, token))
 		return (EXIT_FAILURE);
 	if (two_consecutive_pipe(token) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
@@ -108,12 +79,11 @@ int	exit_handler(t_master *master, t_token **token)
 		|| (*token)->type == CMD_D_RED_OUT)
 		i = EXIT_SUCCESS;
 	else if ((*token)->type != CMD_OTHERS)
-		printf(ESTR_OPSTART_P1 ESTR_OPSTART_P2);
-	if (i || is_clean(token) || is_heredoc_pipe(token))
 	{
 		master->exit_status = 2;
-		return (free_token(token), EXIT_FAILURE);
+		printf(ESTR_OPSTART_P1 ESTR_OPSTART_P2);
 	}
+	if (i || is_clean(token) || is_heredoc_pipe(token))
+		return (free_token(token), master->exit_status = 2, EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
