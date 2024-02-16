@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:46:53 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:46:00 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,21 @@
 #include <readline/readline.h>
 #include "minishell.h"
 
-void	free_string_array(char **str)
+void	free_string_array(char ***str)
 {
 	char	**ptr;
 
-	if (!str)
+	ptr = *str;
+	if (!ptr)
 		return ;
-	ptr = str;
 	while (*ptr)
-		free(*ptr++);
-	free(str);
+	{
+		free(*ptr);
+		*ptr = NULL;
+		ptr++;
+	}
+	free(*str);
+	*str = NULL;
 }
 
 void	free_token(t_token **token)
@@ -38,25 +43,20 @@ void	free_token(t_token **token)
 		next = current->next;
 		free(current->data);
 		if (current->redir)
-			free_token(&(current->redir));
+			free_token(&current->redir);
 		free(current);
 		current = next;
 	}
 	*token = NULL;
 }
 
-void	cleanup_executable(t_master *master)
-{
-	free_string_array(master->exec->argv);
-	master->exec->argv = NULL;
-}
-
 void	cleanup_before_exit(t_master *master)
 {
 	rl_clear_history();
+	free(master->pid_list);
+	free_string_array(&master->argv);
 	free_environment_list(master->env_list);
-	free_token(&(master->token));
+	free_token(&master->token);
 	free(master->line_read);
 	free(master->exec);
-	free(master->pids);
 }

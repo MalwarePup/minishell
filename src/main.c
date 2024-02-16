@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 12:38:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:47:53 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static int	shell_loop(t_master *master)
 	{
 		if (master->prev_exit_status == 131 || master->prev_exit_status == 132)
 			master->exit_status = 130;
-		master->pids = NULL;
 		master->exec = NULL;
 		master->token = NULL;
+		master->pid_list = NULL;
 		master->prev_exit_status = master->exit_status;
 		master->exit_status = 0;
 		restore_sigaction(master);
@@ -40,10 +40,10 @@ static int	shell_loop(t_master *master)
 		if (launch_lexer(master, master->line_read, &master->token)
 			== EXIT_SUCCESS)
 			launch_execution(master);
-		free(master->exec);
-		free_token(&(master->token));
 		free(master->line_read);
-		free(master->pids);
+		free_token(&master->token);
+		free(master->pid_list);
+		free(master->exec);
 	}
 }
 
@@ -52,8 +52,8 @@ int	main(void)
 	t_master	master;
 
 	rl_catch_signals = 0;
-	master.pids = NULL;
 	master.env_list = NULL;
+	master.pid_list = NULL;
 	master.exit_status = 0;
 	master.prev_exit_status = 0;
 	master.line_count = 0;

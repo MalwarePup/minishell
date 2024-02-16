@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 20:14:08 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:17:35 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ char	*get_env_value(t_master *master, t_env *env, char *name)
 				if (!value)
 				{
 					free(name);
-					ft_error_exit(master, "ft_strdup (get_env_value)", ENOMEM,
-						true);
+					ft_error_exit(master, "ft_strdup (get_env_value)", ENOMEM);
 				}
 				return (value);
 			}
@@ -55,8 +54,7 @@ char	*extract_expansion_name(t_master *master, char *str)
 	{
 		name = ft_strdup("?");
 		if (!name)
-			ft_error_exit(master, "ft_strdup (extract_expansion_name)", ENOMEM,
-				true);
+			ft_error_exit(master, "ft_strdup (extract_expansion_name)", ENOMEM);
 		return (name);
 	}
 	while (str[i] && str[i] != '$' && !ft_isspace(str[i])
@@ -64,8 +62,7 @@ char	*extract_expansion_name(t_master *master, char *str)
 		i++;
 	name = ft_strndup(str + 1, i - 1);
 	if (!name)
-		ft_error_exit(master, "ft_strndup (extract_expansion_name)", ENOMEM,
-			true);
+		ft_error_exit(master, "ft_strndup (extract_expansion_name)", ENOMEM);
 	return (name);
 }
 
@@ -93,18 +90,18 @@ int	replace_argv_without_quotes(t_master *master, t_expansion *exp)
 	ij[0] = 0;
 	ij[1] = 0;
 	new_str = malloc(sizeof(char)
-			* (ft_strlen(master->exec->argv[exp->i]) + 1));
+			* (ft_strlen(master->argv[exp->i]) + 1));
 	if (!new_str)
 		return (EXIT_FAILURE);
-	while (master->exec->argv[exp->i][ij[0]])
+	while (master->argv[exp->i][ij[0]])
 	{
-		if (to_pass(master->exec->argv[exp->i], &quote, &ex_quote, &ij[0]))
+		if (to_pass(master->argv[exp->i], &quote, &ex_quote, &ij[0]))
 			continue ;
-		new_str[ij[1]++] = master->exec->argv[exp->i][ij[0]++];
+		new_str[ij[1]++] = master->argv[exp->i][ij[0]++];
 	}
 	new_str[ij[1]] = '\0';
-	free(master->exec->argv[exp->i]);
-	master->exec->argv[exp->i] = new_str;
+	free(master->argv[exp->i]);
+	master->argv[exp->i] = new_str;
 	return (EXIT_SUCCESS);
 }
 

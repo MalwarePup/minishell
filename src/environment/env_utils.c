@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/14 12:28:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:15:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ char	*update_shlvl(t_master *master, char *value, char *name)
 	if (!value)
 	{
 		free(name);
-		ft_error_exit(master, "ft_itoa (update_shlvl)", ENOMEM, false);
+		ft_error_exit(master, "ft_itoa (update_shlvl)", ENOMEM);
 	}
 	return (value);
 }
 
-void	update_executable_path(t_exec *exec, t_env *current)
+void	update_executable_path(t_master *master, t_env *current)
 {
 	char	*value;
 	size_t	value_size;
 
-	if (!exec->argv || !exec->argv[0])
+	if (!master->argv || !master->argv[0])
 		return ;
 	value = NULL;
 	while (current && current->name)
@@ -45,11 +45,11 @@ void	update_executable_path(t_exec *exec, t_env *current)
 		if (!ft_strcmp(current->name, "_"))
 		{
 			free(current->value);
-			value_size = ft_strlen(exec->argv[exec->argc - 1]) + 1;
+			value_size = ft_strlen(master->argv[master->argc - 1]) + 1;
 			if (value_size)
 			{
 				value = malloc(value_size);
-				ft_strlcpy(value, exec->argv[exec->argc - 1], value_size);
+				ft_strlcpy(value, master->argv[master->argc - 1], value_size);
 				current->value = value;
 			}
 			return ;

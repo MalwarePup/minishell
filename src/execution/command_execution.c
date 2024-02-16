@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 11:25:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:16:16 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,29 @@ static char	*find_executable_command_path(t_master *master)
 	i = -1;
 	while (paths[++i])
 	{
-		temp = ft_strjoin("/", master->exec->argv[0]);
+		temp = ft_strjoin("/", master->argv[0]);
 		pathname = ft_strjoin3(paths[i], temp);
 		if (access(pathname, X_OK) == 0)
-			return (free_string_array(paths), free(master->exec->argv[0]),
-				master->exec->argv[0] = pathname);
+			return (free_string_array(&paths), free(master->argv[0]),
+				master->argv[0] = pathname);
 		free(pathname);
 	}
-	return (free_string_array(paths), NULL);
+	return (free_string_array(&paths), NULL);
 }
 
 static bool	is_executable_command(t_master *master)
 {
-	if (ft_strcmp(master->exec->argv[0], "..")
-		&& ft_strcmp(master->exec->argv[0], ".")
-		&& ft_strcmp(master->exec->argv[0], "./"))
+	if (ft_strcmp(master->argv[0], "..")
+		&& ft_strcmp(master->argv[0], ".")
+		&& ft_strcmp(master->argv[0], "./"))
 	{
-		if (master->exec->argv[0][0] == '\0')
+		if (master->argv[0][0] == '\0')
 		{
-			free(master->exec->argv[0]);
-			master->exec->argv[0] = ft_strdup("");
-			if (!master->exec->argv[0])
+			free(master->argv[0]);
+			master->argv[0] = ft_strdup("");
+			if (!master->argv[0])
 				ft_error_exit(master, "ft_strdup (is_executable_command)",
-					ENOMEM, false);
+					ENOMEM);
 		}
 		else
 			find_executable_command_path(master);
@@ -97,19 +97,19 @@ static t_cmd_type	identify_builtin_command(char *arg)
 int	execute_builtin(t_master *master, t_cmd_type type)
 {
 	if (type == CMD_CD)
-		return (ft_cd(master->exec->argc, master->exec->argv, master));
+		return (ft_cd(master->argc, master->argv, master));
 	else if (type == CMD_ECHO)
-		return (ft_echo(master->exec->argc, master->exec->argv, master));
+		return (ft_echo(master->argc, master->argv, master));
 	else if (type == CMD_ENV)
 		return (ft_env(master));
 	else if (type == CMD_EXPORT)
-		return (ft_export(master->exec->argc, master->exec->argv, master));
+		return (ft_export(master->argc, master->argv, master));
 	else if (type == CMD_PWD)
 		return (ft_pwd());
 	else if (type == CMD_UNSET)
-		return (ft_unset(master->exec->argc, master->exec->argv, master));
+		return (ft_unset(master->argc, master->argv, master));
 	else if (type == CMD_EXIT)
-		ft_exit(master, master->exec->argc, master->exec->argv);
+		ft_exit(master, master->argc, master->argv);
 	return (CMD_ERROR);
 }
 
@@ -117,7 +117,7 @@ t_cmd_type	execute_command_or_builtin(t_master *master)
 {
 	t_cmd_type	type;
 
-	type = identify_builtin_command(master->exec->argv[0]);
+	type = identify_builtin_command(master->argv[0]);
 	if (type == CMD_ERROR)
 		return (CMD_ERROR);
 	else if (type != CMD_OTHERS)

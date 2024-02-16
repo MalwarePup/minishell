@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/14 13:04:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:18:36 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	set_sigaction_temp(t_master *master)
 {
 	master->heredoc_sa.sa_handler = handle_temp_sig;
 	if (sigaction(SIGINT, &master->temp_sa, NULL) == -1)
-		error_exit(master, "sigaction (set_sigaction_heredoc)", false);
+		error_exit(master, "sigaction (set_sigaction_heredoc)");
 }
 
 void	set_sigaction_heredoc(t_master *master)
 {
 	master->heredoc_sa.sa_handler = handle_heredoc_sig;
 	if (sigaction(SIGINT, &master->heredoc_sa, NULL) == -1)
-		error_exit(master, "sigaction (set_sigaction_heredoc)", false);
+		error_exit(master, "sigaction (set_sigaction_heredoc)");
 }
 
 void	restore_sigaction(t_master *master)

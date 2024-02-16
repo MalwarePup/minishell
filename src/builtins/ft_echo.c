@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 14:44:28 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:14:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 static void	ft_write_stdout(char *str, size_t size, t_master *master)
 {
 	if (write(STDOUT_FILENO, str, size) == -1)
-		error_exit(master, "write (ft_write_stdout)", true);
+		error_exit(master, "write (ft_write_stdout)");
 }
 
 bool	check_option(int argc, char **argv, int *i)

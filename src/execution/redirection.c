@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/12 19:03:47 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:18:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	redirect(t_master *master, char *file, int flag, int fd)
 
 	new_fd = open(file, flag, 0644);
 	if (new_fd == -1)
-		error_exit(master, file, true);
+		error_exit(master, file);
 	if (dup2(new_fd, fd) == -1)
-		error_exit(master, file, true);
+		error_exit(master, file);
 	close(new_fd);
 }
 

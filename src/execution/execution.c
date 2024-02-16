@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:31:44 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:45:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,25 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 
 	create_arguments(master, token);
 	launch_expansion(master);
-	update_executable_path(master->exec, master->env_list);
+	update_executable_path(master, master->env_list);
 	type = execute_command_or_builtin(master);
 	if (type == CMD_ERROR || (!token->next && (type == CMD_CD
-				|| type == CMD_EXPORT)))
+				|| type == CMD_EXPORT || type == CMD_EXIT)))
 	{
-		if (!token->next && (type == CMD_CD || type == CMD_EXPORT))
+		if (!token->next && (type == CMD_CD || type == CMD_EXPORT
+				|| type == CMD_EXIT))
 			master->exit_status = execute_builtin(master, type);
 		return (CMD_ERROR);
 	}
 	if (token->next && token->next->type == CMD_PIPE)
 	{
 		if (pipe(master->exec->pipefd) == -1)
-			error_exit(master, "pipe (execute_pipeline)", false);
+			error_exit(master, "pipe (execute_pipeline)");
 		master->exec->pipe = true;
 	}
 	master->exec->pid = fork();
 	if (master->exec->pid == -1)
-		error_exit(master, "fork (execute_pipeline)", false);
+		error_exit(master, "fork (execute_pipeline)");
 	return (type);
 }
 
@@ -65,7 +66,6 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 			execute_command(master);
 		else
 			master->prev_exit_status = execute_builtin(master, type);
-		cleanup_executable(master);
 		cleanup_before_exit(master);
 		exit(master->exit_status);
 	}
@@ -90,7 +90,7 @@ static void	parent_process(t_master *master, t_token **token)
 	else
 		*token = (*token)->next;
 	set_sigaction_temp(master);
-	cleanup_executable(master);
+	free_string_array(&master->argv);
 }
 
 static void	handle_execution(t_master *master, int *num_pids)
@@ -106,16 +106,16 @@ static void	handle_execution(t_master *master, int *num_pids)
 		{
 			if (token->next && token->next->type == CMD_PIPE)
 			{
-				cleanup_executable(master);
+				free_string_array(&master->argv);
 				token = token->next->next;
 				continue ;
 			}
-			cleanup_executable(master);
+			free_string_array(&master->argv);
 			break ;
 		}
 		child_process(master, token, type);
 		parent_process(master, &token);
-		master->pids[(*num_pids)++] = master->exec->pid;
+		master->pid_list[(*num_pids)++] = master->exec->pid;
 	}
 }
 
@@ -136,7 +136,7 @@ void	launch_execution(t_master *master)
 	i = -1;
 	while (++i < num_pids)
 	{
-		while ((waitpid(master->pids[i], &status, 0)) > 0)
+		while ((waitpid(master->pid_list[i], &status, 0)) > 0)
 			if (WIFEXITED(status) && master->exit_status != EXIT_NOT_FOUND)
 				master->exit_status = WEXITSTATUS(status);
 	}

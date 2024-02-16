@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_creation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:39:36 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:36:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ void	create_arguments(t_master *master, t_token *token)
 	argc = count_words(token->data) + 1;
 	if (token && token->data && token->type)
 	{
-		master->exec->argv = malloc(argc * sizeof(char *));
-		if (!master->exec->argv)
+		master->argv = malloc(argc * sizeof(char *));
+		if (!master->argv)
 		{
 			perror("malloc in create_arguments");
 			cleanup_before_exit(master);
 			exit(EXIT_FAILURE);
 		}
-		master->exec->argc = split_args(master, token->data,
-				master->exec->argv);
+		master->argc = split_args(master, token->data,
+				master->argv);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/16 14:37:54 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:45:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <sys/types.h>
-
-# define OP 5
-# define MAX_PIDS 30
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
@@ -88,8 +85,6 @@ typedef struct s_token
 
 typedef struct s_exec
 {
-	int					argc;
-	char				**argv;
 	bool				pipe;
 	bool				heredoc;
 	bool				first_cmd;
@@ -102,11 +97,13 @@ typedef struct s_exec
 
 typedef struct s_master
 {
-	t_env				*env_list;
 	char				*line_read;
+	t_env				*env_list;
 	t_token				*token;
 	t_exec				*exec;
-	pid_t				*pids;
+	char				**argv;
+	pid_t				*pid_list;
+	int					argc;
 	int					line_count;
 	int					exit_status;
 	int					prev_exit_status;
@@ -186,17 +183,15 @@ bool					is_not_escaped(char *s, int index);
 
 /* cleanup.c */
 
-void					free_string_array(char **str);
+void					free_string_array(char ***str);
 void					free_token(t_token **token);
-void					cleanup_executable(t_master *master);
 void					cleanup_before_exit(t_master *master);
 
 /* exit.c */
 
-void					error_exit(t_master *master, char *error_str,
-							bool free_all_exec);
+void					error_exit(t_master *master, char *error_str);
 void					ft_error_exit(t_master *master, char *error_str,
-							int errnum, bool free_all_exec);
+							int errnum);
 void					handle_eof(t_master *master);
 
 /* lexer_mem.c */
@@ -247,7 +242,8 @@ void					set_sigaction_temp(t_master *master);
 
 /* env_utils.c */
 
-void					update_executable_path(t_exec *exec, t_env *env_list);
+void					update_executable_path(t_master *master,
+							t_env *current);
 char					*update_shlvl(t_master *master, char *value,
 							char *name);
 

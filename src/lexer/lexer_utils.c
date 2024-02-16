@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 14:37:21 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:25:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	is_clean(t_token **token)
 {
 	char		type;
 	t_token		*current;
-	const char	*ops[OP] = {"|", "<", "<<", ">", ">>"};
+	const char	*ops[] = {"|", "<", "<<", ">", ">>"};
 
 	current = *token;
 	while (current && current->next)

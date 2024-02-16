@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/15 18:16:41 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:18:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 			break ;
 		}
 		if (write(fd, line_read, ft_strlen(line_read)) == -1)
-			error_exit(master, "write (read_heredoc_into_file)", false);
+			error_exit(master, "write (read_heredoc_into_file)");
 		if (write(fd, "\n", 1) == -1)
-			error_exit(master, "write (read_heredoc_into_file)", false);
+			error_exit(master, "write (read_heredoc_into_file)");
 		free(line_read);
 	}
 }
@@ -55,18 +55,18 @@ int	create_file(t_master *master, t_token **token, int i)
 
 	itoa = ft_itoa(i);
 	if (!itoa)
-		ft_error_exit(master, "ft_itoa (create_file)", ENOMEM, false);
+		ft_error_exit(master, "ft_itoa (create_file)", ENOMEM);
 	filename = ft_strjoin3("/tmp/heredoc_", itoa);
 	if (!filename)
 	{
 		free(itoa);
-		ft_error_exit(master, "ft_strjoin3 (create_file)", ENOMEM, false);
+		ft_error_exit(master, "ft_strjoin3 (create_file)", ENOMEM);
 	}
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		free(filename);
-		error_exit(master, "open (read_heredoc_into_file)", false);
+		error_exit(master, "open (read_heredoc_into_file)");
 	}
 	read_heredoc_into_file(master, fd, (*token)->data);
 	free((*token)->data);

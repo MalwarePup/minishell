@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:43:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:14:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:14:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,16 @@
 #include "minishell.h"
 #include "ft_dprintf.h"
 
-void	error_exit(t_master *master, char *error_str, bool free_all_exec)
+void	error_exit(t_master *master, char *error_str)
 {
 	perror(error_str);
-	if (free_all_exec)
-		cleanup_executable(master);
 	cleanup_before_exit(master);
 	exit(EXIT_FAILURE);
 }
 
-void	ft_error_exit(t_master *master, char *error_str, int errnum,
-	bool free_all_exec)
+void	ft_error_exit(t_master *master, char *error_str, int errnum)
 {
 	ft_dprintf(STDERR_FILENO, "%s: %s\n", error_str, strerror(errnum));
-	if (free_all_exec)
-		cleanup_executable(master);
 	cleanup_before_exit(master);
 	exit(EXIT_FAILURE);
 }
@@ -39,8 +34,8 @@ void	ft_error_exit(t_master *master, char *error_str, int errnum,
 void	handle_eof(t_master *master)
 {
 	rl_clear_history();
-	free_environment_list(master->env_list);
 	free(master->line_read);
+	free_environment_list(master->env_list);
 	if (write(STDOUT_FILENO, "\nexit\n", 6) == -1)
 	{
 		perror("write (handle_eof)");
