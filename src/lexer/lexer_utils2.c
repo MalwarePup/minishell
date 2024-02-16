@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 20:22:05 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 09:54:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ int	creates_redir(char *line_read, size_t *i,
 {
 	t_cmd_type	type;
 	char		*redir;
-	char		sign;
 
 	type = CMD_OTHERS;
-	sign = line_read[*i];
 	type = redir_type(line_read, i);
 	if (type == CMD_ERROR)
 		return (EXIT_FAILURE);
