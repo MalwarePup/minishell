@@ -6,7 +6,7 @@
 /*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 10:20:15 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:44:10 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token)
 	{
 		if (line_read[i] == '|')
 		{
-			if (create_token_node(CMD_PIPE, NULL,
-					token) == EXIT_FAILURE)
+			if (create_token_node(CMD_PIPE, NULL, token)
+				== EXIT_FAILURE || start_operator(CMD_PIPE, token))
 				return (EXIT_FAILURE);
 			i++;
 			continue ;
