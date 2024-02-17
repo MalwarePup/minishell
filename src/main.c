@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:47:53 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 13:56:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ static int	shell_loop(t_master *master)
 {
 	while (1)
 	{
-		if (master->prev_exit_status == 131 || master->prev_exit_status == 132)
-			master->exit_status = 130;
+		if (master->last_command_exit_value == EXIT_INTERRUPTED_HEREDOC
+			|| master->last_command_exit_value == EXIT_INTERRUPTED_TEMP)
+			master->exit_status = EXIT_INTERRUPTED;
 		master->exec = NULL;
 		master->token = NULL;
 		master->pid_list = NULL;
-		master->prev_exit_status = master->exit_status;
+		master->last_command_exit_value = master->exit_status;
 		master->exit_status = 0;
 		restore_sigaction(master);
 		master->line_read = readline("\033[32mminishell:~$ \033[0m");
@@ -55,9 +56,9 @@ int	main(void)
 	master.env_list = NULL;
 	master.pid_list = NULL;
 	master.exit_status = 0;
-	master.prev_exit_status = 0;
+	master.last_command_exit_value = 0;
 	master.line_count = 0;
-	g_exit_status = &master.prev_exit_status;
+	g_exit_status = &master.last_command_exit_value;
 	set_sigaction(&master);
 	manage_environment(&master, &master.env_list);
 	return (shell_loop(&master));

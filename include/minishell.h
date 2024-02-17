@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/17 12:29:30 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 13:56:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,6 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <sys/types.h>
-
-# define EXIT_SUCCESS 0
-# define EXIT_FAILURE 1
-# define EXIT_MISUSE 2
-# define EXIT_CANNOT_EXECUTE 126
-# define EXIT_NOT_FOUND 127
-# define EXIT_INVALID_EXIT 128
-# define EXIT_INTERRUPTED 130
 
 # define STR_BEYOND_LLONG_MAX "9223372036854775808"
 # define STR_BEYOND_LLONG_MIN "9223372036854775809"
@@ -68,6 +60,17 @@ typedef enum e_cmd_type
 	CMD_D_RED_OUT,
 }						t_cmd_type;
 
+typedef enum e_exit_value
+{
+	EXIT_MISUSE = 2,
+	EXIT_CANNOT_EXECUTE = 126,
+	EXIT_NOT_FOUND = 127,
+	EXIT_INVALID_EXIT = 128,
+	EXIT_INTERRUPTED = 130,
+	EXIT_INTERRUPTED_HEREDOC = 131,
+	EXIT_INTERRUPTED_TEMP = 132
+}						t_exit_value;
+
 typedef struct s_env
 {
 	char				*name;
@@ -108,7 +111,7 @@ typedef struct s_master
 	int					argc;
 	int					line_count;
 	int					exit_status;
-	int					prev_exit_status;
+	int					last_command_exit_value;
 	struct sigaction	minishell_sa;
 	struct sigaction	heredoc_sa;
 	struct sigaction	temp_sa;

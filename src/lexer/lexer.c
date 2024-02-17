@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 12:35:17 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 13:59:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static int	creates_redir(t_master *master, char *line_read, size_t *i,
 	if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
 		return (free_token(redirect), EXIT_FAILURE);
 	if (!redir)
-		return (free_token(redirect), free(redir), master->exit_status = 2,
+		return (free_token(redirect), free(redir),
+			master->exit_status = EXIT_MISUSE,
 			ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2), EXIT_FAILURE);
 	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
 		return (free_token(redirect), free(redir), EXIT_FAILURE);
@@ -68,7 +69,8 @@ int	creates_command_pipe(t_master *master, size_t *i, char **data,
 		{
 			if (creates_redir(master, master->line_read, i, redirect)
 				== EXIT_FAILURE)
-				return (free(*data), master->exit_status = 2, EXIT_FAILURE);
+				return (free(*data), master->exit_status = EXIT_MISUSE,
+					EXIT_FAILURE);
 		}
 		else if (master->line_read[*i] != '|')
 		{
@@ -119,8 +121,7 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token)
 			i++;
 			continue ;
 		}
-		if (creates_command_pipe(master, &i, &data, &redirect)
-			== EXIT_FAILURE)
+		if (creates_command_pipe(master, &i, &data, &redirect) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		if (create_token(&data, token, &redirect) == EXIT_FAILURE)
 			return (EXIT_FAILURE);

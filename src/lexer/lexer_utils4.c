@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/16 14:36:47 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:03:19 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	exit_handler(t_master *master, t_token **token)
 		printf(ESTR_OPSTART_P1 ESTR_OPSTART_P2);
 	if (i || is_clean(token) || is_heredoc_pipe(token))
 	{
-		master->exit_status = 2;
+		master->exit_status = EXIT_MISUSE;
 		return (free_token(token), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

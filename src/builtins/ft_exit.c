@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 10:35:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 13:03:19 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	check_arguments(t_master *master, int argc, char **argv)
 	if (argc > 1 && !is_numeric_argument(argv[1]))
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_NUM_ARG, argv[1]);
-		master->exit_status = 2;
+		master->exit_status = EXIT_MISUSE;
 	}
 	else if (argc > 2)
 	{

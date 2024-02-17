@@ -6,11 +6,12 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:23 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/13 13:33:30 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 12:58:36 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "minishell.h"
 
 int	ft_env(t_master *master)

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:45:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 13:56:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 		if (type == CMD_OTHERS)
 			execute_command(master);
 		else
-			master->prev_exit_status = execute_builtin(master, type);
+			master->last_command_exit_value = execute_builtin(master, type);
 		cleanup_before_exit(master);
 		exit(master->exit_status);
 	}
@@ -130,7 +130,7 @@ void	launch_execution(t_master *master)
 	master->exit_status = 0;
 	init_exec(master);
 	launch_heredoc(master);
-	if (master->prev_exit_status == 131)
+	if (master->last_command_exit_value == EXIT_INTERRUPTED_HEREDOC)
 		return ;
 	handle_execution(master, &num_pids);
 	i = -1;
