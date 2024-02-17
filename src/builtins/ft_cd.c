@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 12:34:07 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:47:35 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	update_var_pwd(t_env *env_list)
 	return (EXIT_SUCCESS);
 }
 
-static char	*get_env_value_no_alloc(t_env *env, char *name)
+static char	*getenv_no_alloc(t_env *env, char *name)
 {
 	t_env	*current;
 
@@ -87,7 +87,7 @@ int	ft_cd(int argc, char **argv, t_master *master)
 	}
 	else if (argc != 2)
 	{
-		home_path = get_env_value_no_alloc(master->env_list, "HOME");
+		home_path = getenv_no_alloc(master->env_list, "HOME");
 		if (!home_path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
