@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 14:38:11 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/17 12:35:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int	launch_lexer(t_master *master, char *line_read, t_token **token)
 	i = 0;
 	data = NULL;
 	redirect = NULL;
+	if (is_matched_quotes(master, line_read) == false)
+		return (EXIT_FAILURE);
 	while (line_read[i])
 	{
 		if (line_read[i] == '|')

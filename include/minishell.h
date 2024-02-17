@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/17 12:17:21 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 12:29:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 # define STR_BEYOND_LLONG_MAX "9223372036854775808"
 # define STR_BEYOND_LLONG_MIN "9223372036854775809"
 
-# define ESTR_QUOTE "minishell: syntax error: unmatched quote\n"
-# define ESTR_DQUOTE "minishell: syntax error: unmatched double quote\n"
+# define ESTR_QUOTE "minishell: syntax error near unmatched `%c'\n"
 # define ESTR_UNEXP "minishell: syntax error near unexpected token `%c'\n"
 # define ESTR_OPSTART_P1 "minishell: syntax error near unexpected token"
 # define ESTR_OPSTART_P2 " `newline'\n"

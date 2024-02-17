@@ -6,11 +6,12 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:36:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/14 12:52:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 12:32:22 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
 
@@ -54,9 +55,9 @@ bool	is_matched_quotes(t_master *master, const char *line_read)
 	if (current_quote != '\0')
 	{
 		if (current_quote == '\'')
-			ft_putstr_fd(ESTR_QUOTE, STDERR_FILENO);
+			ft_dprintf(STDERR_FILENO, ESTR_QUOTE, current_quote);
 		else if (current_quote == '\"')
-			ft_putstr_fd(ESTR_DQUOTE, STDERR_FILENO);
+			ft_dprintf(STDERR_FILENO, ESTR_QUOTE, current_quote);
 		master->exit_status = 2;
 		return (false);
 	}
