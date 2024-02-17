@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/16 21:45:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 10:35:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # define EXIT_NOT_FOUND 127
 # define EXIT_INVALID_EXIT 128
 # define EXIT_INTERRUPTED 130
+
+# define STR_BEYOND_LLONG_MAX "9223372036854775808"
+# define STR_BEYOND_LLONG_MIN "9223372036854775809"
 
 # define ESTR_QUOTE "minishell: syntax error: unmatched quote\n"
 # define ESTR_DQUOTE "minishell: syntax error: unmatched double quote\n"

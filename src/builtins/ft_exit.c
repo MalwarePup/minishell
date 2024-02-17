@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:15:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 10:35:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,21 @@
 
 static bool	is_numeric_argument(const char *arg)
 {
-	if (arg[0] == '-' || arg[0] == '+')
+	bool	is_negative;
+
+	is_negative = (arg[0] == '-');
+	if (is_negative || arg[0] == '+')
 		arg++;
+	if (!is_negative)
+	{
+		if (ft_strcmp(arg, STR_BEYOND_LLONG_MAX) == 0)
+			return (false);
+	}
+	else
+	{
+		if (ft_strcmp(arg, STR_BEYOND_LLONG_MIN) == 0)
+			return (false);
+	}
 	while (*arg)
 	{
 		if (!ft_isdigit(*arg))
