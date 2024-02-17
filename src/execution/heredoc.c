@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/16 18:50:06 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/17 11:58:39 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
 	while (1)
 	{
 		line_read = readline("> ");
-		if (delimiter[0]!= '"' && delimiter[0] != '\'')
-			launch_expansion(master, &line_read);
-		replace_str_without_quotes(&line_read);
+		if (delimiter[0]!= '"' || delimiter[0] != '\'')
+			launch_expansion(master, line_read);
+		if (replace_str_without_quotes(&line_read) == EXIT_FAILURE)
+      error_exit(master, "replace_str_without_quotes (read_heredoc_into_file)", false);
 		if (!line_read || master->exit_status == 131)
 		{
 			if (master->prev_exit_status != 131)
