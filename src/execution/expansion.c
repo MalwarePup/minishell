@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 19:22:56 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/17 11:45:20 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static void	process_expansion(t_master *master,
 	free((*exp).value);
 }
 
-char	*launch_expansion(t_master *master, char *str)
+void	launch_expansion(t_master *master, char *str)
 {
 	char		quote;
 	size_t		i;
@@ -108,22 +108,15 @@ char	*launch_expansion(t_master *master, char *str)
 
 	i = 0;
 	quote = 0;
-	if (!(*str))
+	if (!(str))
 		return ;
-	while (**str)
-			printf("%c\n", **str++);
-	while (*str[i])
+	while (str[i])
 	{
-		printf("i: %zu\n", i);
-		condition_while(*str, i, true, &quote);
-		printf("str[i]: %c\n", *str[i]);
-		printf("str[i + 1]: %c\n", *str[i + 1]);
-		if (*str[i] == '$' && quote != '\'' && (ft_isalpha(*str[i + 1])
-				|| *str[i + 1] == '?')
-				&& (i == 0 || (i > 0 && *str[i - 1] != '$')))
-		{
-			return (process_expansion(master, &exp, str, &i));
-		}
+		condition_while(str, i, true, &quote);
+		if (str[i] == '$' && quote != '\'' && (ft_isalpha(str[i + 1])
+				|| str[i + 1] == '?')
+				&& (i == 0 || (i > 0 && str[i - 1] != '$')))
+        process_expansion(master, &exp, &str, &i);
 		else
 			i++;
 	}

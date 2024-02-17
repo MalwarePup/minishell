@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/16 18:53:52 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/02/17 11:45:18 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int						replace_str_without_quotes(char **str);
 
 /* expansion.c */
 
-void					launch_expansion(t_master *master, char **str);
+void					launch_expansion(t_master *master, char *str);
 void					launch_expansion_main(t_master *master);
 
 /* split_args.c */
