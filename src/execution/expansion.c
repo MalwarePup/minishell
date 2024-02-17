@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 13:00:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:39:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ static char	*create_new_string_with_value(t_master *master, t_expansion *exp)
 	char	*new_str;
 	size_t	len;
 
-	len = ft_strlen(master->argv[(*exp).i]) + ft_strlen((*exp).value) + 1;
+	len = ft_strlen(master->argv[exp->i]) + ft_strlen(exp->value) + 1;
 	new_str = malloc(len);
 	if (!new_str)
 	{
-		free((*exp).name);
-		free((*exp).value);
+		free(exp->name);
+		free(exp->value);
 		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
 		exit(EXIT_FAILURE);
 	}
-	ft_strlcpy(new_str, master->argv[(*exp).i],
-		(*exp).substr_start - master->argv[(*exp).i] + 1);
-	ft_strlcat(new_str, (*exp).value, len);
-	ft_strlcat(new_str, (*exp).substr_start + ft_strlen((*exp).name) + 1,
+	ft_strlcpy(new_str, master->argv[exp->i],
+		exp->substr_start - master->argv[exp->i] + 1);
+	ft_strlcat(new_str, exp->value, len);
+	ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1,
 		len);
 	return (new_str);
 }
@@ -43,17 +43,17 @@ static char	*create_new_string_without_value(t_master *master, t_expansion *exp)
 	char	*new_str;
 	size_t	len;
 
-	len = ft_strlen(master->argv[(*exp).i]) + 1;
+	len = ft_strlen(master->argv[exp->i]) + 1;
 	new_str = malloc(len);
 	if (!new_str)
 	{
-		free((*exp).name);
+		free(exp->name);
 		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
 		exit(EXIT_FAILURE);
 	}
-	ft_strlcpy(new_str, master->argv[(*exp).i],
-		(*exp).substr_start - master->argv[(*exp).i] + 1);
-	ft_strlcat(new_str, (*exp).substr_start + ft_strlen((*exp).name) + 1,
+	ft_strlcpy(new_str, master->argv[exp->i],
+		exp->substr_start - master->argv[exp->i] + 1);
+	ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1,
 		len);
 	return (new_str);
 }
@@ -62,36 +62,36 @@ static void	process_expansion_replace(t_master *master, t_expansion *exp)
 {
 	char	*new_str;
 
-	if ((*exp).value)
+	if (exp->value)
 		new_str = create_new_string_with_value(master, exp);
 	else
 		new_str = create_new_string_without_value(master, exp);
-	free(master->argv[(*exp).i]);
-	master->argv[(*exp).i] = new_str;
+	free(master->argv[exp->i]);
+	master->argv[exp->i] = new_str;
 }
 
 static void	process_expansion(t_master *master, t_expansion *exp)
 {
 	exp->substr_start = master->argv[exp->i] + exp->j;
-	if (master->argv[(*exp).i][(*exp).j + 1] == '?')
+	if (master->argv[exp->i][exp->j + 1] == '?')
 	{
-		(*exp).name = extract_expansion_name(master, (*exp).substr_start);
-		(*exp).value = ft_itoa(master->last_command_exit_value);
-		if (!(*exp).value)
+		exp->name = extract_expansion_name(master, exp->substr_start);
+		exp->value = ft_itoa(master->last_command_exit_value);
+		if (!exp->value)
 		{
-			free((*exp).name);
+			free(exp->name);
 			ft_error_exit(master, "ft_itoa (process_expansion)", ENOMEM);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		(*exp).name = extract_expansion_name(master, (*exp).substr_start);
-		(*exp).value = get_env_value(master, master->env_list, (*exp).name);
+		exp->name = extract_expansion_name(master, exp->substr_start);
+		exp->value = get_env_value(master, master->env_list, exp->name);
 	}
 	process_expansion_replace(master, exp);
-	free((*exp).name);
-	free((*exp).value);
+	free(exp->name);
+	free(exp->value);
 }
 
 void	launch_expansion(t_master *master)
