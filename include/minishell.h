@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/17 13:56:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:36:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,6 @@ typedef struct s_expansion
 	char				*value;
 	char				*substr_start;
 	bool				double_quote;
-	t_token				*current;
-	t_token				*redir;
 }						t_expansion;
 
 typedef struct s_builtin
