@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 13:47:36 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 12:01:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 #include <stdio.h>
 #include "minishell.h"
 #include "libft.h"
-
-bool	is_not_escaped(char *s, int index)
-{
-	if (index == 0)
-		return (true);
-	else if (index == 1)
-		return (s[index - 1] != '\\');
-	else
-		return (s[index - 1] != '\\' || s[index - 2] == '\\');
-}
 
 char	*create_echo_arg(char *arg, size_t *j)
 {
@@ -49,8 +39,7 @@ char	*creates_quoted_arg(t_master *master, char *s, size_t *j)
 		exit(EXIT_FAILURE);
 	}
 	arg[i++] = quote;
-	while (s[*j + i] != '\0' && (s[*j + i] != quote
-			|| (!is_not_escaped(s, *j + i) && s[*j + i] == quote)))
+	while (s[*j + i] != '\0' && s[*j + i] != quote)
 	{
 		arg[i] = s[*j + i];
 		i++;
@@ -74,9 +63,8 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
-	while (s[*j + i] != '\0' && !ft_isspace(s[*j + i]) && ((s[*j + i] != '"'
-				&& s[*j + i] != '\'') || (!is_not_escaped(s, *j + i)
-				&& (s[*j + i] == '"' || s[*j + i] == '\''))))
+	while (s[*j + i] != '\0' && !ft_isspace(s[*j + i]) && (s[*j + i] != '"'
+				&& s[*j + i] != '\''))
 	{
 		arg[i] = s[*j + i];
 		i++;
@@ -101,9 +89,7 @@ char	*creates_arg_for_echo(t_master *master, char *s, size_t *j)
 	}
 	if (!ft_strncmp(s + *j, "echo ", 5) && *j == 0)
 		return (create_echo_arg(arg, j));
-	while (s[*j + i] != '\0' && ((s[*j + i] != '"'
-				&& s[*j + i] != '\'') || (!is_not_escaped(s, *j + i)
-				&& (s[*j + i] == '"' || s[*j + i] == '\''))))
+	while (s[*j + i] != '\0' && (s[*j + i] != '"' && s[*j + i] != '\''))
 	{
 		arg[i] = s[*j + i];
 		i++;

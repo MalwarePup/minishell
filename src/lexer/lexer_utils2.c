@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 13:47:41 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 12:00:18 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,8 @@ bool	condition_while(char *line_read, size_t i,
 				&& line_read[i] != '>'
 				&& *quote == 0) || *quote != 0))
 	{
-		if (is_not_escaped(line_read, i)
-			&& (((line_read[i] == '\''
-						|| line_read[i] == '\"')
-					&& *quote == 0)
-				|| (line_read[i] == *quote && *quote != 0)))
+		if (((line_read[i] == '\'' || line_read[i] == '"') && *quote == 0)
+			|| (line_read[i] == *quote && *quote != 0))
 		{
 			if (*quote != 0)
 				*quote = 0;

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/18 18:55:09 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 11:56:31 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ static char	*ft_strjoin_char(char *str, char c)
 	return (new_str);
 }
 
-void	replace_argv_without_quotes(t_master *master)
+void replace_argv_without_quotes(t_master *master)
 {
-	int		i;
-	int		j;
-	char	quote_type;
-	char	*arg;
-	char	*new_arg;
+	int i;
+	int j;
+	char *arg;
+	char *new_arg;
 
 	i = -1;
 	while (master->argv[++i])
@@ -65,15 +64,11 @@ void	replace_argv_without_quotes(t_master *master)
 		j = -1;
 		while (arg[++j])
 		{
-			if ((arg[j] == '"' || arg[j] == '\'') && !is_escaped(arg, j))
+			if (arg[j] == '"' || arg[j] == '\'')
 			{
-				quote_type = arg[j];
-				while (arg[++j] && (arg[j] != quote_type || is_escaped(arg, j)))
+				char quote_type = arg[j];
+				while (arg[++j] && arg[j] != quote_type)
 				{
-					if (is_escaped(arg, j) && arg[j + 1] == quote_type)
-					{
-						j++;
-					}
 					new_arg = ft_strjoin_char(new_arg, arg[j]);
 				}
 			}
