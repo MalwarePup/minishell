@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/19 12:51:05 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/19 13:23:37 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,10 @@ char					*creates_arg_for_echo(t_master *master, char *s,
 							size_t *j);
 char					*creates_quoted_arg(t_master *master, char *s,
 							size_t *j);
-bool					is_not_escaped(char *s, int index);
+
+/* replace_argv_without_quotes.c */
+
+void					replace_argv_without_quotes(t_master *master);
 
 /* cleanup.c */
 
@@ -227,7 +230,6 @@ int						launch_lexer(t_master *master, char *line_read,
 
 /* quote_handling.c */
 
-bool					is_escaped(const char *str, int index);
 bool					is_matched_quotes(t_master *master, const char *str);
 
 /* handlers.c */
