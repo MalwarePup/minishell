@@ -6,118 +6,117 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 16:39:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:31:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <errno.h>
-#include "minishell.h"
-#include "libft.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include "libft.h"
+#include "minishell.h"
 
-static char	*create_new_string_with_value(t_master *master, t_expansion *exp)
+static char	*create_new_string_with_value(t_master *master, char *str,
+	t_expansion *exp)
 {
 	char	*new_str;
 	size_t	len;
 
-	len = ft_strlen(master->argv[exp->i]) + ft_strlen(exp->value) + 1;
+	exp->is_expanded = true;
+	len = ft_strlen(str) - ft_strlen(exp->name) - 1 + ft_strlen(exp->value) + 1;
 	new_str = malloc(len);
 	if (!new_str)
 	{
 		free(exp->name);
 		free(exp->value);
 		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
-		exit(EXIT_FAILURE);
 	}
-	ft_strlcpy(new_str, master->argv[exp->i],
-		exp->substr_start - master->argv[exp->i] + 1);
+	ft_strlcpy(new_str, str, exp->substr_start - str + 1);
 	ft_strlcat(new_str, exp->value, len);
-	ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1,
-		len);
+	ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1, len);
 	return (new_str);
 }
 
-static char	*create_new_string_without_value(t_master *master, t_expansion *exp)
+static char	*create_new_string_without_value(t_master *master, char *str,
+	t_expansion *exp)
 {
 	char	*new_str;
 	size_t	len;
 
-	len = ft_strlen(master->argv[exp->i]) + 1;
+	exp->is_expanded = true;
+	len = ft_strlen(str) - ft_strlen(exp->name) - 1 + 1;
 	new_str = malloc(len);
 	if (!new_str)
 	{
 		free(exp->name);
-		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
-		exit(EXIT_FAILURE);
+		ft_error_exit(master, "malloc (create_new_string_without_value)",
+			ENOMEM);
 	}
-	ft_strlcpy(new_str, master->argv[exp->i],
-		exp->substr_start - master->argv[exp->i] + 1);
-	ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1,
-		len);
+	if (len == 1)
+		new_str[0] = '\0';
+	else
+	{
+		ft_strlcpy(new_str, str, exp->substr_start - str + 1);
+		ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1, len);
+	}
 	return (new_str);
 }
 
-static void	process_expansion_replace(t_master *master, t_expansion *exp)
+static void	process_expansion_replace(t_master *master, char **str,
+	t_expansion *exp)
 {
 	char	*new_str;
 
 	if (exp->value)
-		new_str = create_new_string_with_value(master, exp);
+		new_str = create_new_string_with_value(master, *str, exp);
 	else
-		new_str = create_new_string_without_value(master, exp);
-	free(master->argv[exp->i]);
-	master->argv[exp->i] = new_str;
+		new_str = create_new_string_without_value(master, *str, exp);
+	free(*str);
+	*str = new_str;
 }
 
-static void	process_expansion(t_master *master, t_expansion *exp)
+static void	process_expansion(t_master *master, char **str, t_expansion *exp)
 {
-	exp->substr_start = master->argv[exp->i] + exp->j;
-	if (master->argv[exp->i][exp->j + 1] == '?')
+	int		single_quote_count;
+	bool	inside_double_quotes;
+
+	if ((*str)[exp->i + 1] == '\0' || ft_isspace((*str)[exp->i + 1])
+		|| ((*str)[exp->i - 1] == '"' && (*str)[exp->i + 1] == '"'))
+		return ;
+	inside_double_quotes = is_inside_double_quotes(*str, exp->i);
+	single_quote_count = count_single_quotes_until_pos(*str, exp->i);
+	if (inside_double_quotes || (single_quote_count % 2 == 0))
 	{
+		exp->substr_start = (*str) + exp->i;
 		exp->name = extract_expansion_name(master, exp->substr_start);
-		exp->value = ft_itoa(master->last_command_exit_value);
-		if (!exp->value)
-		{
-			free(exp->name);
-			ft_error_exit(master, "ft_itoa (process_expansion)", ENOMEM);
-			exit(EXIT_FAILURE);
-		}
+		if ((*str)[exp->i + 1] == '?')
+			exp->value = ft_itoa(master->last_command_exit_value);
+		else
+			exp->value = getenv_value(master, master->env_list, exp->name);
+		process_expansion_replace(master, str, exp);
 	}
-	else
-	{
-		exp->name = extract_expansion_name(master, exp->substr_start);
-		exp->value = get_env_value(master, master->env_list, exp->name);
-	}
-	process_expansion_replace(master, exp);
-	free(exp->name);
-	free(exp->value);
 }
 
-void	launch_expansion(t_master *master)
+void	launch_expansion(t_master *master, char **str)
 {
 	t_expansion	exp;
-	char		quote;
 
 	exp.i = 0;
-	quote = 0;
-	if (!master->exec || !master->argv)
-		return ;
-	while (master->argc > 0 && master->argv[exp.i])
+	exp.is_expanded = false;
+	while ((*str)[exp.i])
 	{
-		exp.j = 0;
-		while (master->argv[exp.i][exp.j])
+		if ((*str)[exp.i] == '$')
 		{
-			condition_while(master->argv[exp.i], exp.j, true, &quote);
-			if (master->argv[exp.i][exp.j] == '$' && quote != '\''
-				&& (ft_isalpha(master->argv[exp.i][exp.j + 1])
-				|| master->argv[exp.i][exp.j + 1] == '?') && (exp.j == 0
-				|| (exp.j > 0 && master->argv[exp.i][exp.j - 1] != '$')))
-				process_expansion(master, &exp);
-			else
-				exp.j++;
+			process_expansion(master, str, &exp);
+			if (ft_strlen(*str) < 1)
+				break ;
+			else if (exp.is_expanded)
+			{
+				exp.is_expanded = false;
+				exp.i = 0;
+				continue ;
+			}
 		}
-		replace_argv_without_quotes(master, &exp);
 		exp.i++;
 	}
 }

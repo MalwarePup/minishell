@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 13:56:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/18 22:43:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ static int	shell_loop(t_master *master)
 		master->line_count++;
 		if (*master->line_read)
 			add_history(master->line_read);
-		if (launch_lexer(master, master->line_read, &master->token)
-			== EXIT_SUCCESS)
+		launch_expansion(master, &master->line_read);
+		if (is_matched_quotes(master, master->line_read)
+			&& !launch_lexer(master, master->line_read, &master->token))
 			launch_execution(master);
 		free(master->line_read);
 		free_token(&master->token);

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:36:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 13:03:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:34:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @param index The index of the character to check.
  * @return 1 if the character is escaped, 0 otherwise.
  */
-static bool	is_escaped(const char *str, int index)
+bool	is_escaped(const char *str, int index)
 {
 	int	backslashes;
 
@@ -35,20 +35,20 @@ static bool	is_escaped(const char *str, int index)
 	return (backslashes % 2 != 0);
 }
 
-bool	is_matched_quotes(t_master *master, const char *line_read)
+bool	is_matched_quotes(t_master *master, const char *str)
 {
 	size_t	i;
 	char	current_quote;
 
 	i = -1;
 	current_quote = '\0';
-	while (line_read[++i])
+	while (str[++i])
 	{
-		if (line_read[i] == '\'' || line_read[i] == '\"')
+		if (str[i] == '\'' || str[i] == '\"')
 		{
-			if (!is_escaped(line_read, i) && current_quote == '\0')
-				current_quote = line_read[i];
-			else if (!is_escaped(line_read, i) && current_quote == line_read[i])
+			if (!is_escaped(str, i) && current_quote == '\0')
+				current_quote = str[i];
+			else if (!is_escaped(str, i) && current_quote == str[i])
 				current_quote = '\0';
 		}
 	}

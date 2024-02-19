@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/17 16:36:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:37:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,10 @@ typedef struct s_master
 typedef struct s_expansion
 {
 	size_t				i;
-	size_t				j;
 	char				*name;
 	char				*value;
 	char				*substr_start;
-	bool				double_quote;
+	bool				is_expanded;
 }						t_expansion;
 
 typedef struct s_builtin
@@ -147,6 +146,7 @@ t_cmd_type				execute_command_or_builtin(t_master *master);
 /*command_execution_utils.c */
 
 int						count_pipe(t_token *token);
+
 /* execution_mem.c */
 
 void					create_arguments(t_master *master, t_token *token);
@@ -159,20 +159,20 @@ void					execute_command(t_master *master);
 
 /* execution.c */
 
+void					replace_argv_without_quotes(t_master *master);
 void					launch_execution(t_master *master);
 
 /* expansion_utils.c */
 
-char					*get_env_value(t_master *master, t_env *env,
+char					*getenv_value(t_master *master, t_env *env,
 							char *name);
 char					*extract_expansion_name(t_master *master, char *str);
-int						replace_argv_without_quotes(t_master *master,
-							t_expansion *exp);
-int						replace_redir_without_quotes(char **str);
+bool					is_inside_double_quotes(char *str, size_t pos);
+size_t					count_single_quotes_until_pos(char *str, size_t pos);
 
 /* expansion.c */
 
-void					launch_expansion(t_master *master);
+void					launch_expansion(t_master *master, char **str);
 
 /* split_args.c */
 
@@ -227,8 +227,8 @@ int						launch_lexer(t_master *master, char *line_read,
 
 /* quote_handling.c */
 
-bool					is_matched_quotes(t_master *master,
-							const char *line_read);
+bool					is_escaped(const char *str, int index);
+bool					is_matched_quotes(t_master *master, const char *str);
 
 /* handlers.c */
 

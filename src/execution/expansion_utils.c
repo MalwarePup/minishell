@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:17:35 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 10:31:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-char	*get_env_value(t_master *master, t_env *env, char *name)
+char	*getenv_value(t_master *master, t_env *env, char *name)
 {
 	char	*value;
 
@@ -58,7 +58,7 @@ char	*extract_expansion_name(t_master *master, char *str)
 		return (name);
 	}
 	while (str[i] && str[i] != '$' && !ft_isspace(str[i])
-		&& str[i] != '\'' && str[i] != '\"')
+		&& str[i] != '\'' && str[i] != '"')
 		i++;
 	name = ft_strndup(str + 1, i - 1);
 	if (!name)
@@ -66,69 +66,34 @@ char	*extract_expansion_name(t_master *master, char *str)
 	return (name);
 }
 
-int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)
+bool	is_inside_double_quotes(char *str, size_t pos)
 {
-	*ex_quote = *quote;
-	condition_while(str, *i, true, quote);
-	if (*ex_quote != *quote)
+	size_t	i;
+	bool	inside_double_quotes;
+
+	i = 0;
+	inside_double_quotes = false;
+	while (i < pos)
 	{
-		(*i)++;
-		return (true);
+		if (str[i] == '"')
+			inside_double_quotes = !inside_double_quotes;
+		i++;
 	}
-	return (false);
+	return (inside_double_quotes);
 }
 
-int	replace_argv_without_quotes(t_master *master, t_expansion *exp)
+size_t	count_single_quotes_until_pos(char *str, size_t pos)
 {
-	char	*new_str;
-	char	quote;
-	char	ex_quote;
-	size_t	ij[2];
+	size_t	i;
+	size_t	count;
 
-	quote = 0;
-	ex_quote = 0;
-	ij[0] = 0;
-	ij[1] = 0;
-	new_str = malloc(sizeof(char)
-			* (ft_strlen(master->argv[exp->i]) + 1));
-	if (!new_str)
-		return (EXIT_FAILURE);
-	while (master->argv[exp->i][ij[0]])
+	i = 0;
+	count = 0;
+	while (i < pos)
 	{
-		if (to_pass(master->argv[exp->i], &quote, &ex_quote, &ij[0]))
-			continue ;
-		new_str[ij[1]++] = master->argv[exp->i][ij[0]++];
+		if (str[i] == '\'')
+			count++;
+		i++;
 	}
-	new_str[ij[1]] = '\0';
-	free(master->argv[exp->i]);
-	master->argv[exp->i] = new_str;
-	return (EXIT_SUCCESS);
-}
-
-int	replace_redir_without_quotes(char **str)
-{
-	char	*new_str;
-	char	*test;
-	char	quote;
-	char	ex_quote;
-	size_t	ij[2];
-
-	quote = 0;
-	ex_quote = 0;
-	ij[0] = 0;
-	ij[1] = 0;
-	test = malloc(sizeof(char) * (ft_strlen(*str) + 1));
-	ft_strlcpy(test, *str, ft_strlen(*str) + 1);
-	new_str = malloc(sizeof(char)
-			* (ft_strlen(*str) + 1));
-	if (!new_str)
-		return (free(*str), EXIT_FAILURE);
-	while (test[ij[0]])
-	{
-		if (to_pass(test, &quote, &ex_quote, &ij[0]))
-			continue ;
-		new_str[ij[1]++] = test[ij[0]++];
-	}
-	new_str[ij[1]] = '\0';
-	return (free(*str), *str = new_str, free(test), EXIT_SUCCESS);
+	return (count);
 }
