@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/19 13:23:37 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/19 13:27:03 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ char					*getenv_value(t_master *master, t_env *env,
 							char *name);
 char					*extract_expansion_name(t_master *master, char *str);
 bool          is_valid_expansion_name(const char *name);
+void          init_expansion(t_expansion *exp);
 
 /* expansion.c */
 

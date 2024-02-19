@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 13:18:54 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/19 13:27:39 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ void	launch_expansion(t_master *master, char **str)
 {
 	t_expansion	exp;
 
-	exp.i = 0;
-	exp.is_expanded = false;
-  exp.quote = 0;
+  init_expansion(&exp);
 	while ((*str)[exp.i])
 	{
     condition_while(*str, exp.i, true, &exp.quote);
@@ -111,9 +109,7 @@ void	launch_expansion(t_master *master, char **str)
 				break ;
 			else if (exp.is_expanded)
 			{
-				exp.is_expanded = false;
-				exp.i = 0;
-        exp.quote = 0;
+        init_expansion(&exp);
 				continue ;
 			}
 		}

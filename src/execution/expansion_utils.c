@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 12:58:12 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/19 13:27:15 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,14 @@ bool  is_valid_expansion_name(const char *name)
         p++;
     }
     return (true);
+}
+
+void init_expansion(t_expansion *exp)
+{
+  exp->i = 0;
+  exp->quote = 0;
+  exp->is_expanded = false;
+  exp->substr_start = NULL;
+  exp->name = NULL;
+  exp->value = NULL;
 }
