@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/17 13:56:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 15:53:39 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,28 @@
 #include "minishell.h"
 #include "ft_dprintf.h"
 
-void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter)
+bool is_expandable(char *str)
+{
+  size_t i;
+
+  i = -1;
+  while ((str)[++i])
+  {
+    if (str[i] == '"' || str[i] == '\'')
+      return (false);
+  }
+  return (true);
+}
+void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
+  bool expand)
 {
 	char	*line_read;
 
 	while (1)
 	{
 		line_read = readline("> ");
+    if (expand)
+      launch_expansion(master, &line_read);
 		if (!line_read || master->exit_status == EXIT_INTERRUPTED_HEREDOC)
 		{
 			if (master->last_command_exit_value != EXIT_INTERRUPTED_HEREDOC)
@@ -52,6 +67,7 @@ int	create_file(t_master *master, t_token **token, int i)
 	int		fd;
 	char	*filename;
 	char	*itoa;
+  bool expand;
 
 	itoa = ft_itoa(i);
 	if (!itoa)
@@ -68,10 +84,10 @@ int	create_file(t_master *master, t_token **token, int i)
 		free(filename);
 		error_exit(master, "open (read_heredoc_into_file)");
 	}
-	read_heredoc_into_file(master, fd, (*token)->data);
-	free((*token)->data);
-	(*token)->data = filename;
-	return (fd);
+  expand = is_expandable((*token)->data);
+  replace_redir_without_quotes(master, &((*token)->data));
+	read_heredoc_into_file(master, fd, (*token)->data, expand);
+	return (free((*token)->data), (*token)->data = filename, fd);
 }
 
 void	launch_heredoc(t_master *master)

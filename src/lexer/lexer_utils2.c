@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 12:00:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:01:14 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 			type = CMD_RED_IN;
 	}
 	return (type);
+}
+void  exit_redir(t_master *master, t_token **token)
+{
+	master->exit_status = EXIT_MISUSE;
+	ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
+  free_token(token);
 }
 
 int	ft_lstdupp(t_token **token, t_token **new)

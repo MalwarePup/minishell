@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/16 21:18:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:29:22 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	launch_redirection(t_master *master, t_token *token)
 {
 	while (token)
 	{
+    replace_redir_without_quotes(master, &token->data);
 		if (token->type == CMD_RED_IN)
 			redirect(master, token->data, O_RDONLY, STDIN_FILENO);
 		else if (token->type == CMD_RED_OUT)

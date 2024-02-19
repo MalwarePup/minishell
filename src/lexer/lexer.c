@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 10:35:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:38:21 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)
 // 	}
 // }
 
-static int	replace_redir_without_quotes(char **str)
+void replace_redir_without_quotes(t_master *master, char **str)
 {
 	char	*new_str;
 	char	*test;
@@ -76,7 +76,7 @@ static int	replace_redir_without_quotes(char **str)
 	new_str = malloc(sizeof(char)
 			* (ft_strlen(*str) + 1));
 	if (!new_str)
-		return (free(*str), EXIT_FAILURE);
+		return (free(*str), error_exit(master, "malloc error"));
 	while (test[ij[0]])
 	{
 		if (to_pass(test, &quote, &ex_quote, &ij[0]))
@@ -84,7 +84,7 @@ static int	replace_redir_without_quotes(char **str)
 		new_str[ij[1]++] = test[ij[0]++];
 	}
 	new_str[ij[1]] = '\0';
-	return (free(*str), *str = new_str, free(test), EXIT_SUCCESS);
+	return (free(*str), *str = new_str, free(test));
 }
 
 
@@ -100,16 +100,10 @@ static int	creates_redir(t_master *master, char *line_read, size_t *i,
 		return (free_token(redirect), EXIT_FAILURE);
 	redir = creates_data(line_read, i, false);
 	if (!redir)
-		return (free_token(redirect), EXIT_FAILURE);
+		return (exit_redir(master, redirect), EXIT_FAILURE);
 	redir = trim_spaces(redir);
 	if (!redir)
-		return (free_token(redirect), EXIT_FAILURE);
-	if (replace_redir_without_quotes(&redir) == EXIT_FAILURE)
-		return (free_token(redirect), EXIT_FAILURE);
-	if (!redir)
-		return (free_token(redirect), free(redir),
-			master->exit_status = EXIT_MISUSE,
-			ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2), EXIT_FAILURE);
+		return (exit_redir(master, redirect), EXIT_FAILURE);
 	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
 		return (free_token(redirect), free(redir), EXIT_FAILURE);
 	return (EXIT_SUCCESS);

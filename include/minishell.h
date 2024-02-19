@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/19 13:27:03 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/19 14:37:55 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ int						ft_lstdupp(t_token **token, t_token **new);
 bool					condition_while(char *line_read, size_t i, bool command,
 							char *quote);
 char					*creates_data(char *line_read, size_t *i, bool command);
+void          exit_redir(t_master *master, t_token **token);
 
 /* lexer_utils4.c */
 
@@ -228,6 +229,7 @@ int						exit_handler(t_master *master, t_token **token);
 char					*trim_spaces(char *str);
 int						launch_lexer(t_master *master, char *line_read,
 							t_token **token);
+void          replace_redir_without_quotes(t_master *master, char **str);
 
 /* quote_handling.c */
 
