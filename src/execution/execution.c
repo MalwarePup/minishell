@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 11:56:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 12:59:48 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,72 +15,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "minishell.h"
-
-#include "libft.h"
-
-void	print_string_array(char **array)
-{
-	int	i;
-
-	i = -1;
-	while (array[++i])
-		printf("%s\n", array[i]);
-}
-
-static char	*ft_strjoin_char(char *str, char c)
-{
-	int		len;
-	char	*new_str;
-	int		i;
-
-	len = ft_strlen(str);
-	new_str = malloc((len + 2));
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		new_str[i] = str[i];
-		i++;
-	}
-	new_str[i] = c;
-	new_str[i + 1] = '\0';
-	free(str);
-	return (new_str);
-}
-
-void replace_argv_without_quotes(t_master *master)
-{
-	int i;
-	int j;
-	char *arg;
-	char *new_arg;
-
-	i = -1;
-	while (master->argv[++i])
-	{
-		arg = master->argv[i];
-		new_arg = ft_strdup("");
-		j = -1;
-		while (arg[++j])
-		{
-			if (arg[j] == '"' || arg[j] == '\'')
-			{
-				char quote_type = arg[j];
-				while (arg[++j] && arg[j] != quote_type)
-				{
-					new_arg = ft_strjoin_char(new_arg, arg[j]);
-				}
-			}
-			else
-			{
-				new_arg = ft_strjoin_char(new_arg, arg[j]);
-			}
-		}
-		free(master->argv[i]);
-		master->argv[i] = new_arg;
-	}
-}
 
 static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 {

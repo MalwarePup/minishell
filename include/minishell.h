@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/19 11:57:04 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 13:14:47 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,10 @@ char					*creates_arg_for_echo(t_master *master, char *s,
 							size_t *j);
 char					*creates_quoted_arg(t_master *master, char *s,
 							size_t *j);
+
+/* replace_argv_without_quotes.c */
+
+void					replace_argv_without_quotes(t_master *master);
 
 /* cleanup.c */
 
