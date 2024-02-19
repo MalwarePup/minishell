@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 10:31:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 12:58:12 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,34 +66,19 @@ char	*extract_expansion_name(t_master *master, char *str)
 	return (name);
 }
 
-bool	is_inside_double_quotes(char *str, size_t pos)
+bool  is_valid_expansion_name(const char *name)
 {
-	size_t	i;
-	bool	inside_double_quotes;
+    const char *p = name;
 
-	i = 0;
-	inside_double_quotes = false;
-	while (i < pos)
-	{
-		if (str[i] == '"')
-			inside_double_quotes = !inside_double_quotes;
-		i++;
-	}
-	return (inside_double_quotes);
-}
-
-size_t	count_single_quotes_until_pos(char *str, size_t pos)
-{
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = 0;
-	while (i < pos)
-	{
-		if (str[i] == '\'')
-			count++;
-		i++;
-	}
-	return (count);
+    if (!name || !*name)
+        return (true);
+    if (ft_isdigit(name[0]))
+        return (false);
+    while (*p)
+    {
+        if (!ft_isalnum(*p) && *p != '_' && *p != '\"' && *p != '\'')
+            return (false);
+        p++;
+    }
+    return (true);
 }

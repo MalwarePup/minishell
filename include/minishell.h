@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/19 10:37:33 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/19 12:51:05 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef struct s_expansion
 	char				*value;
 	char				*substr_start;
 	bool				is_expanded;
+  char        quote;
 }						t_expansion;
 
 typedef struct s_builtin
@@ -167,12 +168,11 @@ void					launch_execution(t_master *master);
 char					*getenv_value(t_master *master, t_env *env,
 							char *name);
 char					*extract_expansion_name(t_master *master, char *str);
-bool					is_inside_double_quotes(char *str, size_t pos);
-size_t					count_single_quotes_until_pos(char *str, size_t pos);
+bool          is_valid_expansion_name(const char *name);
 
 /* expansion.c */
 
-void					launch_expansion(t_master *master, char **str);
+void          launch_expansion(t_master *master, char **str);
 
 /* split_args.c */
 
