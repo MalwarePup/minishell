@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/20 17:55:16 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 18:07:30 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	lexer_exit(t_master *master, t_lexer *lexer, char *str)
 	clean_lexer(lexer);
 	free_token(&master->token);
 	master->token = NULL;
-	perror(str);
+	error_exit(master, str);
 }
 
 int	last_operator(t_master *master)
