@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 13:27:39 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 12:36:30 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,30 +78,30 @@ static void	process_expansion_replace(t_master *master, char **str,
 static void	process_expansion(t_master *master, char **str, t_expansion *exp)
 {
 	if ((*str)[exp->i + 1] == '\0' || ft_isspace((*str)[exp->i + 1]) ||
-    ((*str)[exp->i + 1] == '"' && exp->quote == '"'))
+		((*str)[exp->i + 1] == '"' && exp->quote == '"'))
 		return ;
-  exp->substr_start = (*str) + exp->i;
-  exp->name = extract_expansion_name(master, exp->substr_start);
-  if (!is_valid_expansion_name(exp->name) && (*str)[exp->i + 1] != '?')
-  {
-    free(exp->name);
-    return ;
-  }
-  if ((*str)[exp->i + 1] == '?')
-    exp->value = ft_itoa(master->last_command_exit_value);
-  else
-    exp->value = getenv_value(master, master->env_list, exp->name);
-  process_expansion_replace(master, str, exp);
+	exp->substr_start = (*str) + exp->i;
+	exp->name = extract_expansion_name(master, exp->substr_start);
+	if (!is_valid_expansion_name(exp->name) && (*str)[exp->i + 1] != '?')
+	{
+		free(exp->name);
+		return ;
+	}
+	if ((*str)[exp->i + 1] == '?')
+		exp->value = ft_itoa(master->last_command_exit_value);
+	else
+		exp->value = getenv_value(master, master->env_list, exp->name);
+	process_expansion_replace(master, str, exp);
 }
 
 void	launch_expansion(t_master *master, char **str)
 {
 	t_expansion	exp;
 
-  init_expansion(&exp);
+	init_expansion(&exp);
 	while ((*str)[exp.i])
 	{
-    condition_while(*str, exp.i, true, &exp.quote);
+		condition_while(*str, exp.i, true, &exp.quote);
 		if ((*str)[exp.i] == '$' && exp.quote != '\'')
 		{
 			process_expansion(master, str, &exp);
@@ -109,7 +109,7 @@ void	launch_expansion(t_master *master, char **str)
 				break ;
 			else if (exp.is_expanded)
 			{
-        init_expansion(&exp);
+				init_expansion(&exp);
 				continue ;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/19 14:29:22 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 12:35:39 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	launch_redirection(t_master *master, t_token *token)
 {
 	while (token)
 	{
-    replace_redir_without_quotes(master, &token->data);
+		replace_redir_without_quotes(master, &token->data);
 		if (token->type == CMD_RED_IN)
 			redirect(master, token->data, O_RDONLY, STDIN_FILENO);
 		else if (token->type == CMD_RED_OUT)
