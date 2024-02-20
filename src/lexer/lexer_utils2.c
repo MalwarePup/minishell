@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 14:01:14 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 12:17:16 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 			(*i)++;
 		}
 		else
-			return (ft_dprintf(STDOUT_FILENO, ESTR_UNEXP, redir), CMD_ERROR);
+			return (ft_dprintf(STDERR_FILENO, ESTR_UNEXP, redir), CMD_ERROR);
 	}
 	else
 	{
@@ -44,14 +44,30 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 	}
 	return (type);
 }
-void  exit_redir(t_master *master, t_token **token)
+
+void	exit_redir(t_master *master, t_lexer *lexer, size_t i)
 {
 	master->exit_status = EXIT_MISUSE;
-	ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
-  free_token(token);
+	if (master->line_read[i] == '|')
+		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
+	else if (master->line_read[i] == 0)
+		ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
+	else if (master->line_read[i] == '<' && master->line_read[i + 1] != '<')
+		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '<');
+	else if (master->line_read[i] == '>' && master->line_read[i + 1] != '>')
+		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '>');
+	else if (master->line_read[i] == '>' && master->line_read[i + 1] == '>')
+		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, ">>");
+	else if (master->line_read[i] == '<' && master->line_read[i + 1] == '<')
+		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, "<<");
+	else
+		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, master->line_read[i]);
+	clean_lexer(lexer);
+	free_token(&master->token);
 }
 
-int	ft_lstdupp(t_token **token, t_token **new)
+void	ft_lstdupp(t_master *master, t_lexer *lexer,
+			t_token **token, t_token **new)
 {
 	t_token	*current;
 	t_token	*tmp;
@@ -61,10 +77,11 @@ int	ft_lstdupp(t_token **token, t_token **new)
 	{
 		tmp = ft_calloc(1, sizeof(t_token));
 		if (!tmp)
-			return (EXIT_FAILURE);
+			lexer_exit(master, lexer, "calloc error in ft_lstdupp");
 		tmp->data = ft_strdup(current->data);
 		if (!tmp->data)
-			return (free(tmp), free(tmp->data), free_token(new), EXIT_FAILURE);
+			return (free(tmp),
+				lexer_exit(master, lexer, "strdup error in ft_lstdupp"));
 		tmp->type = current->type;
 		if (*new == NULL)
 			*new = tmp;
@@ -73,7 +90,8 @@ int	ft_lstdupp(t_token **token, t_token **new)
 		(*new)->last = tmp;
 		current = current->next;
 	}
-	return (free_token(token), (*token) = NULL, EXIT_SUCCESS);
+	free_token(token);
+	(*token) = NULL;
 }
 
 bool	condition_while(char *line_read, size_t i,
@@ -98,7 +116,7 @@ bool	condition_while(char *line_read, size_t i,
 	return (false);
 }
 
-char	*creates_data(char *line_read, size_t *i,
+char	*creates_data(t_master *master, t_lexer *lexer, size_t *i,
 	bool command)
 {
 	size_t	start;
@@ -109,20 +127,20 @@ char	*creates_data(char *line_read, size_t *i,
 	start = *i;
 	data = NULL;
 	quote = 0;
-	while (ft_isspace(line_read[start]) && line_read[start])
+	while (ft_isspace(master->line_read[start]) && master->line_read[start])
 		start++;
 	end = start;
-	while (condition_while(line_read, end, command, &quote))
+	while (condition_while(master->line_read, end, command, &quote))
 		end++;
 	if ((*i) != end)
 	{
 		data = ft_calloc((end - (*i) + 1), sizeof(char));
 		if (!data)
-			return (NULL);
-		ft_strlcpy(data, &line_read[(*i)], end - (*i) + 1);
+			lexer_exit(master, lexer, "error calloc creates_data");
+		ft_strlcpy(data, &master->line_read[(*i)], end - (*i) + 1);
 		*i = end;
 	}
 	else
-		ft_dprintf(2, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
+		data = NULL;
 	return (data);
 }

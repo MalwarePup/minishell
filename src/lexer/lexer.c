@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 14:38:21 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 12:13:09 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,6 @@
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
-
-static int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)
-{
-	*ex_quote = *quote;
-	condition_while(str, *i, true, quote);
-	if (*ex_quote != *quote)
-	{
-		(*i)++;
-		return (true);
-	}
-	return (false);
-}
 
 // void	replace_argv_without_quotes(t_master *master)
 // {
@@ -59,71 +47,36 @@ static int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)
 // 	}
 // }
 
-void replace_redir_without_quotes(t_master *master, char **str)
-{
-	char	*new_str;
-	char	*test;
-	char	quote;
-	char	ex_quote;
-	size_t	ij[2];
-
-	quote = 0;
-	ex_quote = 0;
-	ij[0] = 0;
-	ij[1] = 0;
-	test = malloc(sizeof(char) * (ft_strlen(*str) + 1));
-	ft_strlcpy(test, *str, ft_strlen(*str) + 1);
-	new_str = malloc(sizeof(char)
-			* (ft_strlen(*str) + 1));
-	if (!new_str)
-		return (free(*str), error_exit(master, "malloc error"));
-	while (test[ij[0]])
-	{
-		if (to_pass(test, &quote, &ex_quote, &ij[0]))
-			continue ;
-		new_str[ij[1]++] = test[ij[0]++];
-	}
-	new_str[ij[1]] = '\0';
-	return (free(*str), *str = new_str, free(test));
-}
-
-
-static int	creates_redir(t_master *master, char *line_read, size_t *i,
-	t_token **redirect)
+static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 {
 	t_cmd_type	type;
-	char		*redir;
 
 	type = CMD_OTHERS;
-	type = redir_type(line_read, i);
+	type = redir_type(master->line_read, i);
 	if (type == CMD_ERROR)
-		return (free_token(redirect), EXIT_FAILURE);
-	redir = creates_data(line_read, i, false);
-	if (!redir)
-		return (exit_redir(master, redirect), EXIT_FAILURE);
-	redir = trim_spaces(redir);
-	if (!redir)
-		return (exit_redir(master, redirect), EXIT_FAILURE);
-	if (create_token_node(type, &redir, redirect) == EXIT_FAILURE)
-		return (free_token(redirect), free(redir), EXIT_FAILURE);
+		return (master->exit_status = EXIT_MISUSE,
+			clean_lexer(lexer), EXIT_FAILURE);
+	lexer->data_redir = creates_data(master, lexer, i, false);
+	lexer->data_redir = trim_spaces(master, lexer, lexer->data_redir);
+	if (!lexer->data_redir)
+		return (exit_redir(master, lexer, *i), EXIT_FAILURE);
+	create_token_node(master, lexer, type, false);
 	return (EXIT_SUCCESS);
 }
 
-int	creates_command(size_t *i, char **data, char *line_read)
+void	creates_command(t_master *master, t_lexer *lexer, size_t *i)
 {
 	char	*data_command;
 
-	data_command = creates_data(line_read, i, true);
+	data_command = creates_data(master, lexer, i, true);
 	if (!data_command)
-		return (EXIT_FAILURE);
-	*data = ft_strjoin2(*data, data_command);
-	if (!(*data))
-		return (free(*data), free(data_command), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return ;
+	lexer->data_command = ft_strjoin2(lexer->data_command, data_command);
+	if (!(lexer->data_command))
+		lexer_exit(master, lexer, "strjoin2 error in creates_command");
 }
 
-int	creates_command_pipe(t_master *master, size_t *i, char **data,
-	t_token **redirect)
+int	creates_command_pipe(t_master *master, t_lexer *lexer, size_t *i)
 {
 	while (master->line_read[*i] && master->line_read[*i] != '|')
 	{
@@ -133,62 +86,54 @@ int	creates_command_pipe(t_master *master, size_t *i, char **data,
 			break ;
 		if (master->line_read[(*i)] == '<' || master->line_read[(*i)] == '>')
 		{
-			if (creates_redir(master, master->line_read, i, redirect)
-				== EXIT_FAILURE)
-				return (free(*data), master->exit_status = EXIT_MISUSE,
-					EXIT_FAILURE);
+			if (creates_redir(master, lexer, i) == EXIT_FAILURE)
+				return (clean_lexer(lexer), EXIT_FAILURE);
 		}
-		else if (master->line_read[*i] != '|')
-		{
-			if (creates_command(i, data, master->line_read) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-		}
+		else
+			creates_command(master, lexer, i);
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	create_token(char **data, t_token **token, t_token **redirect)
+void	create_token(t_master *master, t_lexer *lexer, t_token **token)
 {
 	t_token	*tmp;
 
 	tmp = NULL;
-	if (data)
+	if (lexer->data_command)
 	{
-		if (create_token_node(CMD_OTHERS, data, token) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (redirect && *redirect)
-		{
-			if (ft_lstdupp(redirect, &tmp) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-			(*token)->last->redir = tmp;
-		}
+		create_token_node(master, lexer, CMD_OTHERS, true);
+		if (lexer->redirect)
+			ft_lstdupp(master, lexer, &lexer->redirect, &tmp);
+		(*token)->last->redir = tmp;
 	}
-	return (EXIT_SUCCESS);
 }
 
-int	launch_lexer(t_master *master, char *line_read, t_token **token)
+int	launch_lexer(t_master *master)
 {
 	size_t	i;
-	char	*data;
-	t_token	*redirect;
+	t_lexer	lexer;
 
+	lexer.data_command = NULL;
+	lexer.redirect = NULL;
 	i = 0;
-	data = NULL;
-	redirect = NULL;
-	while (line_read[i])
+	while (master->line_read[i])
 	{
-		if (line_read[i] == '|')
+		if (master->line_read[i] == '|')
 		{
-			if (create_token_node(CMD_PIPE, NULL, token)
-				== EXIT_FAILURE || start_operator(master, (*token)->type))
-				return (EXIT_FAILURE);
+			create_token_node(master, &lexer, CMD_PIPE, true);
+			if (start_operator(master) || two_consecutive_pipe(master))
+				return (clean_lexer(&lexer), EXIT_FAILURE);
 			i++;
 			continue ;
 		}
-		if (creates_command_pipe(master, &i, &data, &redirect) == EXIT_FAILURE)
+		if (creates_command_pipe(master, &lexer, &i) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (create_token(&data, token, &redirect) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		create_token(master, &lexer, &master->token);
+		clean_lexer(&lexer);
 	}
-	return (exit_handler(master, token));
+	if (master->token && master->token->last
+		&& master->token->last->type == CMD_PIPE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

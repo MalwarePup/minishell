@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 13:27:15 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 12:22:25 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,29 +66,29 @@ char	*extract_expansion_name(t_master *master, char *str)
 	return (name);
 }
 
-bool  is_valid_expansion_name(const char *name)
+bool	is_valid_expansion_name(const char *name)
 {
-    const char *p = name;
+	const char	*p = name;
 
-    if (!name || !*name)
-        return (true);
-    if (ft_isdigit(name[0]))
-        return (false);
-    while (*p)
-    {
-        if (!ft_isalnum(*p) && *p != '_' && *p != '\"' && *p != '\'')
-            return (false);
-        p++;
-    }
-    return (true);
+	if (!name || !*name)
+		return (true);
+	if (ft_isdigit(name[0]))
+		return (false);
+	while (*p)
+	{
+		if (!ft_isalnum(*p) && *p != '_' && *p != '\"' && *p != '\'')
+			return (false);
+		p++;
+	}
+	return (true);
 }
 
-void init_expansion(t_expansion *exp)
+void	init_expansion(t_expansion *exp)
 {
-  exp->i = 0;
-  exp->quote = 0;
-  exp->is_expanded = false;
-  exp->substr_start = NULL;
-  exp->name = NULL;
-  exp->value = NULL;
+	exp->i = 0;
+	exp->quote = 0;
+	exp->is_expanded = false;
+	exp->substr_start = NULL;
+	exp->name = NULL;
+	exp->value = NULL;
 }

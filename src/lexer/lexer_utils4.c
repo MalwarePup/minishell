@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/17 13:03:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/20 12:01:59 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-char	*trim_spaces(char *str)
+char	*trim_spaces(t_master *master, t_lexer *lexer, char *str)
 {
 	size_t	i;
 	size_t	j;
@@ -29,30 +29,34 @@ char	*trim_spaces(char *str)
 		return (NULL);
 	while (str[i] && ft_isspace(str[i]))
 		i++;
+	if (!(str[i]))
+		return (NULL);
 	while (str[i + j])
 		j++;
 	while (j > 0 && ft_isspace(str[i + j - 1]))
 		j--;
 	new_str = malloc(j + 1);
 	if (!new_str)
-		return (free(str), NULL);
-	ft_strlcpy(new_str, str + i, j + 1);
+		return (free(str),
+			lexer_exit(master, lexer, "malloc trimspaces"), NULL);
+	ft_strlcpy(new_str, (str + i), j + 1);
 	free(str);
 	return (new_str);
 }
 
-int	two_consecutive_pipe(t_token **token)
+int	two_consecutive_pipe(t_master *master)
 {
 	t_token	*tmp;
 
-	tmp = *token;
+	tmp = master->token;
 	while (tmp)
 	{
 		if ((tmp)->type == CMD_PIPE
 			&& (tmp)->next && (tmp)->next->type == CMD_PIPE)
 		{
-			printf(ESTR_UNEXP, '|');
-			return (free_token(token), EXIT_FAILURE);
+			master->exit_status = EXIT_MISUSE;
+			ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
+			return (EXIT_FAILURE);
 		}
 		tmp = (tmp)->next;
 	}
@@ -65,7 +69,7 @@ int	exit_handler(t_master *master, t_token **token)
 
 	if (*token == NULL)
 		return (EXIT_FAILURE);
-	if (two_consecutive_pipe(token) == EXIT_FAILURE)
+	if (two_consecutive_pipe(master) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	i = EXIT_FAILURE;
 	if (!(*token))
@@ -86,4 +90,12 @@ int	exit_handler(t_master *master, t_token **token)
 		return (free_token(token), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
+}
+
+void	lexer_exit(t_master *master, t_lexer *lexer, char *str)
+{
+	clean_lexer(lexer);
+	free_token(&master->token);
+	master->token = NULL;
+	perror(str);
 }

@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/19 14:37:55 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 12:20:27 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define ESTR_QUOTE "minishell: syntax error near unmatched `%c'\n"
 # define ESTR_UNEXP "minishell: syntax error near unexpected token `%c'\n"
+# define ESTR_UNEXP_STR "minishell: syntax error near unexpected token `%s'\n"
 # define ESTR_OPSTART_P1 "minishell: syntax error near unexpected token"
 # define ESTR_OPSTART_P2 " `newline'\n"
 # define ESTR_NUM_ARG "minishell: exit: %s: numeric argument required\n"
@@ -124,7 +125,7 @@ typedef struct s_expansion
 	char				*value;
 	char				*substr_start;
 	bool				is_expanded;
-  char        quote;
+	char				quote;
 }						t_expansion;
 
 typedef struct s_builtin
@@ -132,6 +133,13 @@ typedef struct s_builtin
 	char				*name;
 	t_cmd_type			type;
 }						t_builtin;
+
+typedef struct s_lexer
+{
+	char				*data_command;
+	char				*data_redir;
+	t_token				*redirect;
+}						t_lexer;
 
 extern int				*g_exit_status;
 
@@ -168,12 +176,12 @@ void					launch_execution(t_master *master);
 char					*getenv_value(t_master *master, t_env *env,
 							char *name);
 char					*extract_expansion_name(t_master *master, char *str);
-bool          is_valid_expansion_name(const char *name);
-void          init_expansion(t_expansion *exp);
+bool					is_valid_expansion_name(const char *name);
+void					init_expansion(t_expansion *exp);
 
 /* expansion.c */
 
-void          launch_expansion(t_master *master, char **str);
+void					launch_expansion(t_master *master, char **str);
 
 /* split_args.c */
 
@@ -193,6 +201,7 @@ void					replace_argv_without_quotes(t_master *master);
 void					free_string_array(char ***str);
 void					free_token(t_token **token);
 void					cleanup_before_exit(t_master *master);
+void					clean_lexer(t_lexer *lexer);
 
 /* exit.c */
 
@@ -200,36 +209,43 @@ void					error_exit(t_master *master, char *error_str);
 void					ft_error_exit(t_master *master, char *error_str,
 							int errnum);
 void					handle_eof(t_master *master);
+void					lexer_exit(t_master *master, t_lexer *lexer,
+							char *error_str);
 
 /* lexer_mem.c */
 
-int						create_token_node(t_cmd_type type, char **data,
-							t_token **token);
+void					create_token_node(t_master *master, t_lexer *lexer,
+							t_cmd_type type, bool command);
 
 /* lexer_utils.c */
-int						start_operator(t_master *master, t_cmd_type type);
+int						start_operator(t_master *master);
 int						is_clean(t_token **token);
+int						to_pass(char *str, char *quote,
+							char *ex_quote, size_t *i);
 
 /* lexer_utils2.c */
-
-t_cmd_type				redir_type(char *line_read, size_t *i);
-int						ft_lstdupp(t_token **token, t_token **new);
+void					ft_lstdupp(t_master *master, t_lexer *lexer,
+							t_token **token, t_token **new);
 bool					condition_while(char *line_read, size_t i, bool command,
 							char *quote);
-char					*creates_data(char *line_read, size_t *i, bool command);
-void          exit_redir(t_master *master, t_token **token);
+char					*creates_data(t_master *master, t_lexer *lexer,
+							size_t *i, bool command);
+void					exit_redir(t_master *master, t_lexer *lexer, size_t i);
+t_cmd_type				redir_type(char *line_read, size_t *i);
 
 /* lexer_utils4.c */
 
 int						is_heredoc_pipe(t_token **token);
 int						exit_handler(t_master *master, t_token **token);
+int						two_consecutive_pipe(t_master *master);
 
 /* lexer.c */
 
-char					*trim_spaces(char *str);
-int						launch_lexer(t_master *master, char *line_read,
-							t_token **token);
-void          replace_redir_without_quotes(t_master *master, char **str);
+char					*trim_spaces(t_master *master, t_lexer *lexer,
+							char *str);
+int						launch_lexer(t_master *master);
+void					replace_redir_without_quotes(t_master *master,
+							char **str);
 
 /* quote_handling.c */
 

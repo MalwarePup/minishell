@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument_splitting.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:22:32 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 12:01:32 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/20 12:26:20 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*creates_arg(t_master *master, char *s, size_t *j)
 		exit(EXIT_FAILURE);
 	}
 	while (s[*j + i] != '\0' && !ft_isspace(s[*j + i]) && (s[*j + i] != '"'
-				&& s[*j + i] != '\''))
+			&& s[*j + i] != '\''))
 	{
 		arg[i] = s[*j + i];
 		i++;

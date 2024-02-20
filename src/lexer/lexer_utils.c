@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 13:03:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/20 11:36:41 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,15 @@ int	is_heredoc_pipe(t_token **token)
 	return (EXIT_SUCCESS);
 }
 
-int	start_operator(t_master *master, t_cmd_type type)
+int	start_operator(t_master *master)
 {
-	if (type == CMD_OTHERS)
-		return (EXIT_SUCCESS);
-	else if (type == CMD_PIPE)
+	if (master->token->type == CMD_PIPE)
 	{
 		master->exit_status = EXIT_MISUSE;
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
+		return (EXIT_FAILURE);
 	}
-	else if (type != CMD_OTHERS)
-	{
-		master->exit_status = EXIT_MISUSE;
-		ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
-	}
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	is_clean(t_token **token)
@@ -70,4 +64,16 @@ int	is_clean(t_token **token)
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
+}
+
+int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)
+{
+	*ex_quote = *quote;
+	condition_while(str, *i, true, quote);
+	if (*ex_quote != *quote)
+	{
+		(*i)++;
+		return (true);
+	}
+	return (false);
 }
