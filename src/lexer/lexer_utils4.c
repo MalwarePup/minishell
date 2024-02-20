@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/20 12:01:59 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 17:55:16 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,13 @@ void	lexer_exit(t_master *master, t_lexer *lexer, char *str)
 	free_token(&master->token);
 	master->token = NULL;
 	perror(str);
+}
+
+int	last_operator(t_master *master)
+{
+	if (master->token && master->token->last
+		&& master->token->last->type == CMD_PIPE)
+		return (ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|'),
+			master->exit_status = EXIT_MISUSE, EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

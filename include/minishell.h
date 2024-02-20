@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/20 12:20:27 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 17:53:17 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ t_cmd_type				redir_type(char *line_read, size_t *i);
 int						is_heredoc_pipe(t_token **token);
 int						exit_handler(t_master *master, t_token **token);
 int						two_consecutive_pipe(t_master *master);
+int						last_operator(t_master *master);
 
 /* lexer.c */
 

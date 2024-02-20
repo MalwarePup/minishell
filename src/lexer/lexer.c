@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 12:13:09 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 17:54:07 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,5 @@ int	launch_lexer(t_master *master)
 		create_token(master, &lexer, &master->token);
 		clean_lexer(&lexer);
 	}
-	if (master->token && master->token->last
-		&& master->token->last->type == CMD_PIPE)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (last_operator(master));
 }
