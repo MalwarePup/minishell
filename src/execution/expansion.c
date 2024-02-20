@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 12:36:30 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/20 17:21:49 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	launch_expansion(t_master *master, char **str)
 	while ((*str)[exp.i])
 	{
 		condition_while(*str, exp.i, true, &exp.quote);
-		if ((*str)[exp.i] == '$' && exp.quote != '\'')
+		if ((*str)[exp.i] == '$' && exp.quote != '\''
+				&& ft_isalnum((*str)[exp.i + 1]))
 		{
 			process_expansion(master, str, &exp);
 			if (ft_strlen(*str) < 1)
