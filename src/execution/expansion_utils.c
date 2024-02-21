@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/21 11:15:48 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 11:42:28 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ char	*extract_expansion_name(t_master *master, char *str)
 	char	*name;
 
 	i = 1;
-	if (str[i] == '?')
+	if (str[i] == '?' || ft_isdigit(str[i]))
 	{
-		name = ft_strdup("?");
+		i++;
+		name = ft_strndup((str + i - 1), 1);
 		if (!name)
-			ft_error_exit(master, "ft_strdup (extract_expansion_name)", ENOMEM);
+			ft_error_exit(master, "ft_strndup in expansion", ENOMEM);
 		return (name);
 	}
 	while (str[i] && !ft_isspace(str[i])
