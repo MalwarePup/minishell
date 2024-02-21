@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 16:54:04 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 11:15:48 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,23 +64,6 @@ char	*extract_expansion_name(t_master *master, char *str)
 	if (!name)
 		ft_error_exit(master, "ft_strndup (extract_expansion_name)", ENOMEM);
 	return (name);
-}
-
-bool	is_valid_expansion_name(const char *name)
-{
-	const char	*p = name;
-
-	if (!name || !*name)
-		return (true);
-	if (ft_isdigit(name[0]))
-		return (false);
-	while (*p)
-	{
-		if (!ft_isalnum(*p) && *p != '_')
-			return (false);
-		p++;
-	}
-	return (true);
 }
 
 void	init_expansion(t_expansion *exp)

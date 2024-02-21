@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 17:21:49 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 11:17:09 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,6 @@ static void	process_expansion(t_master *master, char **str, t_expansion *exp)
 		return ;
 	exp->substr_start = (*str) + exp->i;
 	exp->name = extract_expansion_name(master, exp->substr_start);
-	if (!is_valid_expansion_name(exp->name) && (*str)[exp->i + 1] != '?')
-	{
-		free(exp->name);
-		return ;
-	}
 	if ((*str)[exp->i + 1] == '?')
 		exp->value = ft_itoa(master->last_command_exit_value);
 	else
@@ -103,7 +98,8 @@ void	launch_expansion(t_master *master, char **str)
 	{
 		condition_while(*str, exp.i, true, &exp.quote);
 		if ((*str)[exp.i] == '$' && exp.quote != '\''
-				&& ft_isalnum((*str)[exp.i + 1]))
+				&& (ft_isalnum((*str)[exp.i + 1])
+				|| (*str)[exp.i + 1] == '_'))
 		{
 			process_expansion(master, str, &exp);
 			if (ft_strlen(*str) < 1)
