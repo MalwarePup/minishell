@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/21 12:20:26 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 12:29:51 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	creates_command(t_master *master, t_lexer *lexer, size_t *i)
 		lexer_exit(master, lexer, "strjoin2 error in creates_command");
 }
 
-int	creates_command_pipe(t_master *master, t_lexer *lexer, size_t *i)
+int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i)
 {
 	while (master->line_read[*i] && master->line_read[*i] != '|')
 	{
@@ -87,7 +87,7 @@ int	creates_command_pipe(t_master *master, t_lexer *lexer, size_t *i)
 		if (master->line_read[(*i)] == '<' || master->line_read[(*i)] == '>')
 		{
 			if (creates_redir(master, lexer, i) == EXIT_FAILURE)
-				return (clean_lexer(lexer), EXIT_FAILURE);
+				return (EXIT_FAILURE);
 		}
 		else
 			creates_command(master, lexer, i);
@@ -95,7 +95,8 @@ int	creates_command_pipe(t_master *master, t_lexer *lexer, size_t *i)
 	return (EXIT_SUCCESS);
 }
 
-void	create_token(t_master *master, t_lexer *lexer, t_token **token)
+void	create_node_with_redir(t_master *master,
+	t_lexer *lexer, t_token **token)
 {
 	t_token	*tmp;
 
@@ -126,9 +127,9 @@ int	launch_lexer(t_master *master)
 			i++;
 			continue ;
 		}
-		if (creates_command_pipe(master, &lexer, &i) == EXIT_FAILURE)
-			return (clean_lexer(&lexer), EXIT_FAILURE);
-		create_token(master, &lexer, &master->token);
+		if (creates_command_and_redir(master, &lexer, &i) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		create_node_with_redir(master, &lexer, &master->token);
 		clean_lexer(&lexer);
 	}
 	return (last_operator(master));

@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 11:24:03 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 12:59:03 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,20 @@ void	replace_redir_without_quotes(t_master *master, char **str)
 	ij[0] = 0;
 	ij[1] = 0;
 	test = malloc(sizeof(char) * (ft_strlen(*str) + 1));
-	ft_strlcpy(test, *str, ft_strlen(*str) + 1);
-	new_str = malloc(sizeof(char)
-			* (ft_strlen(*str) + 1));
+	if (!test)
+		return (free(*str), *str = NULL, error_exit(master, "malloc error"));
+	new_str = malloc(sizeof(char) * (ft_strlen(*str) + 1));
 	if (!new_str)
-		return (free(*str), error_exit(master, "malloc error"));
+		return (free(test), free(*str), *str = NULL,
+			error_exit(master, "malloc error in lexer_mem.c"));
+	ft_strlcpy(test, *str, ft_strlen(*str) + 1);
 	while (test[ij[0]])
 	{
 		if (to_pass(test, &quote, &ex_quote, &ij[0]))
 			continue ;
 		new_str[ij[1]++] = test[ij[0]++];
 	}
-	new_str[ij[1]] = '\0';
-	return (free(*str), *str = new_str, free(test));
+	return (free(*str), *str = new_str, new_str[ij[1]] = '\0', free(test));
 }
 
 void	create_node(char *data, t_token **new_node,

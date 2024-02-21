@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/21 12:19:56 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 12:31:22 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ char	*trim_spaces(t_master *master, t_lexer *lexer, char *str)
 		j--;
 	new_str = malloc(j + 1);
 	if (!new_str)
-		return (free(str),
+		return (free(str), str = NULL,
 			lexer_exit(master, lexer, "malloc trimspaces"), NULL);
 	ft_strlcpy(new_str, (str + i), j + 1);
-	free(str);
-	return (new_str);
+	return (free(str), str = NULL, new_str);
 }
 
 int	two_consecutive_pipe(t_master *master)
