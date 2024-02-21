@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/21 12:04:18 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 12:12:13 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,18 @@ bool	check_option(int argc, char **argv, int *i)
 	bool	is_option;
 
 	is_option = false;
-	if (argc > 1)
+	while (argc > 1 && *i < argc && argv[*i][0] == '-')
 	{
-		*i = 1;
-		while (*i < argc && argv[*i][0] == '-')
+		j = 1;
+		while (argv[*i][j] == 'n')
+			j++;
+		if (argv[*i][j] == '\0' && j != 1)
 		{
-			j = 1;
-			while (argv[*i][j] == 'n')
-				j++;
-			if (argv[*i][j] == '\0' && j != 1)
-			{
-				is_option = true;
-				(*i)++;
-			}
-			else
-				break ;
+			is_option = true;
+			(*i)++;
 		}
+		else
+			break ;
 	}
 	return (is_option);
 }
