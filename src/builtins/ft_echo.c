@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:14:59 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/21 12:04:18 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ bool	check_option(int argc, char **argv, int *i)
 			j = 1;
 			while (argv[*i][j] == 'n')
 				j++;
-			if (argv[*i][j] == '\0')
+			if (argv[*i][j] == '\0' && j != 1)
 			{
-				if (j != 1)
-					is_option = true;
+				is_option = true;
 				(*i)++;
 			}
 			else
