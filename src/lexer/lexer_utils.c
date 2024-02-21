@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 11:36:41 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 12:21:30 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 #include "minishell.h"
 #include "ft_dprintf.h"
 #include "libft.h"
-
-int	is_heredoc_pipe(t_token **token)
-{
-	t_token	*current;
-
-	current = *token;
-	while (current)
-	{
-		if (current->type == CMD_PIPE && !current->next)
-		{
-			free_token(token);
-			return (EXIT_FAILURE);
-		}
-		current = current->next;
-	}
-	return (EXIT_SUCCESS);
-}
 
 int	start_operator(t_master *master)
 {

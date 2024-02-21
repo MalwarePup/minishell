@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/20 18:07:30 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 12:19:56 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,33 +63,11 @@ int	two_consecutive_pipe(t_master *master)
 	return (EXIT_SUCCESS);
 }
 
-int	exit_handler(t_master *master, t_token **token)
+void	init_lexer(t_lexer *lexer)
 {
-	int	i;
-
-	if (*token == NULL)
-		return (EXIT_FAILURE);
-	if (two_consecutive_pipe(master) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	i = EXIT_FAILURE;
-	if (!(*token))
-		return (i);
-	if ((*token)->type == CMD_OTHERS)
-		i = EXIT_SUCCESS;
-	else if ((*token)->type == CMD_PIPE || (*token)->last->type == CMD_PIPE)
-		printf(ESTR_UNEXP, '|');
-	else if ((*token)->type == CMD_RED_IN || (*token)->type == CMD_RED_OUT
-		|| (*token)->type == CMD_D_RED_IN
-		|| (*token)->type == CMD_D_RED_OUT)
-		i = EXIT_SUCCESS;
-	else if ((*token)->type != CMD_OTHERS)
-		printf(ESTR_OPSTART_P1 ESTR_OPSTART_P2);
-	if (i || is_clean(token) || is_heredoc_pipe(token))
-	{
-		master->exit_status = EXIT_MISUSE;
-		return (free_token(token), EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	lexer->data_redir = NULL;
+	lexer->data_command = NULL;
+	lexer->redirect = NULL;
 }
 
 void	lexer_exit(t_master *master, t_lexer *lexer, char *str)

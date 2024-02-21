@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 17:54:07 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/21 12:20:26 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,7 @@ int	launch_lexer(t_master *master)
 	size_t	i;
 	t_lexer	lexer;
 
-	lexer.data_command = NULL;
-	lexer.redirect = NULL;
+	init_lexer(&lexer);
 	i = 0;
 	while (master->line_read[i])
 	{
@@ -128,7 +127,7 @@ int	launch_lexer(t_master *master)
 			continue ;
 		}
 		if (creates_command_pipe(master, &lexer, &i) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+			return (clean_lexer(&lexer), EXIT_FAILURE);
 		create_token(master, &lexer, &master->token);
 		clean_lexer(&lexer);
 	}
