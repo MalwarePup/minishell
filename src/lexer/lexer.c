@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/21 12:29:51 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/22 17:24:27 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,6 @@
 #include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
-
-// void	replace_argv_without_quotes(t_master *master)
-// {
-// 	char	*new_str;
-// 	char	quote;
-// 	char	ex_quote;
-// 	size_t	ij[2];
-// 	size_t	i;
-
-// 	quote = 0;
-// 	ex_quote = 0;
-// 	i = 0;
-// 	ij[0] = 0;
-// 	ij[1] = 0;
-// 	while (master->argv[i])
-// 	{
-// 		new_str = malloc((ft_strlen(master->argv[i]) + 1) * sizeof(char));
-// 		if (!new_str)
-// 			error_exit(master, "malloc (replace_argv_without_quotes)");
-// 		while (master->argv[i][ij[0]])
-// 		{
-// 			if (to_pass(master->argv[i], &quote, &ex_quote, &ij[0]))
-// 				continue ;
-// 			new_str[ij[1]++] = master->argv[i][ij[0]++];
-// 		}
-// 		new_str[ij[1]] = '\0';
-// 		free(master->argv[i]);
-// 		master->argv[i] = new_str;
-// 		i++;
-// 	}
-// }
 
 static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 {
