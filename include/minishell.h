@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/22 18:16:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:58:41 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,7 @@ void					launch_execution(t_master *master);
 
 /* expansion_utils.c */
 
-char					*getenv_value(t_master *master, t_env *env,
-							char *name);
+char					*getenv_value(t_master *master, t_env *env, char *name);
 char					*extract_expansion_name(t_master *master, char *str);
 bool					is_valid_expansion_name(const char *name);
 
@@ -219,8 +218,8 @@ void					create_token_node(t_master *master, t_lexer *lexer,
 /* lexer_utils.c */
 int						start_operator(t_master *master);
 int						is_clean(t_token **token);
-int						to_pass(char *str, char *quote,
-							char *ex_quote, size_t *i);
+int						to_pass(char *str, char *quote, char *ex_quote,
+							size_t *i);
 
 /* lexer_utils2.c */
 void					ft_lstdupp(t_master *master, t_lexer *lexer,
@@ -257,10 +256,10 @@ void					handle_temp_sig(int signum);
 
 /* signals.c */
 
-void					restore_sigaction(t_master *master);
-void					set_sigaction(t_master *master);
-void					set_sigaction_heredoc(t_master *master);
-void					set_sigaction_temp(t_master *master);
+int						restore_sigaction(t_master *master);
+int						set_sigaction(t_master *master);
+int						set_sigaction_heredoc(t_master *master);
+int						set_sigaction_temp(t_master *master);
 
 /* env_utils.c */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 12:28:29 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/22 19:04:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	main(void)
 	master.last_command_exit_value = 0;
 	master.line_count = 0;
 	g_exit_status = &master.last_command_exit_value;
-	set_sigaction(&master);
+	if (set_sigaction(&master) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	manage_environment(&master, &master.env_list);
 	return (shell_loop(&master));
 }
