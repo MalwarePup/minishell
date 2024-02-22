@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 11:40:29 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/22 18:22:51 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	cleanup_before_exit(t_master *master)
 void	clean_lexer(t_lexer *lexer)
 {
 	free_token(&lexer->redirect);
-	lexer->redirect = NULL;
 	free(lexer->data_command);
 	lexer->data_command = NULL;
 	free(lexer->data_redir);
