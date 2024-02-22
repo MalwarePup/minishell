@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/22 19:30:37 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/22 19:35:51 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@
 
 bool	is_expandable(char *str)
 {
-	size_t	i;
-
-	i = -1;
-	while ((str)[++i])
+	while (*str)
 	{
-		if (str[i] == '"' || str[i] == '\'')
+		if (*str == '"' || *str == '\'')
 			return (false);
+		str++;
 	}
 	return (true);
 }
