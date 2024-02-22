@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/02/19 13:00:56 by ladloff          ###   ########.fr        #
+#    Updated: 2024/02/22 21:46:33 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,8 +70,8 @@ LDLIBS		:= -lft
 # Check if pkg-config is available
 PKG_CONFIG	:= $(shell command -v pkg-config 2> /dev/null)
 
+# If pkg-config is not installed, use default paths
 ifeq ($(PKG_CONFIG),)
-# pkg-config is not installed, use default paths
 	ifeq ($(shell uname -s),Darwin)
 		ifeq ($(shell uname -m),arm64)
 			CPPFLAGS	+= -I/opt/homebrew/opt/readline/include
