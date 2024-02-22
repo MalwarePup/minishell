@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/21 11:42:28 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/22 17:08:16 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,4 @@ char	*extract_expansion_name(t_master *master, char *str)
 	if (!name)
 		ft_error_exit(master, "ft_strndup (extract_expansion_name)", ENOMEM);
 	return (name);
-}
-
-void	init_expansion(t_expansion *exp)
-{
-	exp->i = 0;
-	exp->quote = 0;
-	exp->is_expanded = false;
-	exp->substr_start = NULL;
-	exp->name = NULL;
-	exp->value = NULL;
 }
