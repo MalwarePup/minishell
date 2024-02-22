@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/21 12:31:22 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/22 18:15:41 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,6 @@ int	two_consecutive_pipe(t_master *master)
 		tmp = (tmp)->next;
 	}
 	return (EXIT_SUCCESS);
-}
-
-void	init_lexer(t_lexer *lexer)
-{
-	lexer->data_redir = NULL;
-	lexer->data_command = NULL;
-	lexer->redirect = NULL;
 }
 
 void	lexer_exit(t_master *master, t_lexer *lexer, char *str)
