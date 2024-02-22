@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 12:59:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:20:06 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 				|| type == CMD_EXPORT || type == CMD_EXIT)))
 	{
 		if (!token->next && (type == CMD_CD || type == CMD_EXPORT
-				|| type == CMD_EXIT))
-			master->exit_status = execute_builtin(master, type);
+				|| (type == CMD_EXIT && !master->exec->pipe)))
+				master->exit_status = execute_builtin(master, type);
 		return (CMD_ERROR);
 	}
 	if (token->next && token->next->type == CMD_PIPE)
