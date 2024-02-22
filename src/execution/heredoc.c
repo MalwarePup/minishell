@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/20 12:25:41 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/22 19:30:37 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
 	while (1)
 	{
 		line_read = readline("> ");
-		if (expand)
-			launch_expansion(master, &line_read);
 		if (!line_read || master->exit_status == EXIT_INTERRUPTED_HEREDOC)
 		{
 			if (master->last_command_exit_value != EXIT_INTERRUPTED_HEREDOC)
@@ -55,6 +53,8 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
 			free(line_read);
 			break ;
 		}
+		if (expand)
+			launch_expansion(master, &line_read);
 		if (write(fd, line_read, ft_strlen(line_read)) == -1)
 			error_exit(master, "write (read_heredoc_into_file)");
 		if (write(fd, "\n", 1) == -1)
