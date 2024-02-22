@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/22 19:05:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/22 21:50:13 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	restore_sigaction(t_master *master)
 	if (sigaction(SIGINT, &master->minishell_sa, NULL) == -1)
 	{
 		perror("sigaction (restore_sigaction)");
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
