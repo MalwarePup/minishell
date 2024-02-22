@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/22 19:42:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/22 19:46:31 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
 		}
 		if (expand)
 			launch_expansion(master, &line_read);
-		if (write(fd, line_read, ft_strlen(line_read)) == -1)
-			error_exit(master, "write (read_heredoc_into_file)");
-		if (write(fd, "\n", 1) == -1)
+		if (write(fd, line_read, ft_strlen(line_read)) == -1
+			|| write(fd, "\n", 1) == -1)
 			error_exit(master, "write (read_heredoc_into_file)");
 		free(line_read);
 	}
