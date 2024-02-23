@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/22 18:20:40 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:10:27 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	launch_lexer(t_master *master)
 	t_lexer	lexer;
 
 	i = 0;
-	ft_memset(&lexer, 0, sizeof(lexer));
+	ft_memset(&lexer, 0, sizeof(t_lexer));
 	while (master->line_read[i])
 	{
 		if (master->line_read[i] == '|')

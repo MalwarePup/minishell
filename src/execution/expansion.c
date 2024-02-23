@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/22 19:53:42 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:10:21 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	launch_expansion(t_master *master, char **str)
 {
 	t_expansion	exp;
 
-	ft_memset(&exp, 0, sizeof(exp));
+	ft_memset(&exp, 0, sizeof(t_expansion));
 	while ((*str)[exp.i])
 	{
 		condition_while(*str, exp.i, true, &exp.quote);
@@ -111,7 +111,7 @@ void	launch_expansion(t_master *master, char **str)
 				break ;
 			else if (exp.is_expanded)
 			{
-				ft_memset(&exp, 0, sizeof(exp));
+				ft_memset(&exp, 0, sizeof(t_expansion));
 				continue ;
 			}
 		}
