@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/22 18:58:41 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:36:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ char					*update_shlvl(t_master *master, char *value,
 
 /* env.c */
 
-void					free_environment_list(t_env *env);
+void					free_environment_list(t_env **env);
 void					manage_environment(t_master *master, t_env **env_list);
 
 int						ft_cd(int argc, char **argv, t_master *master);

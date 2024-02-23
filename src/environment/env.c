@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:15:40 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:36:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include "minishell.h"
 #include "libft.h"
 
-void	free_environment_list(t_env *env)
+void	free_environment_list(t_env **env)
 {
 	t_env	*current;
 	t_env	*next;
 
-	current = env;
+	current = *env;
 	while (current)
 	{
 		next = current->next;
@@ -30,6 +30,7 @@ void	free_environment_list(t_env *env)
 		free(current);
 		current = next;
 	}
+	*env = NULL;
 }
 
 static void	create_add_env_node(t_master *master, char *name, char *value,

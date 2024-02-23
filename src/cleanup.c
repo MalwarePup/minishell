@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/22 18:22:51 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:37:00 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	cleanup_before_exit(t_master *master)
 	rl_clear_history();
 	free(master->pid_list);
 	free_string_array(&master->argv);
-	free_environment_list(master->env_list);
+	free_environment_list(&master->env_list);
 	free_token(&master->token);
 	free(master->line_read);
 	free(master->exec);
