@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/28 11:31:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:02:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,8 +238,6 @@ int						last_operator(t_master *master);
 
 /* lexer.c */
 
-char					*trim_spaces(t_master *master, t_lexer *lexer,
-							char *str);
 int						launch_lexer(t_master *master);
 void					replace_redir_without_quotes(t_master *master,
 							char **str);

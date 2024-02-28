@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/22 18:30:44 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:01:54 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,32 @@ t_token	**ft_token_lst(t_master *master, t_lexer *lexer, bool command)
 	if (command)
 		return (&master->token);
 	return (&lexer->redirect);
+}
+
+static char	*trim_spaces(t_master *master, t_lexer *lexer, char *str)
+{
+	size_t	i;
+	size_t	j;
+	char	*new_str;
+
+	i = 0;
+	j = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (!(str[i]))
+		return (NULL);
+	while (str[i + j])
+		j++;
+	while (j > 0 && ft_isspace(str[i + j - 1]))
+		j--;
+	new_str = malloc(j + 1);
+	if (!new_str)
+		return (free(str), str = NULL,
+			lexer_exit(master, lexer, "malloc trimspaces"), NULL);
+	ft_strlcpy(new_str, (str + i), j + 1);
+	return (free(str), str = NULL, new_str);
 }
 
 void	create_token_node(t_master *master, t_lexer *lexer,
