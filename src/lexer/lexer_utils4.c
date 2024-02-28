@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/22 18:15:41 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:00:58 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	lexer_exit(t_master *master, t_lexer *lexer, char *str)
 {
 	clean_lexer(lexer);
 	free_token(&master->token);
-	master->token = NULL;
 	error_exit(master, str);
 }
 
