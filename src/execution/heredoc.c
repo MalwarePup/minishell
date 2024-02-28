@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/22 19:46:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:09:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	create_file(t_master *master, t_token **token, int i)
 
 	itoa = ft_itoa(i);
 	if (!itoa)
-		ft_error_exit(master, "ft_itoa (create_file)", ENOMEM);
+		error_exit(master, "ft_itoa (create_file)");
 	filename = ft_strjoin3("/tmp/heredoc_", itoa);
 	if (!filename)
 	{
 		free(itoa);
-		ft_error_exit(master, "ft_strjoin3 (create_file)", ENOMEM);
+		error_exit(master, "ft_strjoin3 (create_file)");
 	}
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)

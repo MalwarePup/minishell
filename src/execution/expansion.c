@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/23 15:10:21 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:09:40 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*create_new_string_with_value(t_master *master, char *str,
 	{
 		free(exp->name);
 		free(exp->value);
-		ft_error_exit(master, "malloc (create_new_string_with_value)", ENOMEM);
+		error_exit(master, "malloc (create_new_string_with_value)");
 	}
 	ft_strlcpy(new_str, str, exp->substr_start - str + 1);
 	ft_strlcat(new_str, exp->value, len);
@@ -49,8 +49,7 @@ static char	*create_new_string_without_value(t_master *master, char *str,
 	if (!new_str)
 	{
 		free(exp->name);
-		ft_error_exit(master, "malloc (create_new_string_without_value)",
-			ENOMEM);
+		error_exit(master, "malloc (create_new_string_without_value)");
 	}
 	if (len == 1)
 		new_str[0] = '\0';

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:53:02 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:08:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static size_t	get_env_list_size(t_env *env_list)
 static void	handle_error(t_master *master, char **array)
 {
 	free_string_array(&array);
-	ft_error_exit(master, "ft_strjoin (env_list_to_array)", ENOMEM);
+	error_exit(master, "ft_strjoin (env_list_to_array)");
 }
 
 char	**env_list_to_array(t_master *master, t_env *env_list)
@@ -68,7 +68,7 @@ void	init_exec(t_master *master)
 		error_exit(master, "malloc (init_exec)");
 	master->exec = ft_calloc(1, sizeof(t_exec));
 	if (!master->exec)
-		ft_error_exit(master, "ft_calloc (init_exec)", ENOMEM);
+		error_exit(master, "ft_calloc (init_exec)");
 	master->exec->pid = -1;
 	master->exec->pipefd[0] = -1;
 	master->exec->pipefd[1] = -1;

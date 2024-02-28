@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/22 17:08:16 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:09:22 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*getenv_value(t_master *master, t_env *env, char *name)
 				if (!value)
 				{
 					free(name);
-					ft_error_exit(master, "ft_strdup (get_env_value)", ENOMEM);
+					error_exit(master, "ft_strdup (get_env_value)");
 				}
 				return (value);
 			}
@@ -55,7 +55,7 @@ char	*extract_expansion_name(t_master *master, char *str)
 		i++;
 		name = ft_strndup((str + i - 1), 1);
 		if (!name)
-			ft_error_exit(master, "ft_strndup in expansion", ENOMEM);
+			error_exit(master, "ft_strndup (expansion)");
 		return (name);
 	}
 	while (str[i] && !ft_isspace(str[i])
@@ -63,6 +63,6 @@ char	*extract_expansion_name(t_master *master, char *str)
 		i++;
 	name = ft_strndup(str + 1, i - 1);
 	if (!name)
-		ft_error_exit(master, "ft_strndup (extract_expansion_name)", ENOMEM);
+		error_exit(master, "ft_strndup (extract_expansion_name)");
 	return (name);
 }

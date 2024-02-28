@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 11:32:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:07:58 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ static bool	is_executable_command(t_master *master)
 			free(master->argv[0]);
 			master->argv[0] = ft_strdup("");
 			if (!master->argv[0])
-				ft_error_exit(master, "ft_strdup (is_executable_command)",
-					ENOMEM);
+				error_exit(master, "ft_strdup (is_executable_command)");
 		}
 		else
 			find_executable_command_path(master);

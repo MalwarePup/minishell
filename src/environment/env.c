@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/23 15:36:32 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:07:42 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void	manage_empty_environment(t_master *master, t_env **env_list)
 	{
 		free(name);
 		free(value);
-		ft_error_exit(master, "ft_strdup manage empty env", ENOMEM);
+		error_exit(master, "ft_strdup (manage_empty_environment)");
 		return ;
 	}
 	create_add_env_node(master, name, value, env_list);
@@ -104,7 +104,7 @@ static void	manage_empty_environment(t_master *master, t_env **env_list)
 	{
 		free(name);
 		free(value);
-		ft_error_exit(master, "ft_strdup manage empty env", ENOMEM);
+		error_exit(master, "ft_strdup (manage_empty_environment)");
 		return ;
 	}
 	create_add_env_node(master, name, value, env_list);
@@ -124,13 +124,12 @@ void	manage_environment(t_master *master, t_env **env_list)
 		equals_location = ft_strchr(*environ, '=');
 		name = ft_strndup(*environ, equals_location - *environ);
 		if (!name)
-			ft_error_exit(master, "ft_strndup manage_env", ENOMEM);
+			error_exit(master, "ft_strndup (manage_environment)");
 		value = ft_strdup(equals_location + 1);
 		if (!value)
 		{
 			free(name);
-			ft_error_exit(master, "ft_strdup manage_env", ENOMEM);
-			return ;
+			error_exit(master, "ft_strdup (manage_environment)");
 		}
 		if (!ft_strcmp(name, SHLVL))
 			value = update_shlvl(master, value, name);
