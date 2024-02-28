@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/20 12:17:16 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/28 15:25:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,15 +132,13 @@ char	*creates_data(t_master *master, t_lexer *lexer, size_t *i,
 	end = start;
 	while (condition_while(master->line_read, end, command, &quote))
 		end++;
-	if ((*i) != end)
+	if (start != end)
 	{
-		data = ft_calloc((end - (*i) + 1), sizeof(char));
+		data = malloc((end - start + 1) * sizeof(char));
 		if (!data)
-			lexer_exit(master, lexer, "error calloc creates_data");
-		ft_strlcpy(data, &master->line_read[(*i)], end - (*i) + 1);
+			lexer_exit(master, lexer, "malloc (creates_data)");
+		ft_strlcpy(data, &master->line_read[start], end - start + 1);
 		*i = end;
 	}
-	else
-		data = NULL;
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/23 15:10:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 15:34:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 		return (master->exit_status = EXIT_MISUSE,
 			clean_lexer(lexer), EXIT_FAILURE);
 	lexer->data_redir = creates_data(master, lexer, i, false);
-	lexer->data_redir = trim_spaces(master, lexer, lexer->data_redir);
 	if (!lexer->data_redir)
 		return (exit_redir(master, lexer, *i), EXIT_FAILURE);
 	create_token_node(master, lexer, type, false);
