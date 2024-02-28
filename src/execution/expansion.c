@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 16:09:40 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:32:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	launch_expansion(t_master *master, char **str)
 	ft_memset(&exp, 0, sizeof(t_expansion));
 	while ((*str)[exp.i])
 	{
-		condition_while(*str, exp.i, true, &exp.quote);
+		is_valid_character((*str)[exp.i], true, &exp.quote);
 		if ((*str)[exp.i] == '$' && exp.quote != '\''
 				&& (ft_isalnum((*str)[exp.i + 1])
 				|| (*str)[exp.i + 1] == '_'

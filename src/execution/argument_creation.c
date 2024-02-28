@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 20:36:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:32:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*create_arg(t_master *master, char *str, size_t *j)
 		cleanup_before_exit(master);
 		exit(EXIT_FAILURE);
 	}
-	while (condition_while(str, *j, false, &quote))
+	while (is_valid_character(str[*j], false, &quote))
 	{
 		arg[i] = str[(*j)];
 		(*j)++;

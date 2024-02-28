@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 17:07:21 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:33:09 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,18 @@ void	exit_redir(t_master *master, t_lexer *lexer, size_t i)
 	free_token(&master->token);
 }
 
-bool	condition_while(char *line_read, size_t i,
-					bool command, char *quote)
+bool	is_valid_character(char c, bool command, char *quote)
 {
-	if (line_read[i] && ((line_read[i] != '|'
-				&& (!ft_isspace(line_read[i])
-					|| command) && line_read[i] != '<'
-				&& line_read[i] != '>'
+	if (c && ((c != '|' && (!ft_isspace(c) || command) && c != '<' && c != '>'
 				&& *quote == 0) || *quote != 0))
 	{
-		if (((line_read[i] == '\'' || line_read[i] == '"') && *quote == 0)
-			|| (line_read[i] == *quote && *quote != 0))
+		if (((c == '\'' || c == '"') && *quote == 0) || (c == *quote
+					&& *quote != 0))
 		{
 			if (*quote != 0)
 				*quote = 0;
 			else
-				*quote = line_read[i];
+				*quote = c;
 		}
 		return (true);
 	}
@@ -102,7 +98,7 @@ char	*creates_data(t_master *master, t_lexer *lexer, size_t *i,
 	while (ft_isspace(master->line_read[start]) && master->line_read[start])
 		start++;
 	end = start;
-	while (condition_while(master->line_read, end, command, &quote))
+	while (is_valid_character(master->line_read[end], command, &quote))
 		end++;
 	if (start != end)
 	{

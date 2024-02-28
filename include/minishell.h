@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/28 17:07:11 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:32:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,8 +220,7 @@ int						to_pass(char *str, char *quote, char *ex_quote,
 							size_t *i);
 
 /* lexer_utils2.c */
-bool					condition_while(char *line_read, size_t i, bool command,
-							char *quote);
+bool					is_valid_character(char c, bool command, char *quote);
 char					*creates_data(t_master *master, t_lexer *lexer,
 							size_t *i, bool command);
 void					exit_redir(t_master *master, t_lexer *lexer, size_t i);

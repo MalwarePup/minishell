@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/21 12:21:30 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/02/28 17:32:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	is_clean(t_token **token)
 int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)
 {
 	*ex_quote = *quote;
-	condition_while(str, *i, true, quote);
+	is_valid_character(str[*i], true, quote);
 	if (*ex_quote != *quote)
 	{
 		(*i)++;
