@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 16:24:21 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:09:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 	return (EXIT_SUCCESS);
 }
 
-void	creates_command(t_master *master, t_lexer *lexer, size_t *i)
+static void	creates_command(t_master *master, t_lexer *lexer, size_t *i)
 {
 	char	*data_command;
 
@@ -44,7 +44,7 @@ void	creates_command(t_master *master, t_lexer *lexer, size_t *i)
 		lexer_exit(master, lexer, "strjoin2 error in creates_command");
 }
 
-int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i)
+static int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i)
 {
 	while (master->line_read[*i] && master->line_read[*i] != '|')
 	{
@@ -63,18 +63,14 @@ int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i)
 	return (EXIT_SUCCESS);
 }
 
-void	create_node_with_redir(t_master *master,
-	t_lexer *lexer, t_token **token)
+static void	create_node_with_redir(t_master *master, t_lexer *lexer,
+	t_token **token)
 {
-	t_token	*tmp;
-
-	tmp = NULL;
 	if (lexer->data_command)
 	{
 		create_token_node(master, lexer, CMD_OTHERS, true);
-		if (lexer->redirect)
-			ft_lstdupp(master, lexer, &lexer->redirect, &tmp);
-		(*token)->last->redir = tmp;
+		(*token)->last->redir = lexer->redirect;
+		lexer->redirect = NULL;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 16:24:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:07:21 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,34 +64,6 @@ void	exit_redir(t_master *master, t_lexer *lexer, size_t i)
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, master->line_read[i]);
 	clean_lexer(lexer);
 	free_token(&master->token);
-}
-
-void	ft_lstdupp(t_master *master, t_lexer *lexer,
-			t_token **token, t_token **new)
-{
-	t_token	*current;
-	t_token	*tmp;
-
-	current = *token;
-	while (current)
-	{
-		tmp = ft_calloc(1, sizeof(t_token));
-		if (!tmp)
-			lexer_exit(master, lexer, "calloc error in ft_lstdupp");
-		tmp->data = ft_strdup(current->data);
-		if (!tmp->data)
-			return (free(tmp),
-				lexer_exit(master, lexer, "strdup error in ft_lstdupp"));
-		tmp->type = current->type;
-		if (*new == NULL)
-			*new = tmp;
-		else
-			(*new)->last->next = tmp;
-		(*new)->last = tmp;
-		current = current->next;
-	}
-	free_token(token);
-	(*token) = NULL;
 }
 
 bool	condition_while(char *line_read, size_t i,
