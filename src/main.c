@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/23 15:09:32 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 13:09:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "get_next_line.h"
 #include "minishell.h"
 #include "libft.h"
 
@@ -45,9 +46,12 @@ static int	shell_loop(t_master *master)
 			master->exit_status = EXIT_INTERRUPTED;
 		init_master(master);
 		restore_sigaction(master);
-		master->line_read = readline("\033[32mminishell:~$ \033[0m");
+		if (isatty(STDIN_FILENO))
+			master->line_read = readline("\033[32mminishell:~$ \033[0m");
+		else
+			master->line_read = get_next_line(STDIN_FILENO);
 		if (!master->line_read)
-			return (handle_eof(master), EXIT_SUCCESS);
+			return (handle_eof(master), master->last_command_exit_value);
 		master->line_count++;
 		if (*master->line_read)
 			add_history(master->line_read);
@@ -64,6 +68,7 @@ int	main(void)
 	t_master	master;
 
 	rl_catch_signals = 0;
+	rl_catch_sigwinch = 0;
 	ft_memset(&master, 0, sizeof(t_master));
 	g_exit_status = &master.last_command_exit_value;
 	if (set_sigaction(&master) == EXIT_FAILURE)
