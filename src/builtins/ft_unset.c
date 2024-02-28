@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:50:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/01/11 19:01:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 11:31:49 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,12 @@ static void	remove_var(t_master *master, t_env *env)
 	}
 }
 
-int	ft_unset(int argc, char **argv, t_master *master)
+int	ft_unset(char **argv, t_master *master)
 {
 	t_env	*current;
 
 	current = master->env_list;
-	if (argc != 2)
-		return (EXIT_FAILURE);
-	while (current)
+	while (current && argv[1])
 	{
 		if (ft_strcmp(argv[1], current->name) == 0)
 		{

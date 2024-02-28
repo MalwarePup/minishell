@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/23 15:36:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 11:31:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ int						ft_env(t_master *master);
 void					ft_exit(t_master *master, int argc, char **argv);
 int						ft_export(int argc, char **argv, t_master *master);
 int						ft_pwd(void);
-int						ft_unset(int argc, char **argv, t_master *master);
+int						ft_unset(char **argv, t_master *master);
 
 /* redirection.c */
 

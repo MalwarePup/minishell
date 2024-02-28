@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:16:16 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 11:32:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	execute_builtin(t_master *master, t_cmd_type type)
 	else if (type == CMD_PWD)
 		return (ft_pwd());
 	else if (type == CMD_UNSET)
-		return (ft_unset(master->argc, master->argv, master));
+		return (ft_unset(master->argv, master));
 	else if (type == CMD_EXIT)
 		ft_exit(master, master->argc, master->argv);
 	return (CMD_ERROR);
