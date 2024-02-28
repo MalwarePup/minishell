@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 15:34:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:24:21 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i)
 {
 	while (master->line_read[*i] && master->line_read[*i] != '|')
 	{
-		while (ft_isspace(master->line_read[(*i)]) && master->line_read[(*i)])
+		while (ft_isspace(master->line_read[*i]) && master->line_read[*i])
 			(*i)++;
-		if (master->line_read[(*i)] == '|')
+		if (master->line_read[*i] == '|')
 			break ;
-		if (master->line_read[(*i)] == '<' || master->line_read[(*i)] == '>')
+		if (master->line_read[*i] == '<' || master->line_read[*i] == '>')
 		{
 			if (creates_redir(master, lexer, i) == EXIT_FAILURE)
 				return (EXIT_FAILURE);

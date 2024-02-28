@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 15:25:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:24:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 	t_cmd_type	type;
 
 	redir = line_read[(*i)++];
-	if (line_read[(*i)] == redir)
+	if (line_read[*i] == redir)
 	{
-		if (line_read[(*i) + 1] != redir)
+		if (line_read[*i + 1] != redir)
 		{
 			if (redir == '>')
 				type = CMD_D_RED_OUT;
