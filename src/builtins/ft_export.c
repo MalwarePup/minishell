@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/09 21:55:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static bool	is_valid_variable_name(char	*name, char *var_str)
 	return (true);
 }
 
-static bool	is_var_already_in_env(t_master **master, t_env *var)
+static bool	is_var_already_in_env(t_master **master, t_env_list *var)
 {
-	t_env	*current;
+	t_env_list	*current;
 
-	current = (*master)->env_list;
+	current = (*master)->env;
 	if (!current->name || !var->name)
 	{
 		return (false);
@@ -59,23 +59,23 @@ static bool	is_var_already_in_env(t_master **master, t_env *var)
 	return (false);
 }
 
-static void	add_back_env_var(t_master **master, t_env *var)
+static void	add_back_env_var(t_master **master, t_env_list *var)
 {
-	if (!(*master)->env_list)
-		(*master)->env_list = var;
+	if (!(*master)->env)
+		(*master)->env = var;
 	else
 	{
-		(*master)->env_list->last->next = var;
-		(*master)->env_list->last = var;
+		(*master)->env->last->next = var;
+		(*master)->env->last = var;
 	}
 }
 
 static int	export_var(t_master *master, char *var_str, char *equals_location)
 {
-	t_env	*var;
+	t_env_list	*var;
 	bool	status;
 
-	var = malloc(1 * sizeof(t_env));
+	var = malloc(1 * sizeof(t_env_list));
 	if (!var)
 		return (1);
 	if (equals_location)
@@ -102,11 +102,11 @@ static int	export_var(t_master *master, char *var_str, char *equals_location)
 int	ft_export(int argc, char **argv, t_master *master)
 {
 	int		i;
-	t_env	*current;
+	t_env_list	*current;
 	char	*equals_location;
 
 	i = 0;
-	current = master->env_list;
+	current = master->env;
 	if (argc < 2)
 	{
 		while (current)

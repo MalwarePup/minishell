@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 17:32:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	process_expansion(t_master *master, char **str, t_expansion *exp)
 	if ((*str)[exp->i + 1] == '?')
 		exp->value = ft_itoa(master->last_command_exit_value);
 	else
-		exp->value = getenv_value(master, master->env_list, exp->name);
+		exp->value = getenv_value(master, master->env, exp->name);
 	process_expansion_replace(master, str, exp);
 	free(exp->name);
 	free(exp->value);

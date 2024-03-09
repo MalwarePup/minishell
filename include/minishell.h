@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/02/28 17:32:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@
 
 # define DEFAULT_PATH_1 "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 # define DEFAULT_PATH_2 ":/opt/homebrew/bin"
-
-# define SHLVL "SHLVL"
 
 typedef enum e_cmd_type
 {
@@ -78,7 +76,7 @@ typedef struct s_env
 	char				*value;
 	struct s_env		*next;
 	struct s_env		*last;
-}						t_env;
+}						t_env_list;
 
 typedef struct s_token
 {
@@ -104,7 +102,7 @@ typedef struct s_exec
 typedef struct s_master
 {
 	char				*line_read;
-	t_env				*env_list;
+	t_env_list				*env;
 	t_token				*token;
 	t_exec				*exec;
 	char				**argv;
@@ -162,7 +160,7 @@ void					create_arguments(t_master *master, t_token *token);
 
 /* execution_utils.c */
 
-char					**env_list_to_array(t_master *master, t_env *env_list);
+char					**env_list_to_array(t_master *master, t_env_list *env);
 void					init_exec(t_master *master);
 void					execute_command(t_master *master);
 
@@ -173,7 +171,7 @@ void					launch_execution(t_master *master);
 
 /* expansion_utils.c */
 
-char					*getenv_value(t_master *master, t_env *env, char *name);
+char					*getenv_value(t_master *master, t_env_list *env, char *name);
 char					*extract_expansion_name(t_master *master, char *str);
 bool					is_valid_expansion_name(const char *name);
 
@@ -256,15 +254,13 @@ int						set_sigaction_temp(t_master *master);
 
 /* env_utils.c */
 
-void					update_executable_path(t_master *master,
-							t_env *current);
-char					*update_shlvl(t_master *master, char *value,
-							char *name);
+int						update_executable_path(t_master *master,
+							t_env_list *current);
 
 /* env.c */
 
-void					free_environment_list(t_env **env);
-void					manage_environment(t_master *master, t_env **env_list);
+void					free_environment_list(t_env_list **env);
+int						manage_environment(t_env_list **env);
 
 int						ft_cd(int argc, char **argv, t_master *master);
 int						ft_echo(int argc, char **argv, t_master *master);

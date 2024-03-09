@@ -6,62 +6,57 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/09 21:55:44 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:18:10 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-void	free_environment_list(t_env **env)
+static int	update_shlvl(char **dst, int old_value)
 {
-	t_env	*current;
-	t_env	*next;
-
-	current = *env;
-	while (current)
+	free(*dst);
+	*dst = ft_itoa(old_value + 1);
+	if (!*dst)
 	{
-		next = current->next;
-		free(current->name);
-		free(current->value);
-		free(current);
-		current = next;
+		perror("ft_itoa (update_shlvl)");
+		return (1);
 	}
-	*env = NULL;
+	return (0);
 }
 
-static void	create_add_env_node(t_master *master, char *name, char *value,
-	t_env **env_list)
+static int	create_add_env_node(t_env_list **env, char *name, char *value)
 {
-	t_env	*new_node;
+	t_env_list	*new_node;
 
-	new_node = malloc(sizeof(t_env));
+	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
 	{
 		free(name);
 		free(value);
-		error_exit(master, "malloc (create_add_env_node)");
-		return ;
+		perror("malloc (create_add_env_node)");
+		return (1);
 	}
 	new_node->name = name;
 	new_node->value = value;
 	new_node->next = NULL;
-	if (!*env_list)
+	if (!*env)
 	{
-		*env_list = new_node;
-		(*env_list)->last = new_node;
+		*env = new_node;
+		(*env)->last = new_node;
 	}
 	else
 	{
-		(*env_list)->last->next = new_node;
-		(*env_list)->last = new_node;
+		(*env)->last->next = new_node;
+		(*env)->last = new_node;
 	}
+	return (0);
 }
 
-static void	manage_pwd(t_master *master, t_env **env_list)
+static int	manage_pwd(t_env_list **env)
 {
 	char	*cwd;
 	char	*name;
@@ -70,70 +65,89 @@ static void	manage_pwd(t_master *master, t_env **env_list)
 	if (!cwd)
 	{
 		perror("getcwd (manage_empty_environment)");
-		exit(EXIT_FAILURE);
+		return (1);
 	}
 	name = ft_strdup("PWD");
 	if (!name)
 	{
 		free(cwd);
 		perror("ft_strdup (manage_empty_environment)");
-		exit(EXIT_FAILURE);
+		return (1);
 	}
-	create_add_env_node(master, name, cwd, env_list);
+	if (create_add_env_node(env, name, cwd))
+		return (1);
+	return (0);
 }
 
-static void	manage_empty_environment(t_master *master, t_env **env_list)
+static int	manage_empty_environment(t_env_list **env)
 {
 	char	*name;
 	char	*value;
 
-	manage_pwd(master, env_list);
+	if (manage_pwd(env))
+		return (1);
 	name = ft_strdup("SHLVL");
 	value = ft_strdup("1");
 	if (!name || !value)
 	{
 		free(name);
 		free(value);
-		error_exit(master, "ft_strdup (manage_empty_environment)");
-		return ;
+		perror("ft_strdup (manage_empty_environment)");
+		return (1);
 	}
-	create_add_env_node(master, name, value, env_list);
+	if (create_add_env_node(env, name, value))
+		return (1);
 	name = ft_strdup("_");
 	value = ft_strdup("minishell");
 	if (!name || !value)
 	{
 		free(name);
 		free(value);
-		error_exit(master, "ft_strdup (manage_empty_environment)");
-		return ;
+		perror("ft_strdup (manage_empty_environment)");
+		return (1);
 	}
-	create_add_env_node(master, name, value, env_list);
+	if (create_add_env_node(env, name, value))
+		return (1);
+	return (0);
 }
 
-void	manage_environment(t_master *master, t_env **env_list)
+int	manage_environment(t_env_list **env)
 {
 	char		*name;
 	char		*value;
-	extern char	**environ;
 	char		*equals_location;
+	extern char	**environ;
 
 	if (!*environ)
-		manage_empty_environment(master, env_list);
+		if (manage_empty_environment(env))
+			return (1);
 	while (*environ)
 	{
 		equals_location = ft_strchr(*environ, '=');
 		name = ft_strndup(*environ, equals_location - *environ);
 		if (!name)
-			error_exit(master, "ft_strndup (manage_environment)");
+		{
+			perror("ft_strndup (manage_environment)");
+			return (1);
+		}
 		value = ft_strdup(equals_location + 1);
 		if (!value)
 		{
 			free(name);
-			error_exit(master, "ft_strdup (manage_environment)");
+			perror("ft_strdup (manage_environment)");
+			return (1);
 		}
-		if (!ft_strcmp(name, SHLVL))
-			value = update_shlvl(master, value, name);
-		create_add_env_node(master, name, value, env_list);
+		if (!ft_strcmp(name, "SHLVL"))
+		{
+			if (update_shlvl(&value, ft_atoi(value)))
+			{
+				free(name);
+				return (1);
+			}
+		}
+		if (create_add_env_node(env, name, value))
+			return (1);
 		environ++;
 	}
+	return (0);
 }

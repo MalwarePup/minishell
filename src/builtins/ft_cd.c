@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/09 21:58:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include "minishell.h"
 #include "libft.h"
 
-static int	update_var_pwd(t_env *env_list)
+static int	update_var_pwd(t_env_list *env)
 {
-	t_env	*current;
+	t_env_list	*current;
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
@@ -27,7 +27,7 @@ static int	update_var_pwd(t_env *env_list)
 		perror("getcwd");
 		return (1);
 	}
-	current = env_list;
+	current = env;
 	while (current && current->name && ft_strcmp(current->name, "PWD"))
 		current = current->next;
 	if (!current)
@@ -43,9 +43,9 @@ static int	update_var_pwd(t_env *env_list)
 	return (EXIT_SUCCESS);
 }
 
-static char	*getenv_no_alloc(t_env *env, char *name)
+static char	*getenv_no_alloc(t_env_list *env, char *name)
 {
-	t_env	*current;
+	t_env_list	*current;
 
 	current = env;
 	if (!current || !current->name)
@@ -71,7 +71,7 @@ static int	change_directory_and_update(t_master *master, const char *path)
 		perror("minishell: cd");
 		return (1);
 	}
-	if (update_var_pwd(master->env_list))
+	if (update_var_pwd(master->env))
 		return (1);
 	return (EXIT_SUCCESS);
 }
@@ -87,7 +87,7 @@ int	ft_cd(int argc, char **argv, t_master *master)
 	}
 	else if (argc != 2 || ft_strncmp(argv[1], "--", 3) == 0)
 	{
-		home_path = getenv_no_alloc(master->env_list, "HOME");
+		home_path = getenv_no_alloc(master->env, "HOME");
 		if (!home_path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
@@ -97,7 +97,7 @@ int	ft_cd(int argc, char **argv, t_master *master)
 	}
 	else if (ft_strncmp(argv[1], "-", 2) == 0)
 	{
-		home_path = getenv_no_alloc(master->env_list, "OLDPWD");
+		home_path = getenv_no_alloc(master->env, "OLDPWD");
 		if (!home_path)
 		{
 			ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 16:07:58 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static char	*find_executable_command_path(t_master *master)
 	int		i;
 	char	*temp;
 	char	**paths;
-	t_env	*current;
+	t_env_list	*current;
 	char	*pathname;
 
-	current = master->env_list;
+	current = master->env;
 	while (current && current->name && ft_strcmp(current->name, "PATH"))
 		current = current->next;
 	if (!current || !current->value)

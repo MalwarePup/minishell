@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:23 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 12:58:36 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 int	ft_env(t_master *master)
 {
-	t_env	*current;
+	t_env_list	*current;
 
-	current = master->env_list;
+	current = master->env;
 	while (current)
 	{
 		printf("%s=%s\n", current->name, current->value);

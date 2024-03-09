@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 16:09:22 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:16:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-char	*getenv_value(t_master *master, t_env *env, char *name)
+char	*getenv_value(t_master *master, t_env_list *env, char *name)
 {
 	char	*value;
 

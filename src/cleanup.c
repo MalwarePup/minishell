@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 18:18:59 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/23 15:37:00 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,23 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include "minishell.h"
+
+void	free_environment_list(t_env_list **env)
+{
+	t_env_list	*current;
+	t_env_list	*next;
+
+	current = *env;
+	while (current)
+	{
+		next = current->next;
+		free(current->name);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*env = NULL;
+}
 
 void	free_string_array(char ***str)
 {
@@ -55,7 +72,7 @@ void	cleanup_before_exit(t_master *master)
 	rl_clear_history();
 	free(master->pid_list);
 	free_string_array(&master->argv);
-	free_environment_list(&master->env_list);
+	free_environment_list(&master->env);
 	free_token(&master->token);
 	free(master->line_read);
 	free(master->exec);
