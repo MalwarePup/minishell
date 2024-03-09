@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 13:09:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/09 21:58:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ int	main(void)
 	rl_catch_sigwinch = 0;
 	ft_memset(&master, 0, sizeof(t_master));
 	g_exit_status = &master.last_command_exit_value;
-	if (set_sigaction(&master) == EXIT_FAILURE)
+	if (set_sigaction(&master))
 		return (EXIT_FAILURE);
 	manage_environment(&master, &master.env_list);
-	return (shell_loop(&master));
+	if (shell_loop(&master))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

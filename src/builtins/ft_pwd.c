@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 10:40:32 by ladloff           #+#    #+#             */
-/*   Updated: 2023/05/11 14:30:06 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/09 21:55:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_pwd(void)
 	if (!cwd)
 	{
 		perror("getcwd() error");
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	printf("%s\n", cwd);
 	free(cwd);

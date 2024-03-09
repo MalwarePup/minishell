@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 17:32:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/09 21:55:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	start_operator(t_master *master)
 	{
 		master->exit_status = EXIT_MISUSE;
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -42,7 +42,7 @@ int	is_clean(t_token **token)
 			type = *ops[current->type - 1];
 			printf(ESTR_UNEXP, type);
 			free_token(token);
-			return (EXIT_FAILURE);
+			return (1);
 		}
 		current = current->next;
 	}

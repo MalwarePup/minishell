@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 13:45:04 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/09 21:58:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	update_var_pwd(t_env *env_list)
 	if (!cwd)
 	{
 		perror("getcwd");
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	current = env_list;
 	while (current && current->name && ft_strcmp(current->name, "PWD"))
@@ -33,12 +33,12 @@ static int	update_var_pwd(t_env *env_list)
 	if (!current)
 	{
 		free(cwd);
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	free(current->value);
 	current->value = ft_strdup(cwd);
 	if (!current->value)
-		return (EXIT_FAILURE);
+		return (1);
 	free(cwd);
 	return (EXIT_SUCCESS);
 }
@@ -69,10 +69,10 @@ static int	change_directory_and_update(t_master *master, const char *path)
 	if (chdir(path) == -1)
 	{
 		perror("minishell: cd");
-		return (EXIT_FAILURE);
+		return (1);
 	}
-	if (update_var_pwd(master->env_list) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	if (update_var_pwd(master->env_list))
+		return (1);
 	return (EXIT_SUCCESS);
 }
 
@@ -83,7 +83,7 @@ int	ft_cd(int argc, char **argv, t_master *master)
 	if (argc > 2)
 	{
 		ft_putstr_fd(ESTR_CD_TOO_MANY_ARGS, STDERR_FILENO);
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	else if (argc != 2 || ft_strncmp(argv[1], "--", 3) == 0)
 	{
@@ -91,7 +91,7 @@ int	ft_cd(int argc, char **argv, t_master *master)
 		if (!home_path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
-			return (EXIT_FAILURE);
+			return (1);
 		}
 		return (change_directory_and_update(master, home_path));
 	}
@@ -101,7 +101,7 @@ int	ft_cd(int argc, char **argv, t_master *master)
 		if (!home_path)
 		{
 			ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
-			return (EXIT_FAILURE);
+			return (1);
 		}
 		ft_putendl_fd((char *)home_path, STDOUT_FILENO);
 		return (change_directory_and_update(master, home_path));

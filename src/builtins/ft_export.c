@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/10 13:28:02 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/09 21:55:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	export_var(t_master *master, char *var_str, char *equals_location)
 
 	var = malloc(1 * sizeof(t_env));
 	if (!var)
-		return (EXIT_FAILURE);
+		return (1);
 	if (equals_location)
 	{
 		*equals_location = '\0';
@@ -94,7 +94,7 @@ static int	export_var(t_master *master, char *var_str, char *equals_location)
 		return (free(var), EXIT_SUCCESS);
 	var->next = NULL;
 	if (!is_valid_variable_name(var->name, var_str))
-		return (free(var->name), free(var->value), free(var), EXIT_FAILURE);
+		return (free(var->name), free(var->value), free(var), 1);
 	add_back_env_var(&master, var);
 	return (EXIT_SUCCESS);
 }
@@ -120,7 +120,7 @@ int	ft_export(int argc, char **argv, t_master *master)
 	{
 		equals_location = ft_strchr(argv[i], '=');
 		if (export_var(master, argv[i], equals_location))
-			return (EXIT_FAILURE);
+			return (1);
 	}
 	return (EXIT_SUCCESS);
 }

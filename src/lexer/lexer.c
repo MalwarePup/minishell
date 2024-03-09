@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 17:09:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/09 21:59:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 	type = redir_type(master->line_read, i);
 	if (type == CMD_ERROR)
 		return (master->exit_status = EXIT_MISUSE,
-			clean_lexer(lexer), EXIT_FAILURE);
+			clean_lexer(lexer), 1);
 	lexer->data_redir = creates_data(master, lexer, i, false);
 	if (!lexer->data_redir)
-		return (exit_redir(master, lexer, *i), EXIT_FAILURE);
+		return (exit_redir(master, lexer, *i), 1);
 	create_token_node(master, lexer, type, false);
 	return (EXIT_SUCCESS);
 }
@@ -54,8 +54,8 @@ static int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i
 			break ;
 		if (master->line_read[*i] == '<' || master->line_read[*i] == '>')
 		{
-			if (creates_redir(master, lexer, i) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
+			if (creates_redir(master, lexer, i))
+				return (1);
 		}
 		else
 			creates_command(master, lexer, i);
@@ -87,12 +87,12 @@ int	launch_lexer(t_master *master)
 		{
 			create_token_node(master, &lexer, CMD_PIPE, true);
 			if (start_operator(master) || two_consecutive_pipe(master))
-				return (clean_lexer(&lexer), EXIT_FAILURE);
+				return (clean_lexer(&lexer), 1);
 			i++;
 			continue ;
 		}
-		if (creates_command_and_redir(master, &lexer, &i) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		if (creates_command_and_redir(master, &lexer, &i))
+			return (1);
 		create_node_with_redir(master, &lexer, &master->token);
 		clean_lexer(&lexer);
 	}
