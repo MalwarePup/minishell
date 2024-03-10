@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:59:16 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 13:14:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/10 15:44:22 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft.h"
 #include "minishell.h"
 
+// Fix a segfault when the argument is NULL, but the error management is not
+// consistent with the rest of the project.
 static char	*ft_strjoin_char(char *str, char c)
 {
 	int		len;
@@ -53,7 +55,11 @@ static char	*process_arg(char *arg)
 				new_arg = ft_strjoin_char(new_arg, arg[j]);
 		}
 		else
+		{
 			new_arg = ft_strjoin_char(new_arg, arg[j]);
+			if (!new_arg)
+				return (NULL);
+		}
 	}
 	return (new_arg);
 }
@@ -67,6 +73,8 @@ void	replace_argv_without_quotes(t_master *master)
 	while (master->argv[++i])
 	{
 		new_arg = process_arg(master->argv[i]);
+		if (!new_arg)
+			return ;
 		free(master->argv[i]);
 		master->argv[i] = new_arg;
 	}
