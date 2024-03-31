@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/09 21:56:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/31 17:51:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	split_args(t_master *master, char *s, char **argv)
 		if (s[j])
 			argv[i++] = create_arg(master, s, &j);
 	}
-	argv[i] = NULL;
 	return (i);
 }
 
@@ -86,7 +85,7 @@ void	create_arguments(t_master *master, t_token *token)
 	argc = count_words(token->data) + 1;
 	if (token && token->data && token->type)
 	{
-		master->argv = malloc(argc * sizeof(char *));
+		master->argv = ft_calloc(argc, sizeof(char *));
 		if (!master->argv)
 		{
 			perror("malloc in create_arguments");
