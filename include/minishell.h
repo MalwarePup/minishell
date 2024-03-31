@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/31 16:13:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_exec
 typedef struct s_master
 {
 	char				*line_read;
-	t_env_list				*env;
+	t_env_list			*env;
 	t_token				*token;
 	t_exec				*exec;
 	char				**argv;
@@ -171,7 +171,8 @@ void					launch_execution(t_master *master);
 
 /* expansion_utils.c */
 
-char					*getenv_value(t_master *master, t_env_list *env, char *name);
+char					*getenv_value(t_master *master, t_env_list *env,
+							char *name);
 char					*extract_expansion_name(t_master *master, char *str);
 bool					is_valid_expansion_name(const char *name);
 

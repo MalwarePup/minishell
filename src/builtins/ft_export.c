@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/31 16:14:18 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	add_back_env_var(t_master **master, t_env_list *var)
 static int	export_var(t_master *master, char *var_str, char *equals_location)
 {
 	t_env_list	*var;
-	bool	status;
+	bool		status;
 
 	var = malloc(1 * sizeof(t_env_list));
 	if (!var)
@@ -101,9 +101,9 @@ static int	export_var(t_master *master, char *var_str, char *equals_location)
 
 int	ft_export(int argc, char **argv, t_master *master)
 {
-	int		i;
+	int			i;
 	t_env_list	*current;
-	char	*equals_location;
+	char		*equals_location;
 
 	i = 0;
 	current = master->env;

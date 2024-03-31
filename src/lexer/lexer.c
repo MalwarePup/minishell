@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/09 21:59:12 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/31 16:13:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 	type = CMD_OTHERS;
 	type = redir_type(master->line_read, i);
 	if (type == CMD_ERROR)
-		return (master->exit_status = EXIT_MISUSE,
-			clean_lexer(lexer), 1);
+		return (master->exit_status = EXIT_MISUSE, clean_lexer(lexer), 1);
 	lexer->data_redir = creates_data(master, lexer, i, false);
 	if (!lexer->data_redir)
 		return (exit_redir(master, lexer, *i), 1);
@@ -44,7 +43,8 @@ static void	creates_command(t_master *master, t_lexer *lexer, size_t *i)
 		lexer_exit(master, lexer, "strjoin2 error in creates_command");
 }
 
-static int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i)
+static int	creates_command_and_redir(t_master *master, t_lexer *lexer,
+		size_t *i)
 {
 	while (master->line_read[*i] && master->line_read[*i] != '|')
 	{
@@ -64,7 +64,7 @@ static int	creates_command_and_redir(t_master *master, t_lexer *lexer, size_t *i
 }
 
 static void	create_node_with_redir(t_master *master, t_lexer *lexer,
-	t_token **token)
+		t_token **token)
 {
 	if (lexer->data_command)
 	{
