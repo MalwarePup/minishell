@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:59:16 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 15:44:22 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/31 17:25:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static char	*process_arg(char *arg)
 	int		j;
 
 	new_arg = ft_strdup("");
+	if (!new_arg)
+		return (NULL);
 	j = -1;
 	while (arg[++j])
 	{
