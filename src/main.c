@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/31 15:08:19 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,5 @@ int	main(void)
 		free_environment_list(&master.env);
 		return (EXIT_FAILURE);
 	}
-	if (shell_loop(&master))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (shell_loop(&master));
 }
