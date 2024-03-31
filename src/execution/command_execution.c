@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/31 16:15:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/03/31 17:39:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static char	*find_executable_command_path(t_master *master)
 	else
 		paths = ft_split(current->value, ':');
 	i = -1;
+	if (!paths)
+		error_exit(master, "ft_split (find_executable_command_path)");
 	while (paths[++i])
 	{
 		temp = ft_strjoin("/", master->argv[0]);
