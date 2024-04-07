@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/31 16:10:33 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:24:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,24 @@
 #include "minishell.h"
 #include "libft.h"
 
-static int	update_var_pwd(t_env_list *env)
+static int modify_env_var(t_env_list *env, const char *name, const char *value)
 {
 	t_env_list	*current;
-	char		*cwd;
 
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		perror("getcwd");
-		return (1);
-	}
 	current = env;
-	while (current && current->name && ft_strcmp(current->name, "PWD"))
-		current = current->next;
-	if (!current)
+	while (current)
 	{
-		free(cwd);
-		return (1);
+		if (!ft_strcmp(current->name, name))
+		{
+			free(current->value);
+			current->value = ft_strdup(value);
+			if (!current->value)
+				return (1);
+			return (0);
+		}
+		current = current->next;
 	}
-	free(current->value);
-	current->value = ft_strdup(cwd);
-	if (!current->value)
-		return (1);
-	free(cwd);
-	return (EXIT_SUCCESS);
+	return (1);
 }
 
 static char	*getenv_no_alloc(t_env_list *env, char *name)
@@ -66,14 +59,23 @@ static char	*getenv_no_alloc(t_env_list *env, char *name)
 
 static int	change_directory_and_update(t_master *master, const char *path)
 {
+	char		*cwd;
+
 	if (chdir(path) == -1)
 	{
 		perror("minishell: cd");
 		return (1);
 	}
-	if (update_var_pwd(master->env))
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("getcwd");
 		return (1);
-	return (EXIT_SUCCESS);
+	}
+	modify_env_var(master->env, "OLDPWD", getenv_no_alloc(master->env, "PWD"));
+	modify_env_var(master->env, "PWD", cwd);
+	free(cwd);
+	return (0);
 }
 
 int	ft_cd(int argc, char **argv, t_master *master)
