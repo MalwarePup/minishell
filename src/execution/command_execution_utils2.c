@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:42:44 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 10:48:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:57:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	find_executable_command_path(t_master *master)
 	char	*executable_path;
 
 	paths = get_paths(master);
-	if (master->argv[0][0] == '/')
+	if ((master->argv[0][0] == '.' && master->argv[0][1] == '/')
+		|| master->argv[0][0] == '/')
 	{
 		if (access(master->argv[0], X_OK) == 0)
 		{
