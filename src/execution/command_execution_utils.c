@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/16 21:15:53 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:32:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,3 @@ bool	handle_command_not_found_error(t_master *master)
 	return (handle_file_access_and_errors(master));
 }
 
-int	count_pipe(t_token *token)
-{
-	int	i;
-
-	i = 0;
-	while (token)
-	{
-		if (token->type == CMD_PIPE)
-			i++;
-		token = token->next;
-	}
-	return (i + 1);
-}

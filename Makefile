@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/02/22 21:46:33 by ladloff          ###   ########.fr        #
+#    Updated: 2024/04/08 10:33:54 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC_FILES	:=	builtins/ft_cd.c \
 				execution/command_execution_utils.c \
 				execution/command_execution.c \
 				execution/execution_utils.c \
+				execution/execution_utils2.c \
 				execution/execution.c \
 				execution/expansion_utils.c \
 				execution/expansion.c \
