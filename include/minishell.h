@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/08 12:23:54 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 15:32:11 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef enum e_cmd_type
 	CMD_UNSET,
 	CMD_EXPORT,
 	CMD_OTHERS,
+	CMD_NOCMD,
 	CMD_PIPE,
 	CMD_RED_IN,
 	CMD_D_RED_IN,

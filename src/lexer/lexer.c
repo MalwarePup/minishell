@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 14:07:17 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 15:43:36 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ static void	create_node_with_redir(t_master *master, t_lexer *lexer,
 	if (lexer->data_command)
 	{
 		create_token_node(master, lexer, CMD_OTHERS, true);
+		(*token)->last->redir = lexer->redirect;
+		lexer->redirect = NULL;
+	}
+	else if (lexer->redirect)
+	{
+		create_token_node(master, lexer, CMD_NOCMD, true);
 		(*token)->last->redir = lexer->redirect;
 		lexer->redirect = NULL;
 	}

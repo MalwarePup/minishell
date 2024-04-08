@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 15:46:58 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,12 @@ static void	handle_execution(t_master *master, int *num_pids)
 	token = master->token;
 	while (token)
 	{
+		if (token->type == CMD_NOCMD)
+		{
+			launch_redirection(master, token);
+			token = token->next;
+			continue ;
+		}
 		type = prepare_execution(master, token);
 		if (type == CMD_ERROR)
 		{
