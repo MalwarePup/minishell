@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:59:16 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 10:11:10 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:11:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "libft.h"
 #include "minishell.h"
 
-// Fix a segfault when the argument is NULL, but the error management is not
-// consistent with the rest of the project.
 static char	*ft_strjoin_char(char *str, char c)
 {
 	int		len;
