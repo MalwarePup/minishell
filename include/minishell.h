@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/08 10:46:12 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 12:23:54 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,8 @@ void					launch_execution(t_master *master);
 char					*getenv_value(t_master *master, t_env_list *env,
 							char *name);
 char					*extract_expansion_name(t_master *master, char *str);
-bool					is_valid_expansion_name(const char *name);
+char					*create_new_string_with_value(t_master *master,
+							char *str, t_expansion *exp);
 
 /* expansion.c */
 

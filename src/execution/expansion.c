@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 12:22:45 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,6 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "minishell.h"
-
-static char	*create_new_string_with_value(t_master *master, char *str,
-	t_expansion *exp)
-{
-	char	*new_str;
-	size_t	len;
-
-	exp->is_expanded = true;
-	len = ft_strlen(str) - ft_strlen(exp->name) - 1 + ft_strlen(exp->value) + 1;
-	new_str = malloc(len);
-	if (!new_str)
-	{
-		free(exp->name);
-		free(exp->value);
-		error_exit(master, "malloc (create_new_string_with_value)");
-	}
-	ft_strlcpy(new_str, str, exp->substr_start - str + 1);
-	ft_strlcat(new_str, exp->value, len);
-	ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1, len);
-	return (new_str);
-}
 
 static char	*create_new_string_without_value(t_master *master, char *str,
 	t_expansion *exp)
@@ -90,30 +69,43 @@ static void	process_expansion(t_master *master, char **str, t_expansion *exp)
 	free(exp->value);
 }
 
+static int	handle_expansion_iteration(t_master *master, char **str,
+	t_expansion *exp, bool *skip_next)
+{
+	is_valid_character((*str)[exp->i], true, &exp->quote);
+	if ((*str)[exp->i] == '$' && exp->quote != '\''
+		&& (ft_isalnum((*str)[exp->i + 1]) || (*str)[exp->i + 1] == '_'
+		|| (*str)[exp->i + 1] == '?' || (*str)[exp->i + 1] == '\''
+		|| (*str)[exp->i + 1] == '"'))
+	{
+		if (*skip_next)
+		{
+			*skip_next = false;
+			return (0);
+		}
+		process_expansion(master, str, exp);
+		if (ft_strlen(*str) < 1)
+			return (1);
+		else if (exp->is_expanded)
+		{
+			ft_memset(exp, 0, sizeof(t_expansion));
+		}
+	}
+	else if (ft_strncmp(&(*str)[exp->i], "<<", 2) == 0)
+		*skip_next = true;
+	return (0);
+}
+
 void	launch_expansion(t_master *master, char **str)
 {
 	t_expansion	exp;
+	static bool	skip_next = false;
 
 	ft_memset(&exp, 0, sizeof(t_expansion));
 	while ((*str)[exp.i])
 	{
-		is_valid_character((*str)[exp.i], true, &exp.quote);
-		if ((*str)[exp.i] == '$' && exp.quote != '\''
-				&& (ft_isalnum((*str)[exp.i + 1])
-				|| (*str)[exp.i + 1] == '_'
-				|| (*str)[exp.i + 1] == '?'
-				|| (*str)[exp.i + 1] == '\''
-				|| (*str)[exp.i + 1] == '"'))
-		{
-			process_expansion(master, str, &exp);
-			if (ft_strlen(*str) < 1)
-				break ;
-			else if (exp.is_expanded)
-			{
-				ft_memset(&exp, 0, sizeof(t_expansion));
-				continue ;
-			}
-		}
+		if (handle_expansion_iteration(master, str, &exp, &skip_next))
+			break ;
 		exp.i++;
 	}
 }

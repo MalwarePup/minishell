@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:16:53 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:16:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 12:05:57 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,25 @@ char	*extract_expansion_name(t_master *master, char *str)
 	if (!name)
 		error_exit(master, "ft_strndup (extract_expansion_name)");
 	return (name);
+}
+
+char	*create_new_string_with_value(t_master *master, char *str,
+	t_expansion *exp)
+{
+	char	*new_str;
+	size_t	len;
+
+	exp->is_expanded = true;
+	len = ft_strlen(str) - ft_strlen(exp->name) - 1 + ft_strlen(exp->value) + 1;
+	new_str = malloc(len);
+	if (!new_str)
+	{
+		free(exp->name);
+		free(exp->value);
+		error_exit(master, "malloc (create_new_string_with_value)");
+	}
+	ft_strlcpy(new_str, str, exp->substr_start - str + 1);
+	ft_strlcat(new_str, exp->value, len);
+	ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1, len);
+	return (new_str);
 }
