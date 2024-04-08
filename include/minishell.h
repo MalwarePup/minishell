@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/08 15:32:11 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/08 16:49:49 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ void					execute_command(t_master *master);
 /* execution_utils2.c */
 
 int						count_pipe(t_token *token);
+bool					no_command(t_master *master, t_token **token);
 
 /* execution.c */
 

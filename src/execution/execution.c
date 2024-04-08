@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 16:36:21 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/08 16:49:29 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,6 @@ static void	parent_process(t_master *master, t_token **token)
 	set_sigaction_temp(master);
 	free_string_array(&master->argv);
 }
-void print_token(t_token *token)
-{
-	t_token *tmp = token;
-	while (tmp)
-	{
-		printf("data: %s\n", tmp->data);
-		printf("type: %d\n", tmp->type);
-		print_token(tmp->redir);
-		tmp = tmp->next;
-	}
-}
 
 static void	handle_execution(t_master *master, int *num_pids)
 {
@@ -114,14 +103,8 @@ static void	handle_execution(t_master *master, int *num_pids)
 	token = master->token;
 	while (token)
 	{
-		if (token->type == CMD_NOCMD)
-		{
-			int stdout = dup(STDOUT_FILENO);
-			launch_redirection(master, token->redir);
-			dup2(stdout, STDOUT_FILENO);
-			token = token->next;
+		if (no_command(master, &token))
 			continue ;
-		}
 		type = prepare_execution(master, token);
 		if (type == CMD_ERROR)
 		{
