@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/03/31 16:13:33 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:46:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ bool					handle_command_not_found_error(t_master *master);
 int						execute_builtin(t_master *master, t_cmd_type type);
 t_cmd_type				execute_command_or_builtin(t_master *master);
 
-/*command_execution_utils.c */
+/*command_execution_utils2.c */
 
-int						count_pipe(t_token *token);
+void					find_executable_command_path(t_master *master);
 
 /* execution_mem.c */
 
@@ -163,6 +163,10 @@ void					create_arguments(t_master *master, t_token *token);
 char					**env_list_to_array(t_master *master, t_env_list *env);
 void					init_exec(t_master *master);
 void					execute_command(t_master *master);
+
+/* execution_utils2.c */
+
+int						count_pipe(t_token *token);
 
 /* execution.c */
 

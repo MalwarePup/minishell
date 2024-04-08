@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/31 17:39:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:44:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,36 +18,6 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
-static char	*find_executable_command_path(t_master *master)
-{
-	int			i;
-	char		*temp;
-	char		**paths;
-	t_env_list	*current;
-	char		*pathname;
-
-	current = master->env;
-	while (current && current->name && ft_strcmp(current->name, "PATH"))
-		current = current->next;
-	if (!current || !current->value)
-		paths = ft_split(DEFAULT_PATH_1 DEFAULT_PATH_2, ':');
-	else
-		paths = ft_split(current->value, ':');
-	i = -1;
-	if (!paths)
-		error_exit(master, "ft_split (find_executable_command_path)");
-	while (paths[++i])
-	{
-		temp = ft_strjoin("/", master->argv[0]);
-		pathname = ft_strjoin3(paths[i], temp);
-		if (access(pathname, X_OK) == 0)
-			return (free_string_array(&paths), free(master->argv[0]),
-				master->argv[0] = pathname);
-		free(pathname);
-	}
-	return (free_string_array(&paths), NULL);
-}
 
 static bool	is_executable_command(t_master *master)
 {
