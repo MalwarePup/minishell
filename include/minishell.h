@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/09 14:25:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:54:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_master
 	int					line_count;
 	int					exit_status;
 	int					last_command_exit_value;
+	bool				reset_exit_status;
 	struct sigaction	minishell_sa;
 	struct sigaction	heredoc_sa;
 	struct sigaction	temp_sa;

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:09:04 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:57:37 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	init_master(t_master *master)
 	master->exec = NULL;
 	master->token = NULL;
 	master->pid_list = NULL;
-	master->last_command_exit_value = master->exit_status;
+	if (master->reset_exit_status)
+		master->last_command_exit_value = master->exit_status;
 	master->exit_status = 0;
 }
 
@@ -54,11 +55,16 @@ static int	shell_loop(t_master *master)
 			return (handle_eof(master), master->last_command_exit_value);
 		master->line_count++;
 		if (*master->line_read)
+		{
 			add_history(master->line_read);
-		launch_expansion(master, &master->line_read);
-		if (is_matched_quotes(master, master->line_read)
-			&& !launch_lexer(master))
-			launch_execution(master);
+			launch_expansion(master, &master->line_read);
+			if (is_matched_quotes(master, master->line_read)
+				&& !launch_lexer(master))
+				launch_execution(master);
+			master->reset_exit_status = true;
+		}
+		else
+			master->reset_exit_status = false;
 		free_master(master);
 	}
 }
@@ -70,6 +76,7 @@ int	main(void)
 	rl_catch_signals = 0;
 	rl_catch_sigwinch = 0;
 	ft_memset(&master, 0, sizeof(t_master));
+	master.reset_exit_status = true;
 	g_exit_status = &master.last_command_exit_value;
 	if (set_sigaction(&master))
 		return (EXIT_FAILURE);
