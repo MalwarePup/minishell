@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 11:20:29 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 11:51:33 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,11 @@ int	launch_nocommand(t_master *master, t_token *tmp)
 		token = token->next;
 	}
 	if (is_input == true)
-		dup2(stdin, STDIN_FILENO);
+		if (dup2(stdin, STDIN_FILENO) == -1)
+			error_exit(master, "dup2: stdin");
 	if (is_output == true)
-		dup2(stdout, STDOUT_FILENO);
+		if (dup2(stdout, STDOUT_FILENO) == -1)
+			error_exit(master, "dup2: stdout");
 	return (EXIT_SUCCESS);
 }
 
