@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/09 10:27:39 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 11:21:02 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,12 @@ void					execute_command(t_master *master);
 
 int						count_pipe(t_token *token);
 int						no_command(t_master *master, t_token **token);
+void					replace_redir(t_master *master, char **str);
+bool					redirect_cmd(t_master *master, char *file, int flag, int fd);
+
+/* no_command.c */
+
+int						handle_redir(t_master *master, t_token *token, bool *is_input, bool *is_output);
 
 /* execution.c */
 

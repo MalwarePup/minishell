@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 10:43:04 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 11:20:29 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "libft.h"
 
 
 int	count_pipe(t_token *token)
@@ -30,24 +32,7 @@ int	count_pipe(t_token *token)
 	return (i + 1);
 }
 
-int is_different(int fd) {
-    int copy = fcntl(fd, F_DUPFD, 0);
-    if (copy == -1) {
-		// error_exit(master, "fcntl (is_different)");
-		return 0;
-    }
-    int is_different = (copy != STDOUT_FILENO);
-    close(copy);
-    return is_different;
-}
-
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include "libft.h"
-#include "minishell.h"
-
-static void	replace_redir(t_master *master, char **str)
+void	replace_redir(t_master *master, char **str)
 {
 	char	*new_str;
 	char	*test;
@@ -76,7 +61,7 @@ static void	replace_redir(t_master *master, char **str)
 	return (free(*str), *str = new_str, new_str[ij[1]] = '\0', free(test));
 }
 
-static bool	redirect(t_master *master, char *file, int flag, int fd)
+bool	redirect_cmd(t_master *master, char *file, int flag, int fd)
 {
 	int	new_fd;
 
@@ -108,37 +93,8 @@ int	launch_nocommand(t_master *master, t_token *tmp)
 	stdout = dup(STDOUT_FILENO);
 	while (token)
 	{
-		replace_redir(master, &token->data);
-		if (token->type == CMD_RED_IN)
-		{
-			if (redirect(master, token->data, O_RDONLY, STDIN_FILENO) == true)
-				is_input = true;
-			else
-				return (EXIT_FAILURE);
-		}
-		else if (token->type == CMD_RED_OUT)
-		{
-			if (redirect(master, token->data,
-				O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO) == true)
-				is_output = true;
-			else
-				return (EXIT_FAILURE);
-		}
-		else if (token->type == CMD_D_RED_OUT)
-		{
-			if (redirect(master, token->data,
-				O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO) == true)
-				is_output = true;
-			else
-				return (EXIT_FAILURE);
-		}
-		else if (token->type == CMD_D_RED_IN)
-		{
-			if (redirect(master, token->data, O_RDONLY, STDIN_FILENO) == true)
-				is_input = true;
-			else
-				return (EXIT_FAILURE);
-		}
+		if (handle_redir(master, token, &is_input, &is_output) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		token = token->next;
 	}
 	if (is_input == true)
