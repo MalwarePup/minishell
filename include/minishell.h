@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/09 07:32:04 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 10:19:07 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ int						set_sigaction_temp(t_master *master);
 
 /* env_utils.c */
 
-int						update_executable_path(t_master *master,
+void					update_executable_path(t_master *master,
 							t_env_list *current);
 
 /* env.c */

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 10:21:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,33 @@ static size_t	get_env_list_size(t_env_list *env)
 	return (size);
 }
 
-int	update_executable_path(t_master *master, t_env_list *current)
+void	update_executable_path(t_master *master, t_env_list *current)
 {
 	char	*value;
 	size_t	value_size;
 
 	if (!master->argv || !master->argv[0])
-		return (0);
+		return ;
 	value = NULL;
 	while (current && current->name)
 	{
 		if (!ft_strcmp(current->name, "_"))
 		{
 			free(current->value);
+			current->value = NULL;
 			value_size = ft_strlen(master->argv[master->argc - 1]) + 1;
 			if (value_size)
 			{
 				value = malloc(value_size);
 				if (!value)
-				{
-					free(current->name);
-					perror("malloc (update_executable_path)");
-					return (1);
-				}
+					error_exit(master, "malloc (update_executable_path)");
 				ft_strlcpy(value, master->argv[master->argc - 1], value_size);
 				current->value = value;
 			}
-			return (0);
+			return ;
 		}
 		current = current->next;
 	}
-	return (0);
 }
 
 char	**env_list_to_array(t_master *master, t_env_list *env)
