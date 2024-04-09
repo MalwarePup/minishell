@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/04/08 10:48:26 by ladloff          ###   ########.fr        #
+#    Updated: 2024/04/09 08:05:45 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ SRC_FILES	:=	builtins/ft_cd.c \
 				builtins/ft_export.c \
 				builtins/ft_pwd.c \
 				builtins/ft_unset.c \
-				environment/env_utils.c \
 				environment/env.c \
 				execution/argument_creation.c \
 				execution/argument_quotes_removal.c \
