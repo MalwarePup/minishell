@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_mem.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 15:36:38 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 12:22:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_token	**ft_token_lst(t_master *master, t_lexer *lexer, bool command)
 	return (&lexer->redirect);
 }
 
-static char	*trim_spaces(t_master *master, t_lexer *lexer, char *str)
+char	*trim_spaces(t_master *master, t_lexer *lexer, char *str)
 {
 	size_t	i;
 	size_t	j;
