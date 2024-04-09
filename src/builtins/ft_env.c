@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:23 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ int	ft_env(t_master *master)
 		printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

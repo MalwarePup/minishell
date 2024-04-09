@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:50:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 07:42:29 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ int	ft_unset(char **argv, t_master *master)
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
