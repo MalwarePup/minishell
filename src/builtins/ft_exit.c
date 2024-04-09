@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 12:52:10 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:25:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,37 @@ static bool	is_numeric_argument(const char *arg)
 	return (true);
 }
 
-static void	check_arguments(t_master *master, int argc, char **argv)
+static int	check_arguments(int argc, char **argv)
 {
 	if (argc > 1 && (!argv[1][0] || !is_numeric_argument(argv[1])))
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_NUM_ARG, argv[1]);
-		master->exit_status = EXIT_MISUSE;
+		return (EXIT_MISUSE);
 	}
 	else if (argc > 2)
 	{
 		ft_putstr_fd(ESTR_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
-		master->exit_status = 1;
+		return (1);
 	}
 	else if (argc > 1)
-		master->exit_status = (ft_latoi(argv[1]) % 256);
+		return (ft_latoi(argv[1]) % 256);
+	return (-1);
 }
 
-void	ft_exit(t_master *master, int argc, char **argv)
+int	ft_exit(t_master *master, int argc, char **argv)
 {
+	int	ret;
+
+	ret = 0;
 	master->exit_status = 0;
 	if (argc > 1)
-		check_arguments(master, argc, argv);
+	{
+		ret = check_arguments(argc, argv);
+		if (ret == 1)
+			return (1);
+		else
+			master->exit_status = ret;
+	}
 	if (isatty(STDIN_FILENO)
 		&& write(STDERR_FILENO, "exit\n", (size_t)5) == -1)
 		error_exit(master, "write (ft_exit)");
