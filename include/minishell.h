@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/09 11:21:02 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 12:11:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int						to_pass(char *str, char *quote, char *ex_quote,
 bool					is_valid_character(char c, bool command, char *quote);
 char					*creates_data(t_master *master, t_lexer *lexer,
 							size_t *i, bool command);
-void					exit_redir(t_master *master, t_lexer *lexer, size_t i);
+int						exit_redir(t_master *master, size_t i);
 t_cmd_type				redir_type(char *line_read, size_t *i);
 
 /* lexer_utils4.c */

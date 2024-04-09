@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 08:37:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 12:09:10 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,20 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 	return (type);
 }
 
-void	exit_redir(t_master *master, t_lexer *lexer, size_t i)
+int	exit_redir(t_master *master, size_t i)
 {
 	master->exit_status = EXIT_MISUSE;
-	if (master->line_read[i++] == '|')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
+	if (master->line_read[i] == '|')
+		return (ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|'), 1);
 	else if (master->line_read[i] == 0)
-		ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
-	else if (master->line_read[i] == '<' && master->line_read[i] != '<')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '<');
-	else if (master->line_read[i] == '>' && master->line_read[i] != '>')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '>');
-	else if (master->line_read[i] == '>' && master->line_read[i] == '>')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, ">>");
-	else if (master->line_read[i] == '<' && master->line_read[i] == '<')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, "<<");
+		return (ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2), 1);
+	else if (i > 1 && ft_strncmp(&master->line_read[i - 2], ">>", 2) == 0)
+		return (ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, ">>"), 1);
+	else if (i > 1 && ft_strncmp(&master->line_read[i - 2], "<<", 2) == 0)
+		return (ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, "<<"), 1);
 	else
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, master->line_read[i]);
-	clean_lexer(lexer);
-	free_token(&master->token);
+		return (ft_dprintf(STDERR_FILENO, ESTR_UNEXP, master->line_read[i - 1]), 1);
+	return (1);
 }
 
 bool	is_valid_character(char c, bool command, char *quote)

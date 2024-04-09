@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 16:17:29 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 11:52:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 	lexer->data_redir = creates_data(master, lexer, i, false);
 	if (!lexer->data_redir)
 	{
-		exit_redir(master, lexer, *i);
+		exit_redir(master, *i);
+		clean_lexer(lexer);
+		free_token(&master->token);
 		return (1);
 	}
 	create_token_node(master, lexer, type, false);
