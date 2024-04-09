@@ -6,7 +6,7 @@
 /*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 10:41:56 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 10:43:04 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static bool	redirect(t_master *master, char *file, int flag, int fd)
 	{
 		perror(file);
 		master->exit_status = 1;
-		cleanup_before_exit(master);
 		return false;
 	}
 	if (dup2(new_fd, fd) == -1)
