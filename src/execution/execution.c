@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 15:19:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 15:47:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,12 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 		}
 		if (master->exit_status == EXIT_NOT_FOUND
 			&& master->exec->pipe == false)
-		{
-			master->exit_status = EXIT_SUCCESS;
 			exit(EXIT_SUCCESS);
-		}
 		launch_redirection(master, token->redir);
 		if (type == CMD_OTHERS)
 			execute_command(master);
 		else
-			master->last_command_exit_value = execute_builtin(master, type);
+			master->exit_status = execute_builtin(master, type);
 		cleanup_before_exit(master);
 		exit(master->exit_status);
 	}
