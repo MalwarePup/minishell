@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 13:25:02 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 15:19:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 			dup2(master->exec->pipefd[1], STDOUT_FILENO);
 			close(master->exec->pipefd[0]);
 			close(master->exec->pipefd[1]);
+		}
+		if (master->exit_status == EXIT_NOT_FOUND
+			&& master->exec->pipe == false)
+		{
+			master->exit_status = EXIT_SUCCESS;
+			exit(EXIT_SUCCESS);
 		}
 		launch_redirection(master, token->redir);
 		if (type == CMD_OTHERS)
@@ -148,8 +154,13 @@ void	launch_execution(t_master *master)
 	while (++i < num_pids)
 	{
 		while ((waitpid(master->pid_list[i], &status, 0)) > 0)
+		{
 			if (WIFEXITED(status) && master->exit_status != EXIT_NOT_FOUND)
 				master->exit_status = WEXITSTATUS(status);
+			else if (master->exit_status == EXIT_NOT_FOUND
+				&& !master->exec->pipe)
+				master->exit_status = EXIT_SUCCESS;
+		}
 	}
 	if (master->exec->first_cmd == false && master->exec->pipe == true)
 	{
