@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 07:34:42 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 07:35:01 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	launch_expansion(t_master *master, char **str)
 	{
 		if (handle_expansion_iteration(master, str, &exp))
 			break ;
-		exp.i++;
+		if ((*str)[exp.i])
+			exp.i++;
 	}
 }
