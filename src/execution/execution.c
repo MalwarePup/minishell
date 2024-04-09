@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:17:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 10:26:23 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "minishell.h"
+#include "libft.h"
 
 static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 {
@@ -94,14 +95,19 @@ static void	parent_process(t_master *master, t_token **token)
 	free_string_array(&master->argv);
 }
 
-static void	handle_execution(t_master *master, int *num_pids)
+static int	handle_execution(t_master *master, int *num_pids)
 {
 	t_cmd_type	type;
 	t_token		*token;
-
+	int			exit_nocmd;
 	token = master->token;
 	while (token)
 	{
+		exit_nocmd = no_command(master, &token);
+		if (exit_nocmd == 1)
+			return (EXIT_FAILURE);
+		else if (exit_nocmd == 2)
+			continue ;
 		type = prepare_execution(master, token);
 		if (type == CMD_ERROR)
 		{
@@ -118,6 +124,7 @@ static void	handle_execution(t_master *master, int *num_pids)
 		parent_process(master, &token);
 		master->pid_list[(*num_pids)++] = master->exec->pid;
 	}
+	return (EXIT_SUCCESS);
 }
 
 void	launch_execution(t_master *master)
@@ -133,7 +140,8 @@ void	launch_execution(t_master *master)
 	launch_heredoc(master);
 	if (master->last_command_exit_value == EXIT_INTERRUPTED_HEREDOC)
 		return ;
-	handle_execution(master, &num_pids);
+	if (handle_execution(master, &num_pids) == 1)
+		return ;
 	i = -1;
 	while (++i < num_pids)
 	{

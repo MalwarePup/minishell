@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_mem.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 16:01:54 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/08 15:36:38 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ void	create_token_node(t_master *master, t_lexer *lexer,
 	data = ft_data(lexer, command);
 	lst = ft_token_lst(master, lexer, command);
 	*data = trim_spaces(master, lexer, *data);
-	if (type != CMD_PIPE && (!*data))
+	if (type != CMD_PIPE && type != CMD_NOCMD && !(*data))
 		return ;
 	new_node = ft_calloc(1, sizeof(t_token));
 	if (!new_node)
 		lexer_exit(master, lexer, "calloc error in create_token_node");
-	if (type == CMD_PIPE)
+	if (type == CMD_PIPE || type == CMD_NOCMD)
 		create_node(NULL, &new_node, type, lst);
 	else
 	{
