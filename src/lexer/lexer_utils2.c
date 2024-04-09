@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/28 17:33:09 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 08:37:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 void	exit_redir(t_master *master, t_lexer *lexer, size_t i)
 {
 	master->exit_status = EXIT_MISUSE;
-	if (master->line_read[i] == '|')
+	if (master->line_read[i++] == '|')
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
 	else if (master->line_read[i] == 0)
 		ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
-	else if (master->line_read[i] == '<' && master->line_read[i + 1] != '<')
+	else if (master->line_read[i] == '<' && master->line_read[i] != '<')
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '<');
-	else if (master->line_read[i] == '>' && master->line_read[i + 1] != '>')
+	else if (master->line_read[i] == '>' && master->line_read[i] != '>')
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '>');
-	else if (master->line_read[i] == '>' && master->line_read[i + 1] == '>')
+	else if (master->line_read[i] == '>' && master->line_read[i] == '>')
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, ">>");
-	else if (master->line_read[i] == '<' && master->line_read[i + 1] == '<')
+	else if (master->line_read[i] == '<' && master->line_read[i] == '<')
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, "<<");
 	else
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, master->line_read[i]);
