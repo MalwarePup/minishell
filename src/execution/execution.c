@@ -6,16 +6,16 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 12:44:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:25:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
 #include <sys/wait.h>
-#include "minishell.h"
+#include <unistd.h>
 #include "libft.h"
+#include "minishell.h"
 
 static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 {
@@ -26,11 +26,12 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	update_executable_path(master, master->env);
 	type = execute_command_or_builtin(master);
 	if (type == CMD_ERROR || (!token->next && (type == CMD_CD
-				|| type == CMD_EXPORT || type == CMD_UNSET || type == CMD_EXIT)))
+				|| type == CMD_EXPORT || type == CMD_UNSET
+				|| type == CMD_EXIT)))
 	{
-		if (!token->next && (type == CMD_CD || type == CMD_EXPORT
-				|| type == CMD_UNSET
-				|| (type == CMD_EXIT && !master->exec->pipe)))
+		if (type == CMD_EXPORT || type == CMD_UNSET || (type == CMD_EXIT
+				&& !master->exec->pipe) || (type == CMD_CD
+				&& !master->exec->pipe))
 			master->exit_status = execute_builtin(master, type);
 		return (CMD_ERROR);
 	}
@@ -130,9 +131,9 @@ static int	handle_execution(t_master *master, int *num_pids)
 
 void	launch_execution(t_master *master)
 {
-	int		i;
-	int		status;
-	int		num_pids;
+	int	i;
+	int	status;
+	int	num_pids;
 
 	status = 0;
 	num_pids = 0;
