@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 12:32:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 12:47:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,6 @@ static int	creates_command_and_redir(t_master *master, t_lexer *lexer,
 			creates_command(master, lexer, i);
 	}
 	return (0);
-}
-void print_token(t_token *token)
-{
-	t_token *tmp = token;
-	while (tmp)
-	{
-		ft_dprintf(1, "type: %d\n", tmp->type);
-		ft_dprintf(1, "data: %s\n", tmp->data);
-		print_token(tmp->redir);
-		tmp = tmp->next;
-	}
 }
 
 static void	create_node_with_redir(t_master *master, t_lexer *lexer,

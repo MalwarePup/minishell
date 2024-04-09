@@ -6,15 +6,15 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 12:31:54 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 12:50:19 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "minishell.h"
-#include "libft.h"
 #include <stdlib.h>
 #include "ft_dprintf.h"
+#include "libft.h"
+#include "minishell.h"
 
 t_cmd_type	redir_type(char *line_read, size_t *i)
 {
@@ -72,7 +72,7 @@ bool	is_valid_character(char c, bool command, char *quote)
 				&& *quote == 0) || *quote != 0))
 	{
 		if (((c == '\'' || c == '"') && *quote == 0) || (c == *quote
-					&& *quote != 0))
+				&& *quote != 0))
 		{
 			if (*quote != 0)
 				*quote = 0;
@@ -84,13 +84,13 @@ bool	is_valid_character(char c, bool command, char *quote)
 	return (false);
 }
 
-char	*creates_data(t_master *master, t_lexer *lexer, size_t *i,
-	bool command)
+char	*creates_data(t_master *master, t_lexer *lexer, size_t *i, bool command)
 {
 	size_t	start;
 	size_t	end;
 	char	*data;
 	char	quote;
+
 	start = *i;
 	data = NULL;
 	quote = 0;

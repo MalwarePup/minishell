@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 07:49:49 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 12:44:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	find_executable_command_path(t_master *master)
 	if ((master->argv[0][0] == '.' && master->argv[0][1] == '/')
 		|| master->argv[0][0] == '/')
 	{
-			free_string_array(&paths);
-			return ;
+		free_string_array(&paths);
+		return ;
 	}
 	executable_path = check_paths_for_executable(paths, master->argv[0]);
 	free_string_array(&paths);

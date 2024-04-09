@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 11:51:33 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 12:49:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "libft.h"
-
+#include "minishell.h"
 
 int	count_pipe(t_token *token)
 {
@@ -49,8 +48,8 @@ void	replace_redir(t_master *master, char **str)
 		return (free(*str), *str = NULL, error_exit(master, "malloc error"));
 	new_str = malloc(sizeof(char) * (ft_strlen(*str) + 1));
 	if (!new_str)
-		return (free(test), free(*str), *str = NULL,
-			error_exit(master, "malloc error in lexer_mem.c"));
+		return (free(test), free(*str), *str = NULL, error_exit(master,
+				"malloc error in lexer_mem.c"));
 	ft_strlcpy(test, *str, ft_strlen(*str) + 1);
 	while (test[ij[0]])
 	{
@@ -70,21 +69,21 @@ bool	redirect_cmd(t_master *master, char *file, int flag, int fd)
 	{
 		perror(file);
 		master->exit_status = 1;
-		return false;
+		return (false);
 	}
 	if (dup2(new_fd, fd) == -1)
 		error_exit(master, file);
 	close(new_fd);
-	return true;
+	return (true);
 }
 
 int	launch_nocommand(t_master *master, t_token *tmp)
 {
 	t_token	*token;
-	bool is_input;
-	bool is_output;
-	int stdin;
-	int stdout;
+	bool	is_input;
+	bool	is_output;
+	int		stdin;
+	int		stdout;
 
 	token = tmp;
 	is_input = false;
