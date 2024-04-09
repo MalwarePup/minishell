@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 07:10:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 07:34:42 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,13 @@ static int	handle_expansion_iteration(t_master *master, char **str,
 		else if (exp->is_expanded)
 			ft_memset(exp, 0, sizeof(t_expansion));
 	}
-	else if (ft_strncmp(&(*str)[exp->i], "<<", 2) == 0
-		&& !exp->heredoc_detected)
+	else if (ft_strncmp(&(*str)[exp->i], "<<", 2) == 0)
 	{
-		exp->heredoc_detected = true;
 		exp->i += 2;
 		while (ft_isspace((*str)[exp->i]))
 			exp->i++;
 		while ((*str)[exp->i] && !ft_isspace((*str)[exp->i]))
 			exp->i++;
-		exp->heredoc_detected = false;
 		return (0);
 	}
 	return (0);
