@@ -6,76 +6,87 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:42:44 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 10:57:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 09:41:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
 #include "libft.h"
+#include <errno.h>
 #include "minishell.h"
+#include "ft_dprintf.h"
 
-static char	**get_paths(t_master *master)
+static bool	check_file_executability(char *path)
 {
-	t_env_list	*current;
-	char		**paths;
+	struct stat	s;
 
-	current = master->env;
-	while (current && current->name && ft_strcmp(current->name, "PATH"))
-		current = current->next;
-	if (!current || !current->value)
-		paths = ft_split(DEFAULT_PATH_1 DEFAULT_PATH_2, ':');
+	if (stat(path, &s) == 0)
+		if (S_ISREG(s.st_mode) && (s.st_mode & S_IXUSR))
+			return (true);
+	return (false);
+}
+
+static bool	handle_directory_access_error(t_master *master)
+{
+	struct stat	s;
+
+	if (stat(master->argv[0], &s) == 0)
+	{
+		if ((S_ISDIR(s.st_mode) && ft_strcmp(master->argv[0], "."))
+			&& (!ft_strncmp(master->argv[0], "./", 2)
+				|| !ft_strncmp(master->argv[0], "/", 1)))
+		{
+			ft_dprintf(STDERR_FILENO, ESTR_DIR, master->argv[0]);
+			return (master->exit_status = EXIT_CANNOT_EXECUTE, false);
+		}
+	}
 	else
-		paths = ft_split(current->value, ':');
-	if (!paths)
-		error_exit(master, "ft_split (get_paths)");
-	return (paths);
+		error_exit(master, "stat (handle_directory_access_error)");
+	return (true);
 }
 
-static char	*check_paths_for_executable(char **paths, char *cmd)
+static bool	handle_file_access_and_errors(t_master *master)
 {
-	int		i;
-	char	*temp;
-	char	*pathname;
-
-	i = -1;
-	while (paths[++i])
+	if (access(master->argv[0], X_OK) == 0)
+		return (handle_directory_access_error(master));
+	else if (errno == EACCES)
 	{
-		temp = ft_strjoin("/", cmd);
-		pathname = ft_strjoin(paths[i], temp);
-		free(temp);
-		if (access(pathname, X_OK) == 0)
-			return (pathname);
-		free(pathname);
+		ft_dprintf(STDERR_FILENO, ESTR_PERM_DENIED, master->argv[0]);
+		return (master->exit_status = EXIT_CANNOT_EXECUTE, false);
 	}
-	return (NULL);
+	else if (errno == ENOENT
+		&& (!ft_strncmp(master->argv[0], "./", 2)
+			|| !ft_strncmp(master->argv[0], "/", 1)))
+	{
+		if (!master->token || !master->token->redir)
+		{
+			ft_dprintf(STDERR_FILENO, ESTR_NO_FILE, master->argv[0]);
+			return (master->exit_status = EXIT_NOT_FOUND, false);
+		}
+	}
+	else
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->argv[0]);
+		return (master->exit_status = EXIT_NOT_FOUND, false);
+	}
+	return (true);
 }
 
-void	find_executable_command_path(t_master *master)
+bool	handle_command_not_found_error(t_master *master)
 {
-	char	**paths;
-	char	*executable_path;
-
-	paths = get_paths(master);
-	if ((master->argv[0][0] == '.' && master->argv[0][1] == '/')
-		|| master->argv[0][0] == '/')
+	if (!check_file_executability(master->argv[0])
+		&& ft_strncmp(master->argv[0], "/", 1)
+		&& ft_strncmp(master->argv[0], "./", 2))
 	{
-		if (access(master->argv[0], X_OK) == 0)
+		if (ft_strcmp(master->argv[0], ".") == 0
+			&& master->argv[0][1] == '\0')
 		{
-			free_string_array(&paths);
-			return ;
+			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
+			return (master->exit_status = EXIT_MISUSE, false);
 		}
-		else
-		{
-			free_string_array(&paths);
-			return ;
-		}
+		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->argv[0]);
+		return (master->exit_status = EXIT_NOT_FOUND, false);
 	}
-	executable_path = check_paths_for_executable(paths, master->argv[0]);
-	free_string_array(&paths);
-	if (executable_path)
-	{
-		free(master->argv[0]);
-		master->argv[0] = executable_path;
-	}
-	return ;
+	return (handle_file_access_and_errors(master));
 }

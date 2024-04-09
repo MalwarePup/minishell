@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/09 21:55:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	start_operator(t_master *master)
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
 		return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	is_clean(t_token **token)
@@ -46,7 +46,7 @@ int	is_clean(t_token **token)
 		}
 		current = current->next;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	to_pass(char *str, char *quote, char *ex_quote, size_t *i)

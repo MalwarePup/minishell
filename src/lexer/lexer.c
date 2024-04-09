@@ -35,7 +35,7 @@ static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 		return (1);
 	}
 	create_token_node(master, lexer, type, false);
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 static void	creates_command(t_master *master, t_lexer *lexer, size_t *i)
@@ -67,7 +67,7 @@ static int	creates_command_and_redir(t_master *master, t_lexer *lexer,
 		else
 			creates_command(master, lexer, i);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 void print_token(t_token *token)
 {

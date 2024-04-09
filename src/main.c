@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/31 15:08:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 09:09:04 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 #include "minishell.h"
 #include "libft.h"
 
-void	init_master(t_master *master)
+int	*g_exit_status = NULL;
+
+static void	init_master(t_master *master)
 {
 	master->exec = NULL;
 	master->token = NULL;
@@ -27,15 +29,13 @@ void	init_master(t_master *master)
 	master->exit_status = 0;
 }
 
-void	free_master(t_master *master)
+static void	free_master(t_master *master)
 {
 	free(master->line_read);
 	free_token(&master->token);
 	free(master->pid_list);
 	free(master->exec);
 }
-
-int	*g_exit_status = NULL;
 
 static int	shell_loop(t_master *master)
 {

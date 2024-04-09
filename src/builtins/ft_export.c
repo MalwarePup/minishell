@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/31 16:14:18 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ static int	export_var(t_master *master, char *var_str, char *equals_location)
 	}
 	status = is_var_already_in_env(&master, var);
 	if (status)
-		return (free(var), EXIT_SUCCESS);
+		return (free(var), 0);
 	var->next = NULL;
 	if (!is_valid_variable_name(var->name, var_str))
 		return (free(var->name), free(var->value), free(var), 1);
 	add_back_env_var(&master, var);
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	ft_export(int argc, char **argv, t_master *master)
@@ -114,7 +114,7 @@ int	ft_export(int argc, char **argv, t_master *master)
 			printf("export %s=\"%s\"\n", current->name, current->value);
 			current = current->next;
 		}
-		return (EXIT_SUCCESS);
+		return (0);
 	}
 	while (++i < argc)
 	{
@@ -122,5 +122,5 @@ int	ft_export(int argc, char **argv, t_master *master)
 		if (export_var(master, argv[i], equals_location))
 			return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

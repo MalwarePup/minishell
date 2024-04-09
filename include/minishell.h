@@ -262,7 +262,7 @@ int						set_sigaction_temp(t_master *master);
 
 /* env_utils.c */
 
-int						update_executable_path(t_master *master,
+void					update_executable_path(t_master *master,
 							t_env_list *current);
 
 /* env.c */

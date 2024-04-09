@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/21 12:12:13 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ int	ft_echo(int argc, char **argv, t_master *master)
 	}
 	if (!is_option)
 		ft_write_stdout("\n", 1, master);
-	return (EXIT_SUCCESS);
+	return (0);
 }

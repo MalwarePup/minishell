@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 12:22:45 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 07:35:01 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	process_expansion(t_master *master, char **str, t_expansion *exp)
 }
 
 static int	handle_expansion_iteration(t_master *master, char **str,
-	t_expansion *exp, bool *skip_next)
+	t_expansion *exp)
 {
 	is_valid_character((*str)[exp->i], true, &exp->quote);
 	if ((*str)[exp->i] == '$' && exp->quote != '\''
@@ -78,34 +78,34 @@ static int	handle_expansion_iteration(t_master *master, char **str,
 		|| (*str)[exp->i + 1] == '?' || (*str)[exp->i + 1] == '\''
 		|| (*str)[exp->i + 1] == '"'))
 	{
-		if (*skip_next)
-		{
-			*skip_next = false;
-			return (0);
-		}
 		process_expansion(master, str, exp);
 		if (ft_strlen(*str) < 1)
 			return (1);
 		else if (exp->is_expanded)
-		{
 			ft_memset(exp, 0, sizeof(t_expansion));
-		}
 	}
 	else if (ft_strncmp(&(*str)[exp->i], "<<", 2) == 0)
-		*skip_next = true;
+	{
+		exp->i += 2;
+		while (ft_isspace((*str)[exp->i]))
+			exp->i++;
+		while ((*str)[exp->i] && !ft_isspace((*str)[exp->i]))
+			exp->i++;
+		return (0);
+	}
 	return (0);
 }
 
 void	launch_expansion(t_master *master, char **str)
 {
 	t_expansion	exp;
-	static bool	skip_next = false;
 
 	ft_memset(&exp, 0, sizeof(t_expansion));
 	while ((*str)[exp.i])
 	{
-		if (handle_expansion_iteration(master, str, &exp, &skip_next))
+		if (handle_expansion_iteration(master, str, &exp))
 			break ;
-		exp.i++;
+		if ((*str)[exp.i])
+			exp.i++;
 	}
 }

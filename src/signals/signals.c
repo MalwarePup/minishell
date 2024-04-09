@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/09 21:55:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	initialize_signal_handlers(t_master *master)
 		perror("sigemptyset (initialize_signal_handlers)");
 		return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	set_sigaction(t_master *master)
@@ -50,7 +50,7 @@ int	set_sigaction(t_master *master)
 		perror("sigaction (set_sigaction)");
 		return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	set_sigaction_temp(t_master *master)
@@ -61,7 +61,7 @@ int	set_sigaction_temp(t_master *master)
 		perror("sigaction (set_sigaction_temp)");
 		return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	set_sigaction_heredoc(t_master *master)
@@ -72,7 +72,7 @@ int	set_sigaction_heredoc(t_master *master)
 		perror("sigaction (set_sigaction_heredoc)");
 		return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	restore_sigaction(t_master *master)
@@ -82,5 +82,5 @@ int	restore_sigaction(t_master *master)
 		perror("sigaction (restore_sigaction)");
 		return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
