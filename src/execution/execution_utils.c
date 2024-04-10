@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 10:21:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:43:27 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,10 @@ char	**env_list_to_array(t_master *master, t_env_list *env)
 	while (env)
 	{
 		tmp = ft_strjoin(env->name, "=");
-		if (!tmp)
-		{
-			free_string_array(&array);
-			error_exit(master, "ft_strjoin (env_list_to_array)");
-		}
 		array[i] = ft_strjoin1(tmp, env->value);
-		if (!array[i])
+		if (!tmp || !array[i])
 		{
+			free(tmp);
 			free_string_array(&array);
 			error_exit(master, "ft_strjoin (env_list_to_array)");
 		}
