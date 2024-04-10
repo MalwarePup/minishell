@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/10 22:45:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:53:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define ESTR_OPSTART_P2 " `newline'\n"
 # define ESTR_NUM_ARG "minishell: exit: %s: numeric argument required\n"
 # define ESTR_EXIT_TOO_MANY_ARGS "minishell: exit: too many arguments\n"
-# define ESTR_CD_TOO_MANY_ARGS "minishell: cd: too many arguments\n"
 # define ESTR_INVALID_ID "minishell: export: '%s': not a valid identifier\n"
 # define ESTR_DOT_P1 "minishell: .: filename argument required\n"
 # define ESTR_DOT_P2 ".: usage: . filename [arguments]\n"
