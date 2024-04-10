@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/22 18:28:49 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:41:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ void	replace_redir_without_quotes(t_master *master, char **str)
 	return (free(*str), *str = new_str, new_str[ij[1]] = '\0', free(test));
 }
 
-static void	redirect(t_master *master, char *file, int flag, int fd)
+static void	redirect(t_master *master, char *file, int flag, int old_fd)
 {
 	int	new_fd;
 
 	new_fd = open(file, flag, 0644);
 	if (new_fd == -1)
 		error_exit(master, file);
-	if (dup2(new_fd, fd) == -1)
+	if (dup2(new_fd, old_fd) == -1)
 		error_exit(master, file);
 	close(new_fd);
 }
