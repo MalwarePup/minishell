@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:49:16 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 10:05:27 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,16 @@ int	ft_exit(t_master *master, int argc, char **argv)
 	int	ret;
 
 	ret = 0;
-	master->exit_status = 0;
 	if (argc > 1)
 	{
 		ret = check_arguments(argc, argv);
 		if (ret == 1)
 			return (1);
 		else
-			master->exit_status = ret;
+			master->last_command_exit_value = ret;
 	}
-	if (isatty(STDIN_FILENO)
-		&& write(STDERR_FILENO, "exit\n", (size_t)5) == -1)
+	if (write(STDERR_FILENO, "exit\n", (size_t)5) == -1)
 		error_exit(master, "write (ft_exit)");
 	cleanup_before_exit(master);
-	exit(master->exit_status);
+	exit(master->last_command_exit_value);
 }
