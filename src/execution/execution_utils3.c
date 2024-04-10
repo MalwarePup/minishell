@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:32:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 09:37:39 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 09:41:06 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include "minishell.h"
 
-t_token *handle_command_error(t_master *master, t_token *token, t_cmd_type type)
+t_token	*handle_command_error(t_master *master, t_token *token, t_cmd_type type)
 {
 	if (type == CMD_ERROR)
 	{

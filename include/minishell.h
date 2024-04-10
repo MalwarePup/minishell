@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/10 09:37:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 09:41:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ int						no_command(t_master *master, t_token **token);
 void					replace_redir(t_master *master, char **str);
 bool					redirect_cmd(t_master *master, char *file, int flag,
 							int fd);
-
 
 /* execution_utils3.c */
 
