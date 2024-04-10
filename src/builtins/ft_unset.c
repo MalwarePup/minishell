@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:50:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 11:40:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,16 @@ int	ft_unset(char **argv, t_master *master)
 	i = 1;
 	while (argv[i])
 	{
+		if (ft_strcmp(argv[i], "PATH") == 0)
+			master->path_unset = true;
 		current = master->env;
 		while (current)
 		{
 			next = current->next;
 			if (ft_strcmp(argv[i], current->name) == 0)
 			{
+				if (ft_strcmp(current->name, "PATH") == 0)
+					master->path_unset = true;
 				remove_var(master, current);
 			}
 			current = next;

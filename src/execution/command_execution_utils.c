@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 12:44:02 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 11:41:29 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,23 @@ static char	**get_paths(t_master *master)
 	t_env_list	*current;
 	char		**paths;
 
+	paths = NULL;
 	current = master->env;
 	while (current && current->name && ft_strcmp(current->name, "PATH"))
-		current = current->next;
-	if (!current || !current->value)
+	current = current->next;
+	if (!master->path_unset && master->env_empty
+		&& (!current || !current->value))
+	{
 		paths = ft_split(DEFAULT_PATH_1 DEFAULT_PATH_2, ':');
-	else
+		if (!paths)
+			error_exit(master, "ft_split (get_paths)");
+	}
+	else if (!master->path_unset)
+	{
 		paths = ft_split(current->value, ':');
-	if (!paths)
-		error_exit(master, "ft_split (get_paths)");
+		if (!paths)
+			error_exit(master, "ft_split (get_paths)");
+	}
 	return (paths);
 }
 
@@ -57,7 +65,7 @@ void	find_executable_command_path(t_master *master)
 
 	paths = get_paths(master);
 	if ((master->argv[0][0] == '.' && master->argv[0][1] == '/')
-		|| master->argv[0][0] == '/')
+		|| master->argv[0][0] == '/' || !paths)
 	{
 		free_string_array(&paths);
 		return ;
