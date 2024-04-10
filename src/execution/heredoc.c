@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/04/10 08:51:47 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 00:01:31 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "minishell.h"
 #include "ft_dprintf.h"
 
-bool	is_expandable(char *str)
+static bool	is_expandable(char *str)
 {
 	while (*str)
 	{
@@ -31,7 +31,7 @@ bool	is_expandable(char *str)
 	return (true);
 }
 
-void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
+static void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
 			bool expand)
 {
 	char	*line_read;
@@ -61,7 +61,7 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
 	}
 }
 
-int	create_file(t_master *master, t_token **token, int i)
+static int	create_file(t_master *master, t_token **token, int i)
 {
 	int		fd;
 	char	*filename;
@@ -86,7 +86,8 @@ int	create_file(t_master *master, t_token **token, int i)
 	expand = is_expandable((*token)->data);
 	replace_redir_without_quotes(master, &((*token)->data));
 	read_heredoc_into_file(master, fd, (*token)->data, expand);
-	return (free((*token)->data), (*token)->data = filename, fd);
+	close(fd);
+	return (free((*token)->data), (*token)->data = filename, 0);
 }
 
 void	launch_heredoc(t_master *master)
