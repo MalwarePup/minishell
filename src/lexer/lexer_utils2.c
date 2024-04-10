@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 12:50:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 20:50:48 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 	return (type);
 }
 
-void	exit_redir(t_master *master, t_lexer *lexer, size_t i)
+void	exit_redir(t_master *master, size_t i)
 {
 	master->exit_status = EXIT_MISUSE;
 	if (master->line_read[i] == '|')
@@ -62,8 +62,6 @@ void	exit_redir(t_master *master, t_lexer *lexer, size_t i)
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, "<<");
 	else
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, master->line_read[i]);
-	clean_lexer(lexer);
-	free_token(&master->token);
 }
 
 bool	is_valid_character(char c, bool command, char *quote)

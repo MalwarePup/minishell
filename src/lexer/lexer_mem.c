@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 12:22:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:39:15 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*trim_spaces(t_master *master, t_lexer *lexer, char *str)
 	while (str[i] && ft_isspace(str[i]))
 		i++;
 	if (!(str[i]))
-		return (NULL);
+		return (free(str), NULL);
 	while (str[i + j])
 		j++;
 	while (j > 0 && ft_isspace(str[i + j - 1]))
