@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:50:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 11:40:30 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:03:03 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ static void	remove_var(t_master *master, t_env_list *env)
 	if (current)
 	{
 		if (previous)
+		{
 			previous->next = current->next;
+			if (!current->next)
+				master->env->last = previous;
+		}
 		else
 			master->env = current->next;
 		free(current->name);
@@ -38,7 +42,7 @@ static void	remove_var(t_master *master, t_env_list *env)
 	}
 }
 
-int	ft_unset(char **argv, t_master *master)
+int	builtin_unset(char **argv, t_master *master)
 {
 	int			i;
 	t_env_list	*current;

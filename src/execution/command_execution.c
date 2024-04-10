@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 14:26:10 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 22:45:56 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,19 @@ static t_cmd_type	identify_builtin_command(char *arg)
 int	execute_builtin(t_master *master, t_cmd_type type)
 {
 	if (type == CMD_CD)
-		return (ft_cd(master->argc, master->argv, master));
+		return (builtin_cd(master->argc, master->argv, master));
 	else if (type == CMD_ECHO)
-		return (ft_echo(master->argc, master->argv, master));
+		return (builtin_echo(master->argc, master->argv, master));
 	else if (type == CMD_ENV)
-		return (ft_env(master));
+		return (builtin_env(master));
 	else if (type == CMD_EXPORT)
-		return (ft_export(master->argc, master->argv, master));
+		return (builtin_export(master->argc, master->argv, master));
 	else if (type == CMD_PWD)
-		return (ft_pwd());
+		return (builtin_pwd());
 	else if (type == CMD_UNSET)
-		return (ft_unset(master->argv, master));
+		return (builtin_unset(master->argv, master));
 	else if (type == CMD_EXIT)
-		return (ft_exit(master, master->argc, master->argv));
+		return (builtin_exit(master, master->argc, master->argv));
 	return (CMD_ERROR);
 }
 

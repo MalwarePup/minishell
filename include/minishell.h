@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/10 11:38:29 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 22:45:56 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,13 +289,13 @@ void					update_executable_path(t_master *master,
 void					free_environment_list(t_env_list **env);
 int						manage_environment(t_env_list **env);
 
-int						ft_cd(int argc, char **argv, t_master *master);
-int						ft_echo(int argc, char **argv, t_master *master);
-int						ft_env(t_master *master);
-int						ft_exit(t_master *master, int argc, char **argv);
-int						ft_export(int argc, char **argv, t_master *master);
-int						ft_pwd(void);
-int						ft_unset(char **argv, t_master *master);
+int						builtin_cd(int argc, char **argv, t_master *master);
+int						builtin_echo(int argc, char **argv, t_master *master);
+int						builtin_env(t_master *master);
+int						builtin_exit(t_master *master, int argc, char **argv);
+int						builtin_export(int argc, char **argv, t_master *master);
+int						builtin_pwd(void);
+int						builtin_unset(char **argv, t_master *master);
 
 /* redirection.c */
 

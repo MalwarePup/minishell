@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:23 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:04:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "minishell.h"
 
-int	ft_env(t_master *master)
+int	builtin_env(t_master *master)
 {
 	t_env_list	*current;
 

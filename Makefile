@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/04/10 09:35:03 by ladloff          ###   ########.fr        #
+#    Updated: 2024/04/10 22:46:24 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ INCLUDE_DIR	:= ./include
 LIBFT_DIR	:= ./lib/libft
 
 # Source, object, dependency files
-SRC_FILES	:=	builtins/ft_cd.c \
-				builtins/ft_echo.c \
-				builtins/ft_env.c \
-				builtins/ft_exit.c \
-				builtins/ft_export.c \
-				builtins/ft_pwd.c \
-				builtins/ft_unset.c \
+SRC_FILES	:=	builtins/cd.c \
+				builtins/echo.c \
+				builtins/env.c \
+				builtins/exit.c \
+				builtins/export.c \
+				builtins/pwd.c \
+				builtins/unset.c \
 				environment/env.c \
 				execution/argument_creation.c \
 				execution/argument_quotes_removal.c \

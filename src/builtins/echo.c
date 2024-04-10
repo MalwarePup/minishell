@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:04:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	check_option(int argc, char **argv, int *i)
 	return (is_option);
 }
 
-int	ft_echo(int argc, char **argv, t_master *master)
+int	builtin_echo(int argc, char **argv, t_master *master)
 {
 	int		i;
 	bool	is_option;

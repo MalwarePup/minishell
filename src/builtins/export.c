@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:04:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	export_var(t_master *master, char *var_str, char *equals_location)
 	return (0);
 }
 
-int	ft_export(int argc, char **argv, t_master *master)
+int	builtin_export(int argc, char **argv, t_master *master)
 {
 	int			i;
 	t_env_list	*current;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 18:08:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:04:35 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ const char	*determine_target_path(int argc, char **argv, t_master *master)
 	return (target_path);
 }
 
-int	ft_cd(int argc, char **argv, t_master *master)
+int	builtin_cd(int argc, char **argv, t_master *master)
 {
 	const char	*target_path;
 

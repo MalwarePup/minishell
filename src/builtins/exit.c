@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 10:05:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:02:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	check_arguments(int argc, char **argv)
 	return (-1);
 }
 
-int	ft_exit(t_master *master, int argc, char **argv)
+int	builtin_exit(t_master *master, int argc, char **argv)
 {
 	int	ret;
 
@@ -74,7 +74,7 @@ int	ft_exit(t_master *master, int argc, char **argv)
 			master->last_command_exit_value = ret;
 	}
 	if (write(STDERR_FILENO, "exit\n", (size_t)5) == -1)
-		error_exit(master, "write (ft_exit)");
+		error_exit(master, "write (builtin_exit)");
 	cleanup_before_exit(master);
 	exit(master->last_command_exit_value);
 }
