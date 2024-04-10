@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+         #
+#    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/04/09 10:52:25 by macbookpro       ###   ########.fr        #
+#    Updated: 2024/04/10 09:35:03 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_FILES	:=	builtins/ft_cd.c \
 				execution/command_execution.c \
 				execution/execution_utils.c \
 				execution/execution_utils2.c \
+				execution/execution_utils3.c \
 				execution/execution.c \
 				execution/expansion_utils.c \
 				execution/expansion.c \

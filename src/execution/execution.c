@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 09:28:42 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 09:36:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,41 +112,13 @@ static int	handle_execution(t_master *master, int *num_pids)
 		else if (exit_nocmd == 2)
 			continue ;
 		type = prepare_execution(master, token);
-		if (type == CMD_ERROR)
-		{
-			if (token->next && token->next->type == CMD_PIPE)
-			{
-				free_string_array(&master->argv);
-				token = token->next->next;
-				continue ;
-			}
-			free_string_array(&master->argv);
-			break ;
-		}
+		if (handle_command_error(master, token, type) == NULL)
+			return (0);
 		child_process(master, token, type);
 		parent_process(master, &token);
 		master->pid_list[(*num_pids)++] = master->exec->pid;
 	}
 	return (0);
-}
-
-void	wait_for_processes(t_master *master, int num_pids)
-{
-	int	i;
-	int	status;
-
-	i = -1;
-	while (++i < num_pids)
-	{
-		while ((waitpid(master->pid_list[i], &status, 0)) > 0)
-		{
-			if (WIFEXITED(status) && master->exit_status != NOT_FOUND)
-				master->exit_status = WEXITSTATUS(status);
-			else if (master->exit_status == NOT_FOUND
-				&& !master->exec->pipe)
-				master->exit_status = EXIT_SUCCESS;
-		}
-	}
 }
 
 void	launch_execution(t_master *master)
