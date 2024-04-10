@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 14:25:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:49:16 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	check_arguments(int argc, char **argv)
 	if (argc > 1 && (!argv[1][0] || !is_numeric_argument(argv[1])))
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_NUM_ARG, argv[1]);
-		return (EXIT_MISUSE);
+		return (MISUSE);
 	}
 	else if (argc > 2)
 	{

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 20:50:48 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:52:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 
 void	exit_redir(t_master *master, size_t i)
 {
-	master->exit_status = EXIT_MISUSE;
+	master->exit_status = MISUSE;
 	if (master->line_read[i] == '|')
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
 	else if (master->line_read[i] == 0)

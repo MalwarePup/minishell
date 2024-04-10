@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:36:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/19 12:00:00 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:52:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	is_matched_quotes(t_master *master, const char *str)
 			ft_dprintf(STDERR_FILENO, ESTR_QUOTE, current_quote);
 		else if (current_quote == '"')
 			ft_dprintf(STDERR_FILENO, ESTR_QUOTE, current_quote);
-		master->exit_status = EXIT_MISUSE;
+		master->exit_status = MISUSE;
 		return (false);
 	}
 	return (true);

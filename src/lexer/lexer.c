@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 10:41:22 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 20:16:49 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:52:22 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	creates_redir(t_master *master, t_lexer *lexer, size_t *i)
 	type = redir_type(master->line_read, i);
 	if (type == CMD_ERROR)
 	{
-		master->exit_status = EXIT_MISUSE;
+		master->exit_status = MISUSE;
 		clean_lexer(lexer);
 		return (1);
 	}

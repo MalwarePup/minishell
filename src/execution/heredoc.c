@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/02/28 16:09:59 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:51:47 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
 	while (1)
 	{
 		line_read = readline("> ");
-		if (!line_read || master->exit_status == EXIT_INTERRUPTED_HEREDOC)
+		if (!line_read || master->exit_status == INTERRUPTED_HEREDOC)
 		{
-			if (master->last_command_exit_value != EXIT_INTERRUPTED_HEREDOC)
+			if (master->last_command_exit_value != INTERRUPTED_HEREDOC)
 				ft_dprintf(STDERR_FILENO, ESTR_HEREDOC_P1 ESTR_HEREDOC_P2,
 					master->line_count, delimiter);
 			free(line_read);

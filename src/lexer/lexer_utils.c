@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:51:54 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	start_operator(t_master *master)
 {
 	if (master->token->type == CMD_PIPE)
 	{
-		master->exit_status = EXIT_MISUSE;
+		master->exit_status = MISUSE;
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
 		return (1);
 	}

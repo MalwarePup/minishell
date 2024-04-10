@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:51:38 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/04/09 12:51:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:50:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int	handle_redir(t_master *master, t_token *token, bool *is_input,
 			*is_output = true;
 	}
 	if (exit_status == false)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return (1);
+	return (0);
 }

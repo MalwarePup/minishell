@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 12:49:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:50:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int	launch_nocommand(t_master *master, t_token *tmp)
 	stdout = dup(STDOUT_FILENO);
 	while (token)
 	{
-		if (handle_redir(master, token, &is_input, &is_output) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		if (handle_redir(master, token, &is_input, &is_output))
+			return (1);
 		token = token->next;
 	}
 	if (is_input == true)
@@ -102,19 +102,19 @@ int	launch_nocommand(t_master *master, t_token *tmp)
 	if (is_output == true)
 		if (dup2(stdout, STDOUT_FILENO) == -1)
 			error_exit(master, "dup2: stdout");
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	no_command(t_master *master, t_token **token)
 {
 	if ((*token)->type == CMD_NOCMD)
 	{
-		if (launch_nocommand(master, (*token)->redir) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		if (launch_nocommand(master, (*token)->redir))
+			return (1);
 		*token = (*token)->next;
 		if (*token && (*token)->type == CMD_PIPE)
 			*token = (*token)->next;
-		return (EXIT_MISUSE);
+		return (MISUSE);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

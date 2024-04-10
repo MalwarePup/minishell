@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:59:55 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/17 13:56:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:52:49 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_minishell_sig(int signum)
 {
 	if (signum == SIGINT)
 	{
-		*g_exit_status = EXIT_INTERRUPTED;
+		*g_exit_status = INTERRUPTED;
 		rl_replace_line("", 0);
 		write(STDOUT_FILENO, "^C\n", 3);
 		rl_on_new_line();
@@ -31,7 +31,7 @@ void	handle_heredoc_sig(int signum)
 {
 	if (signum == SIGINT)
 	{
-		*g_exit_status = EXIT_INTERRUPTED_HEREDOC;
+		*g_exit_status = INTERRUPTED_HEREDOC;
 		write(STDOUT_FILENO, "^C\n", 3);
 		close(STDIN_FILENO);
 	}
@@ -41,7 +41,7 @@ void	handle_temp_sig(int signum)
 {
 	if (signum == SIGINT)
 	{
-		*g_exit_status = EXIT_INTERRUPTED_TEMP;
+		*g_exit_status = INTERRUPTED_TEMP;
 		rl_replace_line("", 0);
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();

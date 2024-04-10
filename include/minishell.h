@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/10 08:46:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:49:04 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ typedef enum e_cmd_type
 
 typedef enum e_exit_value
 {
-	EXIT_MISUSE = 2,
-	EXIT_CANNOT_EXECUTE = 126,
-	EXIT_NOT_FOUND = 127,
-	EXIT_INVALID_EXIT = 128,
-	EXIT_INTERRUPTED = 130,
-	EXIT_INTERRUPTED_HEREDOC = 131,
-	EXIT_INTERRUPTED_TEMP = 132
+	MISUSE = 2,
+	CANNOT_EXECUTE = 126,
+	NOT_FOUND = 127,
+	INVALID_EXIT = 128,
+	INTERRUPTED = 130,
+	INTERRUPTED_HEREDOC = 131,
+	INTERRUPTED_TEMP = 132
 }						t_exit_value;
 
 typedef struct s_env

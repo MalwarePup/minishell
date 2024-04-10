@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:42:44 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:41:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:49:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	handle_directory_access_error(t_master *master)
 				|| !ft_strncmp(master->argv[0], "/", 1)))
 		{
 			ft_dprintf(STDERR_FILENO, ESTR_DIR, master->argv[0]);
-			return (master->exit_status = EXIT_CANNOT_EXECUTE, false);
+			return (master->exit_status = CANNOT_EXECUTE, false);
 		}
 	}
 	else
@@ -53,7 +53,7 @@ static bool	handle_file_access_and_errors(t_master *master)
 	else if (errno == EACCES)
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_PERM_DENIED, master->argv[0]);
-		return (master->exit_status = EXIT_CANNOT_EXECUTE, false);
+		return (master->exit_status = CANNOT_EXECUTE, false);
 	}
 	else if (errno == ENOENT
 		&& (!ft_strncmp(master->argv[0], "./", 2)
@@ -62,13 +62,13 @@ static bool	handle_file_access_and_errors(t_master *master)
 		if (!master->token || !master->token->redir)
 		{
 			ft_dprintf(STDERR_FILENO, ESTR_NO_FILE, master->argv[0]);
-			return (master->exit_status = EXIT_NOT_FOUND, false);
+			return (master->exit_status = NOT_FOUND, false);
 		}
 	}
 	else
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->argv[0]);
-		return (master->exit_status = EXIT_NOT_FOUND, false);
+		return (master->exit_status = NOT_FOUND, false);
 	}
 	return (true);
 }
@@ -83,10 +83,10 @@ bool	handle_command_not_found_error(t_master *master)
 			&& master->argv[0][1] == '\0')
 		{
 			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
-			return (master->exit_status = EXIT_MISUSE, false);
+			return (master->exit_status = MISUSE, false);
 		}
 		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->argv[0]);
-		return (master->exit_status = EXIT_NOT_FOUND, false);
+		return (master->exit_status = NOT_FOUND, false);
 	}
 	return (handle_file_access_and_errors(master));
 }

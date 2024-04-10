@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:46:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:53:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	update_executable_path(master, master->env);
 	type = execute_command_or_builtin(master);
 	if (type == CMD_ERROR || (!token->next && (type >= CMD_CD
-		&& type <= CMD_EXPORT)))
+				&& type <= CMD_EXPORT)))
 	{
 		if (type == CMD_EXPORT || type == CMD_UNSET || (type == CMD_EXIT
 				&& !master->exec->pipe) || (type == CMD_CD
@@ -63,8 +63,7 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 			close(master->exec->pipefd[0]);
 			close(master->exec->pipefd[1]);
 		}
-		if (master->exit_status == EXIT_NOT_FOUND
-			&& master->exec->pipe == false)
+		if (master->exit_status == NOT_FOUND && master->exec->pipe == false)
 			exit(EXIT_SUCCESS);
 		launch_redirection(master, token->redir);
 		if (type == CMD_OTHERS)
@@ -109,7 +108,7 @@ static int	handle_execution(t_master *master, int *num_pids)
 	{
 		exit_nocmd = no_command(master, &token);
 		if (exit_nocmd == 1)
-			return (EXIT_FAILURE);
+			return (1);
 		else if (exit_nocmd == 2)
 			continue ;
 		type = prepare_execution(master, token);
@@ -142,7 +141,7 @@ void	launch_execution(t_master *master)
 	master->exit_status = 0;
 	init_exec(master);
 	launch_heredoc(master);
-	if (master->last_command_exit_value == EXIT_INTERRUPTED_HEREDOC)
+	if (master->last_command_exit_value == INTERRUPTED_HEREDOC)
 		return ;
 	if (handle_execution(master, &num_pids) == 1)
 		return ;
@@ -151,9 +150,9 @@ void	launch_execution(t_master *master)
 	{
 		while ((waitpid(master->pid_list[i], &status, 0)) > 0)
 		{
-			if (WIFEXITED(status) && master->exit_status != EXIT_NOT_FOUND)
+			if (WIFEXITED(status) && master->exit_status != NOT_FOUND)
 				master->exit_status = WEXITSTATUS(status);
-			else if (master->exit_status == EXIT_NOT_FOUND
+			else if (master->exit_status == NOT_FOUND
 				&& !master->exec->pipe)
 				master->exit_status = EXIT_SUCCESS;
 		}
