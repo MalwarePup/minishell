@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 09:10:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 09:28:42 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void	launch_execution(t_master *master)
 {
 	int	num_pids;
 
+	num_pids = 0;
 	master->exit_status = 0;
 	init_exec(master);
 	launch_heredoc(master);
