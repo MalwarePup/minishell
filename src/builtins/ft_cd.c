@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 15:42:58 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/09 18:08:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static int	change_directory_and_update(t_master *master, const char *path)
 	}
 	if (chdir(path) == -1)
 	{
+		free(cwd);
 		perror("minishell: cd");
 		return (1);
 	}
