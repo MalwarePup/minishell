@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 11:41:29 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:08:13 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	**get_paths(t_master *master)
 	paths = NULL;
 	current = master->env;
 	while (current && current->name && ft_strcmp(current->name, "PATH"))
-	current = current->next;
+		current = current->next;
 	if (!master->path_unset && master->env_empty
 		&& (!current || !current->value))
 	{
