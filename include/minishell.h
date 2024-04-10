@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/09 20:17:10 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:46:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@
 typedef enum e_cmd_type
 {
 	CMD_ERROR = -1,
-	CMD_CD,
 	CMD_ECHO,
 	CMD_ENV,
-	CMD_EXIT,
 	CMD_PWD,
+	CMD_CD,
+	CMD_EXIT,
 	CMD_UNSET,
 	CMD_EXPORT,
 	CMD_OTHERS,

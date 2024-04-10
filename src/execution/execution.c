@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 15:47:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 08:46:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	replace_argv_without_quotes(master);
 	update_executable_path(master, master->env);
 	type = execute_command_or_builtin(master);
-	if (type == CMD_ERROR || (!token->next && (type == CMD_CD
-				|| type == CMD_EXPORT || type == CMD_UNSET
-				|| type == CMD_EXIT)))
+	if (type == CMD_ERROR || (!token->next && (type >= CMD_CD
+		&& type <= CMD_EXPORT)))
 	{
 		if (type == CMD_EXPORT || type == CMD_UNSET || (type == CMD_EXIT
 				&& !master->exec->pipe) || (type == CMD_CD
