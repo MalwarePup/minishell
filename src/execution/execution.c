@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:53:59 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 09:10:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,24 +127,14 @@ static int	handle_execution(t_master *master, int *num_pids)
 		parent_process(master, &token);
 		master->pid_list[(*num_pids)++] = master->exec->pid;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
-void	launch_execution(t_master *master)
+void	wait_for_processes(t_master *master, int num_pids)
 {
 	int	i;
 	int	status;
-	int	num_pids;
 
-	status = 0;
-	num_pids = 0;
-	master->exit_status = 0;
-	init_exec(master);
-	launch_heredoc(master);
-	if (master->last_command_exit_value == INTERRUPTED_HEREDOC)
-		return ;
-	if (handle_execution(master, &num_pids) == 1)
-		return ;
 	i = -1;
 	while (++i < num_pids)
 	{
@@ -157,6 +147,20 @@ void	launch_execution(t_master *master)
 				master->exit_status = EXIT_SUCCESS;
 		}
 	}
+}
+
+void	launch_execution(t_master *master)
+{
+	int	num_pids;
+
+	master->exit_status = 0;
+	init_exec(master);
+	launch_heredoc(master);
+	if (master->last_command_exit_value == INTERRUPTED_HEREDOC)
+		return ;
+	if (handle_execution(master, &num_pids) == 1)
+		return ;
+	wait_for_processes(master, num_pids);
 	if (master->exec->first_cmd == false && master->exec->pipe == true)
 	{
 		close(master->exec->old_pipefd[0]);
