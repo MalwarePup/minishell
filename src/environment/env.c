@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/10 00:18:10 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/10 09:01:09 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,8 @@ static int	manage_empty_environment(t_env_list **env)
 	value = ft_strdup("1");
 	if (!name || !value)
 	{
-		free(name);
-		free(value);
 		perror("ft_strdup (manage_empty_environment)");
-		return (1);
+		return (free(name), free(value), 1);
 	}
 	if (create_add_env_node(env, name, value))
 		return (1);
@@ -101,10 +99,8 @@ static int	manage_empty_environment(t_env_list **env)
 	value = ft_strdup("minishell");
 	if (!name || !value)
 	{
-		free(name);
-		free(value);
 		perror("ft_strdup (manage_empty_environment)");
-		return (1);
+		return (free(name), free(value), 1);
 	}
 	if (create_add_env_node(env, name, value))
 		return (1);
@@ -126,25 +122,13 @@ int	manage_environment(t_env_list **env)
 		equals_location = ft_strchr(*environ, '=');
 		name = ft_strndup(*environ, equals_location - *environ);
 		if (!name)
-		{
-			perror("ft_strndup (manage_environment)");
-			return (1);
-		}
+			return (perror("ft_strndup (manage_environment)"), 1);
 		value = ft_strdup(equals_location + 1);
 		if (!value)
-		{
-			free(name);
-			perror("ft_strdup (manage_environment)");
-			return (1);
-		}
+			return (perror("ft_strdup (manage_environment)"), free(name), 1);
 		if (!ft_strcmp(name, "SHLVL"))
-		{
 			if (update_shlvl(&value, ft_atoi(value)))
-			{
-				free(name);
-				return (1);
-			}
-		}
+				return (free(name), free(value), 1);
 		if (create_add_env_node(env, name, value))
 			return (1);
 		environ++;
