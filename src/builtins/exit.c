@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 23:02:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 14:43:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	check_arguments(int argc, char **argv)
 	else if (argc > 2)
 	{
 		ft_putstr_fd(ESTR_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
-		return (1);
+		return (256);
 	}
 	else if (argc > 1)
 		return (ft_latoi(argv[1]) % 256);
@@ -68,7 +68,7 @@ int	builtin_exit(t_master *master, int argc, char **argv)
 	if (argc > 1)
 	{
 		ret = check_arguments(argc, argv);
-		if (ret == 1)
+		if (ret == 256)
 			return (1);
 		else
 			master->last_command_exit_value = ret;
