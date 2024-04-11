@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:43:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 11:57:03 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 14:51:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_eof(t_master *master)
 	rl_clear_history();
 	free(master->line_read);
 	free_environment_list(&master->env);
-	if (write(STDERR_FILENO, "\nexit\n", 6) == -1)
+	if (isatty(STDIN_FILENO) && write(STDERR_FILENO, "\nexit\n", 6) == -1)
 	{
 		perror("write (handle_eof)");
 		exit(EXIT_FAILURE);
