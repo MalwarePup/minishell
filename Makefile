@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/04/10 22:46:24 by ladloff          ###   ########.fr        #
+#    Updated: 2024/04/11 11:57:24 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ SRC_FILES	:=	builtins/cd.c \
 				signals/handlers.c \
 				signals/signals.c \
 				cleanup.c \
-				exit.c \
+				main_utils.c \
 				main.c \
 
 OBJ_FILES	:= $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
