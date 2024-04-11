@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:41:29 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:51:54 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 12:42:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,6 @@ int	start_operator(t_master *master)
 		master->exit_status = MISUSE;
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
 		return (1);
-	}
-	return (0);
-}
-
-int	is_clean(t_token **token)
-{
-	char		type;
-	t_token		*current;
-	const char	*ops[] = {"|", "<", "<<", ">", ">>"};
-
-	current = *token;
-	while (current && current->next)
-	{
-		if (current->next->type == CMD_OTHERS && !ft_strlen(current->next->data)
-			&& current->type > CMD_OTHERS)
-		{
-			type = *ops[current->type - 1];
-			printf(ESTR_UNEXP, type);
-			free_token(token);
-			return (1);
-		}
-		current = current->next;
 	}
 	return (0);
 }

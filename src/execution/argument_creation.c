@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/03/31 17:51:59 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 12:24:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static size_t	count_words(char *s)
 	return (count);
 }
 
-char	*create_arg(t_master *master, char *str, size_t *j)
+static char	*create_arg(t_master *master, char *str, size_t *j)
 {
 	char	*arg;
 	char	quote;
@@ -59,7 +59,7 @@ char	*create_arg(t_master *master, char *str, size_t *j)
 	return (arg);
 }
 
-int	split_args(t_master *master, char *s, char **argv)
+static int	split_args(t_master *master, char *s, char **argv)
 {
 	size_t	i;
 	size_t	j;

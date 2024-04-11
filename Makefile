@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/04/11 11:57:24 by ladloff          ###   ########.fr        #
+#    Updated: 2024/04/11 13:02:13 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,20 +33,18 @@ SRC_FILES	:=	builtins/cd.c \
 				environment/env.c \
 				execution/argument_creation.c \
 				execution/argument_quotes_removal.c \
-				execution/argument_splitting.c \
 				execution/command_execution_utils.c \
 				execution/command_execution_utils2.c \
 				execution/command_execution.c \
 				execution/execution_utils.c \
 				execution/execution_utils2.c \
-				execution/execution_utils3.c \
 				execution/execution.c \
 				execution/expansion_utils.c \
 				execution/expansion.c \
-				execution/redirection.c \
 				execution/heredoc_utils.c \
 				execution/heredoc.c \
 				execution/no_command.c \
+				execution/redirection.c \
 				lexer/lexer_mem.c \
 				lexer/lexer_utils.c \
 				lexer/lexer_utils2.c \

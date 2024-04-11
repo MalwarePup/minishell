@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/10 23:53:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 12:48:38 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,25 +144,62 @@ typedef struct s_lexer
 
 extern int				*g_exit_status;
 
-/* builtin_utils.c */
+/* cd.c */
+
+int						builtin_cd(int argc, char **argv, t_master *master);
+
+/* echo.c */
+
+int						builtin_echo(int argc, char **argv, t_master *master);
+
+/* env.c */
+
+int						builtin_env(t_master *master);
+
+/* exit.c */
+
+int						builtin_exit(t_master *master, int argc, char **argv);
+
+/* export.c */
+int						builtin_export(int argc, char **argv, t_master *master);
+
+/* pwd.c */
+
+int						builtin_pwd(void);
+
+/* unset.c */
+
+int						builtin_unset(char **argv, t_master *master);
+
+/* env.c */
+
+int						manage_environment(t_env_list **env);
+
+/* argument_creation.c */
+
+void					create_arguments(t_master *master, t_token *token);
+
+/* argument_quotes_removal.c */
+
+void					replace_argv_without_quotes(t_master *master);
+
+/* command_execution_utils.c */
+
+void					find_executable_command_path(t_master *master);
+
+/* command_execution_utils2.c */
 
 bool					handle_command_not_found_error(t_master *master);
 
-/* builtin.c */
+/* command_execution.c */
 
 int						execute_builtin(t_master *master, t_cmd_type type);
 t_cmd_type				execute_command_or_builtin(t_master *master);
 
-/*command_execution_utils2.c */
-
-void					find_executable_command_path(t_master *master);
-
-/* execution_mem.c */
-
-void					create_arguments(t_master *master, t_token *token);
-
 /* execution_utils.c */
 
+void					update_executable_path(t_master *master,
+							t_env_list *current);
 char					**env_list_to_array(t_master *master, t_env_list *env);
 void					init_exec(t_master *master);
 void					execute_command(t_master *master);
@@ -170,25 +207,12 @@ void					execute_command(t_master *master);
 /* execution_utils2.c */
 
 int						count_pipe(t_token *token);
-int						no_command(t_master *master, t_token **token);
-void					replace_redir(t_master *master, char **str);
-bool					redirect_cmd(t_master *master, char *file, int flag,
-							int fd);
-
-/* execution_utils3.c */
-
 t_token					*handle_command_error(t_master *master, t_token *token,
 							t_cmd_type type);
 void					wait_for_processes(t_master *master, int num_pids);
 
-/* no_command.c */
-
-int						handle_redir(t_master *master, t_token *token,
-							bool *is_input, bool *is_output);
-
 /* execution.c */
 
-void					replace_argv_without_quotes(t_master *master);
 void					launch_execution(t_master *master);
 
 /* expansion_utils.c */
@@ -203,69 +227,60 @@ char					*create_new_string_with_value(t_master *master,
 
 void					launch_expansion(t_master *master, char **str);
 
-/* split_args.c */
+/* heredoc_utils.c */
 
-int						split_args(t_master *master, char *s, char **argv);
-char					*creates_arg(t_master *master, char *s, size_t *j);
-char					*creates_arg_for_echo(t_master *master, char *s,
-							size_t *j);
-char					*creates_quoted_arg(t_master *master, char *s,
-							size_t *j);
+int						create_or_open_file(char **filename, int *index);
 
-/* replace_argv_without_quotes.c */
+/* heredoc.c */
 
-void					replace_argv_without_quotes(t_master *master);
+void					launch_heredoc(t_master *master);
 
-/* cleanup.c */
+/* no_command.c */
 
-void					free_string_array(char ***str);
-void					free_token(t_token **token);
-void					cleanup_before_exit(t_master *master);
-void					clean_lexer(t_lexer *lexer);
+int						no_command(t_master *master, t_token **token);
 
-/* exit.c */
+/* redirection.c */
 
-void					error_exit(t_master *master, char *error_str);
-void					handle_eof(t_master *master);
-void					lexer_exit(t_master *master, t_lexer *lexer,
-							char *error_str);
+void					replace_redir_without_quotes(t_master *master,
+							char **str);
+void					launch_redirection(t_master *master, t_token *token);
 
 /* lexer_mem.c */
 
-void					create_token_node(t_master *master, t_lexer *lexer,
-							t_cmd_type type, bool command);
 char					*trim_spaces(t_master *master, t_lexer *lexer,
 							char *str);
+void					create_token_node(t_master *master, t_lexer *lexer,
+							t_cmd_type type, bool command);
 
 /* lexer_utils.c */
+
 int						start_operator(t_master *master);
-int						is_clean(t_token **token);
 int						to_pass(char *str, char *quote, char *ex_quote,
 							size_t *i);
 
 /* lexer_utils2.c */
+
+t_cmd_type				redir_type(char *line_read, size_t *i);
+void					exit_redir(t_master *master, size_t i);
 bool					is_valid_character(char c, bool command, char *quote);
 char					*creates_data(t_master *master, t_lexer *lexer,
 							size_t *i, bool command);
-void					exit_redir(t_master *master, size_t i);
-t_cmd_type				redir_type(char *line_read, size_t *i);
 
 /* lexer_utils4.c */
 
 int						two_consecutive_pipe(t_master *master);
+void					lexer_exit(t_master *master, t_lexer *lexer, char *str);
 int						last_operator(t_master *master);
 
 /* lexer.c */
 
 int						launch_lexer(t_master *master);
-void					replace_redir_without_quotes(t_master *master,
-							char **str);
 
 /* quote_handling.c */
 
 bool					is_matched_quotes(t_master *master, const char *str);
 
-/* handlers.c */
+/* handler.c */
 
 void					handle_minishell_sig(int signum);
 void					handle_heredoc_sig(int signum);
@@ -273,40 +288,22 @@ void					handle_temp_sig(int signum);
 
 /* signals.c */
 
-int						restore_sigaction(t_master *master);
 int						set_sigaction(t_master *master);
-int						set_sigaction_heredoc(t_master *master);
 int						set_sigaction_temp(t_master *master);
+int						set_sigaction_heredoc(t_master *master);
+int						restore_sigaction(t_master *master);
 
-/* env_utils.c */
-
-void					update_executable_path(t_master *master,
-							t_env_list *current);
-
-/* env.c */
+/* cleanup.c */
 
 void					free_environment_list(t_env_list **env);
-int						manage_environment(t_env_list **env);
+void					free_string_array(char ***str);
+void					free_token(t_token **token);
+void					cleanup_before_exit(t_master *master);
+void					clean_lexer(t_lexer *lexer);
 
-int						builtin_cd(int argc, char **argv, t_master *master);
-int						builtin_echo(int argc, char **argv, t_master *master);
-int						builtin_env(t_master *master);
-int						builtin_exit(t_master *master, int argc, char **argv);
-int						builtin_export(int argc, char **argv, t_master *master);
-int						builtin_pwd(void);
-int						builtin_unset(char **argv, t_master *master);
+/* main_utils.c */
 
-/* redirection.c */
-
-void					launch_redirection(t_master *master, t_token *token);
-
-/* heredoc.c */
-
-void					launch_heredoc(t_master *master);
-
-/* heredoc_files.c */
-
-char					*create_filename(int index);
-int						create_or_open_file(char **filename, int *index);
+void					error_exit(t_master *master, char *error_str);
+void					handle_eof(t_master *master);
 
 #endif /* MINISHELL_H */

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/04/11 00:01:31 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 13:05:18 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static bool	is_expandable(char *str)
 	return (true);
 }
 
-static void	read_heredoc_into_file(t_master *master, int fd, const char *delimiter,
-			bool expand)
+static void	read_heredoc_into_file(t_master *master, int fd,
+	const char *delimiter, bool expand)
 {
 	char	*line_read;
 

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 10:13:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:39:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 12:41:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include "libft.h"
 #include <stdio.h>
 
-void	create_node(char *data, t_token **new_node,
-	t_cmd_type type, t_token **token)
+static void	create_node(char *data, t_token **new_node, t_cmd_type type,
+	t_token **token)
 {
 	(*new_node)->data = data;
 	(*new_node)->type = type;
@@ -33,14 +33,14 @@ void	create_node(char *data, t_token **new_node,
 	}
 }
 
-char	**ft_data(t_lexer *lexer, bool command)
+static char	**ft_data(t_lexer *lexer, bool command)
 {
 	if (command)
 		return (&lexer->data_command);
 	return (&lexer->data_redir);
 }
 
-t_token	**ft_token_lst(t_master *master, t_lexer *lexer, bool command)
+static t_token	**ft_token_lst(t_master *master, t_lexer *lexer, bool command)
 {
 	if (command)
 		return (&master->token);
@@ -73,8 +73,8 @@ char	*trim_spaces(t_master *master, t_lexer *lexer, char *str)
 	return (free(str), str = NULL, new_str);
 }
 
-void	create_token_node(t_master *master, t_lexer *lexer,
-	t_cmd_type type, bool command)
+void	create_token_node(t_master *master, t_lexer *lexer, t_cmd_type type,
+	bool command)
 {
 	t_token	*new_node;
 	char	*tmp;

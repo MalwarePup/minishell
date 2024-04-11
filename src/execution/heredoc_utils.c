@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:59:43 by ladloff           #+#    #+#             */
-/*   Updated: 2024/02/15 12:07:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 12:37:21 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-char	*create_filename(int index)
+static char	*create_filename(int index)
 {
 	char	*itoa;
 	char	*filename;
@@ -30,7 +30,7 @@ char	*create_filename(int index)
 	return (filename);
 }
 
-int	file_exists_with_permissions(const char *filename)
+static int	file_exists_with_permissions(const char *filename)
 {
 	return (access(filename, R_OK | W_OK) == 0);
 }
