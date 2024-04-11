@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 22:45:56 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 15:56:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static bool	is_executable_command(t_master *master)
+bool	is_executable_command(t_master *master)
 {
 	if (ft_strcmp(master->argv[0], "..")
 		&& ft_strcmp(master->argv[0], ".")
@@ -40,7 +40,7 @@ static bool	is_executable_command(t_master *master)
 	return (true);
 }
 
-static t_cmd_type	identify_builtin_command(char *arg)
+t_cmd_type	identify_builtin_command(char *arg)
 {
 	size_t			i;
 	t_cmd_type		type;
@@ -82,18 +82,4 @@ int	execute_builtin(t_master *master, t_cmd_type type)
 	else if (type == CMD_EXIT)
 		return (builtin_exit(master, master->argc, master->argv));
 	return (CMD_ERROR);
-}
-
-t_cmd_type	execute_command_or_builtin(t_master *master)
-{
-	t_cmd_type	type;
-
-	type = identify_builtin_command(master->argv[0]);
-	if (type == CMD_ERROR)
-		return (CMD_ERROR);
-	else if (type != CMD_OTHERS)
-		return (type);
-	else if (!is_executable_command(master))
-		return (CMD_ERROR);
-	return (CMD_OTHERS);
 }

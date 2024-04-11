@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 15:21:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:06:58 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	create_arguments(master, token);
 	replace_argv_without_quotes(master);
 	update_executable_path(master, master->env);
-	type = execute_command_or_builtin(master);
+	type = identify_builtin_command(master->argv[0]);
 	if (type == CMD_ERROR || (!token->next && !master->exec->pipe
-				&& (type >= CMD_CD && type <= CMD_EXPORT)))
+			&& (type >= CMD_CD && type <= CMD_EXPORT)))
 	{
 		if (type >= CMD_CD && type <= CMD_EXPORT)
 			master->exit_status = execute_builtin(master, type);
@@ -121,8 +121,11 @@ static int	handle_execution(t_master *master, int *num_pids)
 
 void	launch_execution(t_master *master)
 {
+	int	i;
+	int	status;
 	int	num_pids;
 
+	status = 0;
 	num_pids = 0;
 	master->exit_status = 0;
 	init_exec(master);
@@ -131,7 +134,13 @@ void	launch_execution(t_master *master)
 		return ;
 	if (handle_execution(master, &num_pids) == 1)
 		return ;
-	wait_for_processes(master, num_pids);
+	i = -1;
+	while (++i < num_pids)
+	{
+		while ((waitpid(master->pid_list[i], &status, 0)) > 0)
+			if (WIFEXITED(status) && master->exit_status != NOT_FOUND)
+				master->exit_status = WEXITSTATUS(status);
+	}
 	if (master->exec->first_cmd == false && master->exec->pipe == true)
 	{
 		close(master->exec->old_pipefd[0]);

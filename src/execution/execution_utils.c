@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:33:30 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:43:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 15:56:58 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void	execute_command(t_master *master)
 {
 	char	**envp;
 
+	if (!is_executable_command(master))
+		return ;
 	envp = env_list_to_array(master, master->env);
 	execve(master->argv[0], master->argv, envp);
 	free_string_array(&envp);

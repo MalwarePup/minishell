@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 12:50:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:06:34 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,4 @@ t_token	*handle_command_error(t_master *master, t_token *token, t_cmd_type type)
 		}
 	}
 	return (token);
-}
-
-void	wait_for_processes(t_master *master, int num_pids)
-{
-	int	i;
-	int	status;
-
-	i = -1;
-	while (++i < num_pids)
-	{
-		while ((waitpid(master->pid_list[i], &status, 0)) > 0)
-		{
-			if (WIFEXITED(status) && master->exit_status != NOT_FOUND)
-				master->exit_status = WEXITSTATUS(status);
-			else if (master->exit_status == NOT_FOUND && !master->exec->pipe)
-				master->exit_status = EXIT_SUCCESS;
-		}
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/11 12:48:38 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/11 15:56:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,9 @@ bool					handle_command_not_found_error(t_master *master);
 
 /* command_execution.c */
 
+bool					is_executable_command(t_master *master);
+t_cmd_type				identify_builtin_command(char *arg);
 int						execute_builtin(t_master *master, t_cmd_type type);
-t_cmd_type				execute_command_or_builtin(t_master *master);
 
 /* execution_utils.c */
 
