@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/12 23:18:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:21:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,9 +278,9 @@ bool					is_matched_quotes(t_master *master, const char *str);
 
 /* handler.c */
 
-void					handle_minishell_sig(int signum);
-void					handle_heredoc_sig(int signum);
-void					handle_temp_sig(int signum);
+void					default_handler(int signum);
+void					heredoc_handler(int signum);
+void					exec_handler(int signum);
 
 /* signals.c */
 

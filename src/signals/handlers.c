@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:59:55 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:52:49 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:21:50 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <readline/readline.h>
 #include "minishell.h"
 
-void	handle_minishell_sig(int signum)
+void	default_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -27,7 +27,7 @@ void	handle_minishell_sig(int signum)
 	}
 }
 
-void	handle_heredoc_sig(int signum)
+void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -37,7 +37,7 @@ void	handle_heredoc_sig(int signum)
 	}
 }
 
-void	handle_temp_sig(int signum)
+void	exec_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
