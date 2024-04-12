@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/12 14:47:37 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 15:31:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <sys/types.h>
-
-# define STR_BEYOND_LLONG_MAX "9223372036854775808"
-# define STR_BEYOND_LLONG_MIN "9223372036854775809"
 
 # define ESTR_QUOTE "minishell: syntax error near unmatched `%c'\n"
 # define ESTR_UNEXP "minishell: syntax error near unexpected token `%c'\n"
