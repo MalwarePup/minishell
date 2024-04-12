@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 11:38:44 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:23:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ static int	shell_loop(t_master *master)
 {
 	while (1)
 	{
-		if (master->last_command_exit_value == INTERRUPTED_HEREDOC
-			|| master->last_command_exit_value == INTERRUPTED_TEMP)
-			master->exit_status = INTERRUPTED;
 		init_master(master);
 		restore_sigaction(master);
 		if (isatty(STDIN_FILENO))
