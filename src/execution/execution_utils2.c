@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 16:06:34 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:35:19 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,4 @@ int	count_pipe(t_token *token)
 		token = token->next;
 	}
 	return (i + 1);
-}
-
-t_token	*handle_command_error(t_master *master, t_token *token, t_cmd_type type)
-{
-	if (type == CMD_ERROR)
-	{
-		if (token->next && token->next->type == CMD_PIPE)
-		{
-			free_string_array(&master->argv);
-			token = token->next->next;
-		}
-		else
-		{
-			free_string_array(&master->argv);
-			return (NULL);
-		}
-	}
-	return (token);
 }

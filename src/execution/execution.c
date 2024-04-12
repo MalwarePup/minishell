@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 14:18:53 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:37:01 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ static int	handle_execution(t_master *master, int *num_pids)
 		else if (exit_nocmd == 2)
 			continue ;
 		prepare_execution(master, token);
-		if (!handle_command_error(master, token, master->exec->type))
-			return (0);
 		child_process(master, token, master->exec->type);
 		parent_process(master, &token);
 		master->pid_list[(*num_pids)++] = master->exec->pid;
