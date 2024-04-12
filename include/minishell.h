@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/12 23:11:07 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:18:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ void					handle_temp_sig(int signum);
 /* signals.c */
 
 int						set_sigaction(t_master *master);
-int						set_sigaction_temp(t_master *master);
+int						set_sigaction_exec(t_master *master);
 int						set_sigaction_heredoc(t_master *master);
 int						restore_sigaction(t_master *master);
 

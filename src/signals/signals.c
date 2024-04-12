@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 23:16:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:18:23 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	set_sigaction(t_master *master)
 	return (0);
 }
 
-int	set_sigaction_temp(t_master *master)
+int	set_sigaction_exec(t_master *master)
 {
 	master->act.sa_handler = handle_temp_sig;
 	if (sigaction(SIGINT, &master->act, NULL) == -1)
 	{
-		perror("sigaction (set_sigaction_temp)");
+		perror("sigaction (set_sigaction_exec)");
 		return (1);
 	}
 	return (0);
