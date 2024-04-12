@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/12 23:21:50 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:39:43 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@
 
 # define DEFAULT_PATH_1 "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 # define DEFAULT_PATH_2 ":/opt/homebrew/bin"
+
+# ifdef __APPLE__
+#  define QUIT_STR "Quit: 3\n"
+# elif __linux__
+#  define QUIT_STR "Quit\n"
+# endif
 
 typedef enum e_cmd_type
 {

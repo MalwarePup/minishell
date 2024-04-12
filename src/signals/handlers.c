@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:59:55 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 23:23:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:45:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,6 @@ void	default_handler(int signum)
 	}
 }
 
-void	heredoc_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		*g_exit_status = 128 + signum;
-		write(STDOUT_FILENO, "^C\n", 3);
-		close(STDIN_FILENO);
-	}
-}
-
 void	exec_handler(int signum)
 {
 	if (signum == SIGINT)
@@ -45,5 +35,20 @@ void	exec_handler(int signum)
 		rl_replace_line("", 0);
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
+	}
+	if (signum == SIGQUIT)
+	{
+		*g_exit_status = 128 + signum;
+		write(STDOUT_FILENO, QUIT_STR, sizeof(QUIT_STR) - 1);
+	}
+}
+
+void	heredoc_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		*g_exit_status = 128 + signum;
+		write(STDOUT_FILENO, "^C\n", 3);
+		close(STDIN_FILENO);
 	}
 }
