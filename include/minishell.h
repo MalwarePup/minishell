@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/11 15:56:26 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:05:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_exec
 	int					old_pipefd[2];
 	int					stdin_fd;
 	int					stdout_fd;
+	t_cmd_type			type;
 }						t_exec;
 
 typedef struct s_master

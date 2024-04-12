@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 14:03:19 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:14:08 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-static t_cmd_type	prepare_execution(t_master *master, t_token *token)
+static void	prepare_execution(t_master *master, t_token *token)
 {
 	t_cmd_type	type;
 
@@ -25,23 +25,22 @@ static t_cmd_type	prepare_execution(t_master *master, t_token *token)
 	replace_argv_without_quotes(master);
 	update_executable_path(master, master->env);
 	type = identify_builtin_command(master->argv[0]);
-	if (type == CMD_ERROR || (!token->next && !master->exec->pipe
-			&& (type >= CMD_CD && type <= CMD_EXPORT)))
-	{
-		if (type >= CMD_CD && type <= CMD_EXPORT)
+	if (!token->next && !master->exec->pipe
+			&& (type >= CMD_CD && type <= CMD_EXPORT))
 			master->exit_status = execute_builtin(master, type);
-		return (CMD_ERROR);
-	}
-	if (token->next && token->next->type == CMD_PIPE)
+	else
 	{
-		if (pipe(master->exec->pipefd) == -1)
-			error_exit(master, "pipe (execute_pipeline)");
-		master->exec->pipe = true;
+		if (token->next && token->next->type == CMD_PIPE)
+		{
+			if (pipe(master->exec->pipefd) == -1)
+				error_exit(master, "pipe (execute_pipeline)");
+			master->exec->pipe = true;
+		}
+		master->exec->pid = fork();
+		if (master->exec->pid == -1)
+			error_exit(master, "fork (execute_pipeline)");
 	}
-	master->exec->pid = fork();
-	if (master->exec->pid == -1)
-		error_exit(master, "fork (execute_pipeline)");
-	return (type);
+	master->exec->type = type;
 }
 
 static void	child_process(t_master *master, t_token *token, t_cmd_type type)
@@ -61,8 +60,6 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 			close(master->exec->pipefd[0]);
 			close(master->exec->pipefd[1]);
 		}
-		if (master->exit_status == NOT_FOUND && master->exec->pipe == false)
-			exit(EXIT_SUCCESS);
 		launch_redirection(master, token->redir);
 		if (type == CMD_OTHERS)
 			execute_command(master);
@@ -97,7 +94,6 @@ static void	parent_process(t_master *master, t_token **token)
 
 static int	handle_execution(t_master *master, int *num_pids)
 {
-	t_cmd_type	type;
 	t_token		*token;
 	int			exit_nocmd;
 
@@ -109,10 +105,10 @@ static int	handle_execution(t_master *master, int *num_pids)
 			return (1);
 		else if (exit_nocmd == 2)
 			continue ;
-		type = prepare_execution(master, token);
-		if (handle_command_error(master, token, type) == NULL)
+		prepare_execution(master, token);
+		if (!handle_command_error(master, token, master->exec->type))
 			return (0);
-		child_process(master, token, type);
+		child_process(master, token, master->exec->type);
 		parent_process(master, &token);
 		master->pid_list[(*num_pids)++] = master->exec->pid;
 	}
