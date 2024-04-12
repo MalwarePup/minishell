@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:59:55 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 23:45:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 00:13:44 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exec_handler(int signum)
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 	}
-	if (signum == SIGQUIT)
+	else if (signum == SIGQUIT)
 	{
 		*g_exit_status = 128 + signum;
 		write(STDOUT_FILENO, QUIT_STR, sizeof(QUIT_STR) - 1);
