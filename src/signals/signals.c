@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 09:56:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:00:35 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,18 @@
 static int	initialize_signal_handlers(t_master *master)
 {
 	master->minishell_sa.sa_handler = handle_minishell_sig;
-	master->minishell_sa.sa_flags = 0;
 	if (sigemptyset(&master->minishell_sa.sa_mask) == -1)
 	{
 		perror("sigemptyset (initialize_signal_handlers)");
 		return (1);
 	}
 	master->heredoc_sa.sa_handler = handle_heredoc_sig;
-	master->heredoc_sa.sa_flags = 0;
 	if (sigemptyset(&master->heredoc_sa.sa_mask) == -1)
 	{
 		perror("sigemptyset (initialize_signal_handlers)");
 		return (1);
 	}
 	master->temp_sa.sa_handler = handle_temp_sig;
-	master->temp_sa.sa_flags = 0;
 	if (sigemptyset(&master->temp_sa.sa_mask) == -1)
 	{
 		perror("sigemptyset (initialize_signal_handlers)");
