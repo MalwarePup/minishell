@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 15:17:09 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 15:14:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	builtin_exit(t_master *master, int argc, char **argv)
 		else
 			master->last_command_exit_value = ret;
 	}
-	if (isatty(STDIN_FILENO) && !master->exec->pipe
+	if (isatty(STDIN_FILENO) && master->exec->pipefd[0] == -1
 		&& write(STDERR_FILENO, "exit\n", (size_t)5) == -1)
 		error_exit(master, "write (builtin_exit)");
 	cleanup_before_exit(master);

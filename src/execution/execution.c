@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 14:37:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:46:44 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,14 @@ static void	prepare_execution(t_master *master, t_token *token)
 	replace_argv_without_quotes(master);
 	update_executable_path(master, master->env);
 	type = identify_builtin_command(master->argv[0]);
-	if (!token->next && !master->exec->pipe
+	if (!token->next && master->exec->pipefd[0] == -1
 			&& (type >= CMD_CD && type <= CMD_EXPORT))
 			master->exit_status = execute_builtin(master, type);
 	else
 	{
 		if (token->next && token->next->type == CMD_PIPE)
-		{
 			if (pipe(master->exec->pipefd) == -1)
 				error_exit(master, "pipe (execute_pipeline)");
-			master->exec->pipe = true;
-		}
 		master->exec->pid = fork();
 		if (master->exec->pid == -1)
 			error_exit(master, "fork (execute_pipeline)");
@@ -132,7 +129,7 @@ void	launch_execution(t_master *master)
 		while ((waitpid(master->pid_list[i], &status, 0)) > 0)
 			if (WIFEXITED(status))
 				master->exit_status = WEXITSTATUS(status);
-	if (master->exec->first_cmd == false && master->exec->pipe == true)
+	if (master->exec->first_cmd == false)
 	{
 		close(master->exec->old_pipefd[0]);
 		close(master->exec->old_pipefd[1]);
