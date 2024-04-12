@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:06:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 15:32:52 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 15:46:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,20 @@ static bool	is_numeric_argument(const char *arg)
 	return (true);
 }
 
-static int	check_arguments(int argc, char **argv)
+int	builtin_exit(t_master *master, int argc, char **argv)
 {
 	if (argc > 1 && (!argv[1][0] || !is_numeric_argument(argv[1])))
 	{
 		ft_dprintf(STDERR_FILENO, ESTR_NUM_ARG, argv[1]);
-		return (MISUSE);
+		master->last_command_exit_value = MISUSE;
 	}
 	else if (argc > 2)
 	{
 		ft_putstr_fd(ESTR_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
-		return (256);
+		return (1);
 	}
 	else if (argc > 1)
-		return (ft_latoi(argv[1]) % 256);
-	return (-1);
-}
-
-int	builtin_exit(t_master *master, int argc, char **argv)
-{
-	int	ret;
-
-	ret = 0;
-	if (argc > 1)
-	{
-		ret = check_arguments(argc, argv);
-		if (ret == 256)
-			return (1);
-		else
-			master->last_command_exit_value = ret;
-	}
+		master->last_command_exit_value = ft_atoi(argv[1]) % 256;
 	if (isatty(STDIN_FILENO) && master->exec->pipefd[0] == -1
 		&& write(STDERR_FILENO, "exit\n", (size_t)5) == -1)
 		error_exit(master, "write (builtin_exit)");
