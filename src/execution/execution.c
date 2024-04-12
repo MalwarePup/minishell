@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 14:14:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:18:53 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 {
 	if (master->exec->pid == 0)
 	{
-		if (master->exec->first_cmd == false && master->exec->pipe == true)
+		if (master->exec->first_cmd == false)
 		{
 			dup2(master->exec->old_pipefd[0], STDIN_FILENO);
 			close(master->exec->old_pipefd[0]);
 			close(master->exec->old_pipefd[1]);
 		}
-		if (token->next && token->next->type == CMD_PIPE
-			&& master->exec->pipe == true)
+		if (token->next && token->next->type == CMD_PIPE)
 		{
 			dup2(master->exec->pipefd[1], STDOUT_FILENO);
 			close(master->exec->pipefd[0]);
@@ -72,7 +71,7 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 
 static void	parent_process(t_master *master, t_token **token)
 {
-	if (master->exec->first_cmd == false && master->exec->pipe == true)
+	if (master->exec->first_cmd == false)
 	{
 		close(master->exec->old_pipefd[0]);
 		close(master->exec->old_pipefd[1]);
