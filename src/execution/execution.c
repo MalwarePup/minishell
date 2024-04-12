@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 23:18:23 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 00:08:07 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	launch_execution(t_master *master)
 	master->exit_status = 0;
 	init_exec(master);
 	launch_heredoc(master);
-	if (master->last_command_exit_value == INTERRUPTED_HEREDOC)
+	if (master->exec->interupted)
 		return ;
 	if (handle_execution(master, &num_pids) == 1)
 		return ;

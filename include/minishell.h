@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/12 23:39:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 00:06:00 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,6 @@ typedef enum e_exit_value
 	CANNOT_EXECUTE = 126,
 	NOT_FOUND = 127,
 	INVALID_EXIT = 128,
-	INTERRUPTED = 130,
-	INTERRUPTED_HEREDOC = 131,
-	INTERRUPTED_TEMP = 132
 }						t_exit_value;
 
 typedef struct s_env
@@ -94,6 +91,7 @@ typedef struct s_exec
 {
 	bool				heredoc;
 	bool				first_cmd;
+	bool				interupted;
 	pid_t				pid;
 	int					pipefd[2];
 	int					old_pipefd[2];
