@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/12 15:31:17 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:11:07 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,7 @@ typedef struct s_master
 	bool				reset_exit_status;
 	bool				env_empty;
 	bool				path_unset;
-	struct sigaction	minishell_sa;
-	struct sigaction	heredoc_sa;
-	struct sigaction	temp_sa;
+	struct sigaction	act;
 }						t_master;
 
 typedef struct s_expansion

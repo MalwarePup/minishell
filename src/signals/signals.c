@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 23:00:35 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:11:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,8 @@
 
 static int	initialize_signal_handlers(t_master *master)
 {
-	master->minishell_sa.sa_handler = handle_minishell_sig;
-	if (sigemptyset(&master->minishell_sa.sa_mask) == -1)
-	{
-		perror("sigemptyset (initialize_signal_handlers)");
-		return (1);
-	}
-	master->heredoc_sa.sa_handler = handle_heredoc_sig;
-	if (sigemptyset(&master->heredoc_sa.sa_mask) == -1)
-	{
-		perror("sigemptyset (initialize_signal_handlers)");
-		return (1);
-	}
-	master->temp_sa.sa_handler = handle_temp_sig;
-	if (sigemptyset(&master->temp_sa.sa_mask) == -1)
+	master->act.sa_handler = handle_minishell_sig;
+	if (sigemptyset(&master->act.sa_mask) == -1)
 	{
 		perror("sigemptyset (initialize_signal_handlers)");
 		return (1);
@@ -41,8 +29,8 @@ int	set_sigaction(t_master *master)
 {
 	if (initialize_signal_handlers(master))
 		return (1);
-	if (sigaction(SIGINT, &master->minishell_sa, NULL) == -1
-		|| sigaction(SIGQUIT, &master->minishell_sa, NULL) == -1)
+	if (sigaction(SIGINT, &master->act, NULL) == -1
+		|| sigaction(SIGQUIT, &master->act, NULL) == -1)
 	{
 		perror("sigaction (set_sigaction)");
 		return (1);
@@ -52,8 +40,8 @@ int	set_sigaction(t_master *master)
 
 int	set_sigaction_temp(t_master *master)
 {
-	master->heredoc_sa.sa_handler = handle_temp_sig;
-	if (sigaction(SIGINT, &master->temp_sa, NULL) == -1)
+	master->act.sa_handler = handle_temp_sig;
+	if (sigaction(SIGINT, &master->act, NULL) == -1)
 	{
 		perror("sigaction (set_sigaction_temp)");
 		return (1);
@@ -63,8 +51,8 @@ int	set_sigaction_temp(t_master *master)
 
 int	set_sigaction_heredoc(t_master *master)
 {
-	master->heredoc_sa.sa_handler = handle_heredoc_sig;
-	if (sigaction(SIGINT, &master->heredoc_sa, NULL) == -1)
+	master->act.sa_handler = handle_heredoc_sig;
+	if (sigaction(SIGINT, &master->act, NULL) == -1)
 	{
 		perror("sigaction (set_sigaction_heredoc)");
 		return (1);
@@ -74,7 +62,8 @@ int	set_sigaction_heredoc(t_master *master)
 
 int	restore_sigaction(t_master *master)
 {
-	if (sigaction(SIGINT, &master->minishell_sa, NULL) == -1)
+	master->act.sa_handler = handle_minishell_sig;
+	if (sigaction(SIGINT, &master->act, NULL) == -1)
 	{
 		perror("sigaction (restore_sigaction)");
 		return (1);
