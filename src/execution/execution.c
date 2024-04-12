@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/12 14:46:44 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:13:47 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static void	prepare_execution(t_master *master, t_token *token)
 	update_executable_path(master, master->env);
 	type = identify_builtin_command(master->argv[0]);
 	if (!token->next && master->exec->pipefd[0] == -1
-			&& (type >= CMD_CD && type <= CMD_EXPORT))
-			master->exit_status = execute_builtin(master, type);
+		&& (type >= CMD_CD && type <= CMD_EXPORT))
+		master->exit_status = execute_builtin(master, type);
 	else
 	{
 		if (token->next && token->next->type == CMD_PIPE)
