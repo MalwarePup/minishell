@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/13 16:01:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 17:51:11 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,8 @@ typedef struct s_redir
 {
 	bool				is_input;
 	bool				is_output;
-	int					stdin;
-	int					stdout;
+	int					original_stdin;
+	int					original_stdout;
 	int					flag;
 	int					fd;
 }						t_redir;

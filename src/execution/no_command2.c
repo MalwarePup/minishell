@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_command2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:13:33 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/04/13 14:23:09 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/13 17:50:00 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@
 
 void	redirect_initial(t_master *master, t_redir *redir)
 {
-	if (redir->is_input == true)
-		if (dup2(redir->stdin, STDIN_FILENO) == -1)
-			error_exit(master, "dup2: stdin");
-	if (redir->is_input == false)
-		if (dup2(redir->stdout, STDOUT_FILENO) == -1)
-			error_exit(master, "dup2: stdout");
+	if (dup2(redir->original_stdin, STDIN_FILENO) == -1)
+		error_exit(master, "dup2: stdin");
+	if (dup2(redir->original_stdout, STDOUT_FILENO) == -1)
+		error_exit(master, "dup2: stdout");
 }
 
 bool	redirect_cmd(t_master *master, char *file, t_redir *redir)
@@ -37,7 +35,6 @@ bool	redirect_cmd(t_master *master, char *file, t_redir *redir)
 		perror(file);
 		master->exit_status = 1;
 		redirect_initial(master, redir);
-		free(redir);
 		return (false);
 	}
 	if (dup2(new_fd, redir->fd) == -1)

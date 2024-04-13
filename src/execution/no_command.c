@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:51:38 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/04/13 16:37:12 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 17:49:27 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,21 @@ static int	handle_redir(t_master *master, t_token *token, t_redir *redir)
 static int	launch_nocommand(t_master *master, t_token *tmp)
 {
 	t_token	*token;
-	t_redir	*redir;
+	t_redir	redir;
 
 	token = tmp;
-	redir = malloc(sizeof(t_redir));
-	if (redir == NULL)
-		error_exit(master, "malloc error in launch_nocommand.c");
-	redir->is_input = false;
-	redir->is_output = false;
-	redir->stdin = dup(STDOUT_FILENO);
-	redir->stdout = dup(STDIN_FILENO);
+	ft_memset(&redir, 0, sizeof(t_redir));
+	redir.original_stdout = dup(STDOUT_FILENO);
+	redir.original_stdin = dup(STDIN_FILENO);
 	while (token)
 	{
-		if (handle_redir(master, token, redir))
+		if (handle_redir(master, token, &redir))
 			return (1);
 		token = token->next;
 	}
-	redirect_initial(master, redir);
-	free(redir);
+	redirect_initial(master, &redir);
+	close(redir.original_stdout);
+	close(redir.original_stdin);
 	return (0);
 }
 
