@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:42:44 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 16:20:34 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 16:36:22 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ static bool	handle_directory_access_error(t_master *master)
 {
 	struct stat	s;
 
-	if (stat(master->argv[0], &s) == 0)
+	if (!ft_strcmp(master->argv[0], ".."))
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->argv[0]);
+		return (master->exit_status = NOT_FOUND, false);
+	}
+	else if (stat(master->argv[0], &s) == 0)
 	{
 		if ((S_ISDIR(s.st_mode) && ft_strcmp(master->argv[0], "."))
 			&& (!ft_strncmp(master->argv[0], "./", 2)
@@ -87,8 +92,6 @@ bool	handle_command_not_found_error(t_master *master)
 			ft_dprintf(STDERR_FILENO, ESTR_DOT_P1 ESTR_DOT_P2);
 			return (master->exit_status = MISUSE, false);
 		}
-		ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->argv[0]);
-		return (master->exit_status = NOT_FOUND, false);
 	}
 	return (handle_file_access_and_errors(master));
 }
