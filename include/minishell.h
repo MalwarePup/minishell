@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/13 00:43:17 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 14:21:56 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,16 @@ typedef struct s_lexer
 	t_token				*redirect;
 }						t_lexer;
 
+typedef struct s_redir
+{
+	bool	is_input;
+	bool	is_output;
+	int		stdin;
+	int		stdout;
+	int		flag;
+	int		fd;
+}	t_redir;
+
 extern int				*g_exit_status;
 
 /* cd.c */
@@ -238,6 +248,17 @@ void					launch_heredoc(t_master *master);
 /* no_command.c */
 
 int						no_command(t_master *master, t_token **token);
+
+/* no_command2.c */
+
+int						handle_output_redir(t_master *master,
+							t_token *token, t_redir *redir);
+int						handle_input_redir(t_master *master,
+							t_token *token, t_redir *redir);
+bool					redirect_cmd(t_master *master, char *file,
+							t_redir *redir);
+void					redirect_initial(t_master *master,
+							t_redir *redir);
 
 /* redirection.c */
 

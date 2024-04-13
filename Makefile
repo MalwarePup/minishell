@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
+#    By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/04/11 13:02:13 by ladloff          ###   ########.fr        #
+#    Updated: 2024/04/13 14:12:46 by macbookpro       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC_FILES	:=	builtins/cd.c \
 				execution/heredoc_utils.c \
 				execution/heredoc.c \
 				execution/no_command.c \
+				execution/no_command2.c \
 				execution/redirection.c \
 				lexer/lexer_mem.c \
 				lexer/lexer_utils.c \
