@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:42:44 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:49:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 16:20:34 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static bool	handle_directory_access_error(t_master *master)
 	{
 		if ((S_ISDIR(s.st_mode) && ft_strcmp(master->argv[0], "."))
 			&& (!ft_strncmp(master->argv[0], "./", 2)
-				|| !ft_strncmp(master->argv[0], "/", 1)))
+				|| !ft_strncmp(master->argv[0], "/", 1)
+				|| master->argv[0][ft_strlen(master->argv[0]) - 1] == '/'))
 		{
 			ft_dprintf(STDERR_FILENO, ESTR_DIR, master->argv[0]);
 			return (master->exit_status = CANNOT_EXECUTE, false);
@@ -77,7 +78,8 @@ bool	handle_command_not_found_error(t_master *master)
 {
 	if (!check_file_executability(master->argv[0])
 		&& ft_strncmp(master->argv[0], "/", 1)
-		&& ft_strncmp(master->argv[0], "./", 2))
+		&& ft_strncmp(master->argv[0], "./", 2)
+		&& master->argv[0][ft_strlen(master->argv[0]) - 1] != '/')
 	{
 		if (ft_strcmp(master->argv[0], ".") == 0
 			&& master->argv[0][1] == '\0')
