@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:51:38 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/04/13 14:14:39 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/13 16:37:12 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static int	launch_nocommand(t_master *master, t_token *tmp)
 	free(redir);
 	return (0);
 }
-
 
 int	no_command(t_master *master, t_token **token)
 {
