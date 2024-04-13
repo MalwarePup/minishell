@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/13 15:59:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 16:01:46 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,13 @@ typedef struct s_lexer
 
 typedef struct s_redir
 {
-	bool	is_input;
-	bool	is_output;
-	int		stdin;
-	int		stdout;
-	int		flag;
-	int		fd;
-}	t_redir;
+	bool				is_input;
+	bool				is_output;
+	int					stdin;
+	int					stdout;
+	int					flag;
+	int					fd;
+}						t_redir;
 
 extern int				*g_exit_status;
 
@@ -169,6 +169,7 @@ int						builtin_env(t_master *master);
 int						builtin_exit(t_master *master, int argc, char **argv);
 
 /* export.c */
+
 int						builtin_export(int argc, char **argv, t_master *master);
 
 /* pwd.c */
@@ -250,14 +251,13 @@ int						no_command(t_master *master, t_token **token);
 
 /* no_command2.c */
 
-int						handle_output_redir(t_master *master,
-							t_token *token, t_redir *redir);
-int						handle_input_redir(t_master *master,
-							t_token *token, t_redir *redir);
+int						handle_output_redir(t_master *master, t_token *token,
+							t_redir *redir);
+int						handle_input_redir(t_master *master, t_token *token,
+							t_redir *redir);
 bool					redirect_cmd(t_master *master, char *file,
 							t_redir *redir);
-void					redirect_initial(t_master *master,
-							t_redir *redir);
+void					redirect_initial(t_master *master, t_redir *redir);
 
 /* redirection.c */
 
