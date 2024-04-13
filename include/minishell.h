@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/13 00:06:00 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 00:43:17 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,6 +292,7 @@ int						set_sigaction(t_master *master);
 int						set_sigaction_exec(t_master *master);
 int						set_sigaction_heredoc(t_master *master);
 int						restore_sigaction(t_master *master);
+int						block_signals(void);
 
 /* cleanup.c */
 
