@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:59:55 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 00:17:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 15:52:52 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		*g_exit_status = 128 + signum;
+		*g_exit_status = 256;
 		write(STDOUT_FILENO, "^C\n", 3);
 		close(STDIN_FILENO);
 	}

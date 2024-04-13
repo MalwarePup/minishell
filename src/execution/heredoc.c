@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 12:00:55 by alfloren          #+#    #+#             */
-/*   Updated: 2024/04/13 00:08:51 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 15:53:32 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,12 @@ static void	read_heredoc_into_file(t_master *master, int fd,
 	while (1)
 	{
 		line_read = readline("> ");
-		if (master->last_command_exit_value == 130)
+		if (!line_read)
 		{
-			master->exec->interupted = true;
+			if (master->last_command_exit_value != 256)
+				ft_dprintf(STDERR_FILENO, ESTR_HEREDOC_P1 ESTR_HEREDOC_P2,
+					master->line_count, delimiter);
 			free(line_read);
-			break ;
-		}
-		else if (!line_read)
-		{
-			ft_dprintf(STDERR_FILENO, ESTR_HEREDOC_P1 ESTR_HEREDOC_P2,
-				master->line_count, delimiter);
 			break ;
 		}
 		else if (!ft_strncmp(line_read, delimiter, ft_strlen(delimiter) + 1))

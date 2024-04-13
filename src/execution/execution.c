@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 00:41:58 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 15:51:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	launch_execution(t_master *master)
 	master->exit_status = 0;
 	init_exec(master);
 	launch_heredoc(master);
-	if (master->exec->interupted)
+	if (master->last_command_exit_value == 256)
 		return ;
 	if (handle_execution(master, &num_pids) == 1)
 		return ;

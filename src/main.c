@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 00:10:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/13 15:50:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	*g_exit_status = NULL;
 
 static void	init_master(t_master *master)
 {
-	if (master->last_command_exit_value == 130)
+	if (master->last_command_exit_value == 130
+		|| master->last_command_exit_value == 256)
 		master->exit_status = 130;
 	else if (master->last_command_exit_value == 131)
 		master->exit_status = 131;

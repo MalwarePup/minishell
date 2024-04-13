@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/13 14:21:56 by macbookpro       ###   ########.fr       */
+/*   Updated: 2024/04/13 15:59:55 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ typedef struct s_exec
 {
 	bool				heredoc;
 	bool				first_cmd;
-	bool				interupted;
 	pid_t				pid;
 	int					pipefd[2];
 	int					old_pipefd[2];
