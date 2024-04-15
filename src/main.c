@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 15:50:05 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:27:24 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,17 @@ static int	shell_loop(t_master *master)
 	}
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
 	t_master	master;
 	extern char	**environ;
 
+	(void)argc;
 	rl_catch_signals = 0;
 	rl_catch_sigwinch = 0;
 	ft_memset(&master, 0, sizeof(t_master));
 	master.reset_exit_status = true;
+	master.program_name = argv[0];
 	g_exit_status = &master.last_command_exit_value;
 	if (!*environ)
 		master.env_empty = true;

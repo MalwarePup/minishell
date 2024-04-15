@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/13 17:51:11 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:25:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_exec
 typedef struct s_master
 {
 	char				*line_read;
+	char				*program_name;
 	t_env_list			*env;
 	t_token				*token;
 	t_exec				*exec;

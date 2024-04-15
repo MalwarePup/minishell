@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 15:51:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:30:25 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ static void	parent_process(t_master *master, t_token **token)
 		*token = (*token)->next->next;
 	else
 		*token = (*token)->next;
-	if (!ft_strncmp(master->argv[0], "./minishell", 11))
+	if (!ft_strncmp(master->argv[0], master->program_name,
+			ft_strlen(master->program_name)))
 		block_signals();
 	else
 		set_sigaction_exec(master);
