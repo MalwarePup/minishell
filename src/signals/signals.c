@@ -6,12 +6,13 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:46:13 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 00:25:08 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:18:09 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "libft.h"
 #include "minishell.h"
 
 int	set_sigaction(t_master *master)
@@ -71,6 +72,7 @@ int	block_signals(void)
 	struct sigaction	act;
 	sigset_t			set;
 
+	ft_memset(&act, 0, sizeof(struct sigaction));
 	if (sigemptyset(&set) == -1 || sigaddset(&set, SIGINT) == -1
 		|| sigaddset(&set, SIGQUIT) == -1)
 	{
