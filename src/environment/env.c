@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 09:01:09 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:21:14 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	create_add_env_node(t_env_list **env, char *name, char *value)
 {
 	t_env_list	*new_node;
 
-	new_node = malloc(sizeof(t_env_list));
+	new_node = ft_calloc(1, sizeof(t_env_list));
 	if (!new_node)
 	{
 		free(name);
@@ -42,7 +42,6 @@ static int	create_add_env_node(t_env_list **env, char *name, char *value)
 	}
 	new_node->name = name;
 	new_node->value = value;
-	new_node->next = NULL;
 	if (!*env)
 	{
 		*env = new_node;

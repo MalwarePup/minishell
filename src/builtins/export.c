@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:00:36 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 23:04:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:20:54 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,21 @@ static bool	is_var_already_in_env(t_master **master, t_env_list *var)
 static void	add_back_env_var(t_master **master, t_env_list *var)
 {
 	if (!(*master)->env)
+	{
 		(*master)->env = var;
+		(*master)->env->last = var;
+	}
 	else
 	{
-		(*master)->env->last->next = var;
-		(*master)->env->last = var;
+		if ((*master)->env->last)
+		{
+			(*master)->env->last->next = var;
+			(*master)->env->last = var;
+		}
+		else
+		{
+			(*master)->env->last = var;
+		}
 	}
 }
 
