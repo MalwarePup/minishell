@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:28 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/15 10:27:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:13:29 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	*g_exit_status = NULL;
+int	*g_exit_status = 0;
 
 static void	init_master(t_master *master)
 {
-	if (master->last_command_exit_value == 130
-		|| master->last_command_exit_value == 256)
+	if (master->last_command_exit_value == 256)
 		master->exit_status = 130;
-	else if (master->last_command_exit_value == 131)
+	else if (master->last_command_exit_value == 257)
 		master->exit_status = 131;
 	master->exec = NULL;
 	master->token = NULL;
