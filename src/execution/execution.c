@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/15 10:30:25 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:09:19 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ static void	prepare_execution(t_master *master, t_token *token)
 {
 	t_cmd_type	type;
 
-	create_arguments(master, token);
-	replace_argv_without_quotes(master);
-	update_executable_path(master, master->env);
-	type = identify_builtin_command(master->argv[0]);
+	if (token->type != CMD_NOCMD)
+	{
+		create_arguments(master, token);
+		replace_argv_without_quotes(master);
+		update_executable_path(master, master->env);
+		type = identify_builtin_command(master->argv[0]);
+	}
+	else
+		type = CMD_NOCMD;
 	if (!token->next && master->exec->pipefd[0] == -1
 		&& (type >= CMD_CD && type <= CMD_EXPORT))
 		master->exit_status = execute_builtin(master, type);
@@ -56,17 +61,22 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 			close(master->exec->pipefd[0]);
 			close(master->exec->pipefd[1]);
 		}
-		launch_redirection(master, token->redir);
-		if (type == CMD_OTHERS)
-			execute_command(master);
+		if (type == CMD_NOCMD)
+			no_command(master, &token->redir);
 		else
-			master->exit_status = execute_builtin(master, type);
+		{
+			launch_redirection(master, token->redir);
+			if (type == CMD_OTHERS)
+				execute_command(master);
+			else
+				master->exit_status = execute_builtin(master, type);
+		}
 		cleanup_before_exit(master);
 		exit(master->exit_status);
 	}
 }
 
-static void	parent_process(t_master *master, t_token **token)
+static void	parent_process(t_master *master, t_token **token, bool no_cmd)
 {
 	if (master->exec->first_cmd == false)
 	{
@@ -84,7 +94,7 @@ static void	parent_process(t_master *master, t_token **token)
 		*token = (*token)->next->next;
 	else
 		*token = (*token)->next;
-	if (!ft_strncmp(master->argv[0], master->program_name,
+	if (!no_cmd && !ft_strncmp(master->argv[0], master->program_name,
 			ft_strlen(master->program_name)))
 		block_signals();
 	else
@@ -95,19 +105,16 @@ static void	parent_process(t_master *master, t_token **token)
 static int	handle_execution(t_master *master, int *num_pids)
 {
 	t_token		*token;
-	int			exit_nocmd;
+	bool		no_cmd;
 
 	token = master->token;
 	while (token)
 	{
-		exit_nocmd = no_command(master, &token);
-		if (exit_nocmd == 1)
-			return (1);
-		else if (exit_nocmd == 2)
-			continue ;
+		if (token->type == CMD_NOCMD)
+			no_cmd = true;
 		prepare_execution(master, token);
 		child_process(master, token, master->exec->type);
-		parent_process(master, &token);
+		parent_process(master, &token, no_cmd);
 		master->pid_list[(*num_pids)++] = master->exec->pid;
 	}
 	return (0);
