@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:20:24 by ladloff           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/16 15:10:47 by alfloren         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/16 15:09:18 by ladloff          ###   ########.fr       */
->>>>>>> f37a0b4a4645d21f9b51ee1b806d70a4a12e2133
+/*   Updated: 2024/04/16 15:25:37 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +62,7 @@ static void	child_process(t_master *master, t_token *token, t_cmd_type type)
 			close(master->exec->pipefd[1]);
 		}
 		if (type == CMD_NOCMD)
-			no_command(master, &token->redir);
+			no_command(master, &token);
 		else
 			execution(master, token, type);
 		cleanup_before_exit(master);

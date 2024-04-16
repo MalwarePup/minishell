@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:51:38 by macbookpro        #+#    #+#             */
-/*   Updated: 2024/04/13 17:49:27 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:26:15 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	handle_redir(t_master *master, t_token *token, t_redir *redir)
 	int	exit_status;
 
 	exit_status = 2;
+	printf("no_commqnd");
 	replace_redir_without_quotes(master, &token->data);
 	if (token->type == CMD_RED_IN || token->type == CMD_D_RED_IN)
 		exit_status = handle_input_redir(master, token, redir);
