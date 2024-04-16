@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:42:44 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/13 16:36:22 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/16 10:42:07 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ static bool	check_file_executability(char *path)
 	return (false);
 }
 
+static bool	isdir(t_master *master)
+{
+	if (ft_strcmp(master->argv[0], ".")
+		&& (!ft_strncmp(master->argv[0], "./", 2)
+			|| !ft_strncmp(master->argv[0], "/", 1)
+			|| master->argv[0][ft_strlen(master->argv[0]) - 1] == '/'))
+	{
+		ft_dprintf(STDERR_FILENO, ESTR_DIR, master->argv[0]);
+		return (master->exit_status = CANNOT_EXECUTE, false);
+	}
+	ft_dprintf(STDERR_FILENO, ESTR_CMD_NOT_FOUND, master->argv[0]);
+	return (master->exit_status = NOT_FOUND, false);
+}
+
 static bool	handle_directory_access_error(t_master *master)
 {
 	struct stat	s;
@@ -38,14 +52,8 @@ static bool	handle_directory_access_error(t_master *master)
 	}
 	else if (stat(master->argv[0], &s) == 0)
 	{
-		if ((S_ISDIR(s.st_mode) && ft_strcmp(master->argv[0], "."))
-			&& (!ft_strncmp(master->argv[0], "./", 2)
-				|| !ft_strncmp(master->argv[0], "/", 1)
-				|| master->argv[0][ft_strlen(master->argv[0]) - 1] == '/'))
-		{
-			ft_dprintf(STDERR_FILENO, ESTR_DIR, master->argv[0]);
-			return (master->exit_status = CANNOT_EXECUTE, false);
-		}
+		if (S_ISDIR(s.st_mode))
+			return (isdir(master));
 	}
 	else
 		error_exit(master, "stat (handle_directory_access_error)");
