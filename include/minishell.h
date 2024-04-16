@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/15 10:25:28 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:10:15 by alfloren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ int						count_pipe(t_token *token);
 t_token					*handle_command_error(t_master *master, t_token *token,
 							t_cmd_type type);
 void					wait_for_processes(t_master *master, int num_pids);
+void					execution(t_master *master, t_token *token,
+							t_cmd_type type);
 
 /* execution.c */
 
