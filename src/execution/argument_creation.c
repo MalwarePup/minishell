@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 21:17:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 12:24:24 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:47:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*create_arg(t_master *master, char *str, size_t *j)
 	return (arg);
 }
 
-static int	split_args(t_master *master, char *s, char **argv)
+static size_t	split_args(t_master *master, char *s, char **argv)
 {
 	size_t	i;
 	size_t	j;
@@ -80,7 +80,7 @@ static int	split_args(t_master *master, char *s, char **argv)
 
 void	create_arguments(t_master *master, t_token *token)
 {
-	int		argc;
+	size_t	argc;
 
 	argc = count_words(token->data) + 1;
 	if (token && token->data && token->type)

@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:25:37 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 23:04:46 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:46:10 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-static void	ft_write_stdout(char *str, size_t size, t_master *master)
+static void	ft_write_stdout(const char *str, size_t size, t_master *master)
 {
 	if (write(STDOUT_FILENO, str, size) == -1)
 		error_exit(master, "write (ft_write_stdout)");

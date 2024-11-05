@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:50:40 by alfloren          #+#    #+#             */
-/*   Updated: 2024/04/10 17:41:15 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 19:04:37 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,21 @@ void	replace_redir_without_quotes(t_master *master, char **str)
 	ij[1] = 0;
 	test = malloc(sizeof(char) * (ft_strlen(*str) + 1));
 	if (!test)
-		return (free(*str), *str = NULL, error_exit(master, "malloc error"));
+	{
+		free(*str);
+		*str = NULL;
+		error_exit(master, "malloc error");
+		return ;
+	}
 	new_str = malloc(sizeof(char) * (ft_strlen(*str) + 1));
 	if (!new_str)
-		return (free(test), free(*str), *str = NULL,
-			error_exit(master, "malloc error in lexer_mem.c"));
+	{
+		free(test);
+		free(*str);
+		*str = NULL;
+		error_exit(master, "malloc error in lexer_mem.c");
+		return ;
+	}
 	ft_strlcpy(test, *str, ft_strlen(*str) + 1);
 	while (test[ij[0]])
 	{
@@ -42,7 +52,10 @@ void	replace_redir_without_quotes(t_master *master, char **str)
 			continue ;
 		new_str[ij[1]++] = test[ij[0]++];
 	}
-	return (free(*str), *str = new_str, new_str[ij[1]] = '\0', free(test));
+	free(*str);
+	*str = new_str;
+	new_str[ij[1]] = '\0';
+	free(test);
 }
 
 static void	redirect(t_master *master, char *file, int flag, int old_fd)

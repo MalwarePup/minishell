@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/11/05 17:43:30 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:44:26 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	modify_env_var(t_env_list *env, const char *name, const char *value)
 	}
 }
 
-static char	*getenv_no_alloc(t_env_list *env, char *name)
+static char	*getenv_no_alloc(t_env_list *env, const char *name)
 {
 	t_env_list	*current;
 

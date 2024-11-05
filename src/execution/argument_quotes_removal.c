@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:59:16 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/08 10:11:55 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:47:59 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 static char	*ft_strjoin_char(char *str, char c)
 {
-	int		len;
+	size_t	i;
+	size_t	len;
 	char	*new_str;
-	int		i;
 
 	len = ft_strlen(str);
 	new_str = malloc((len + 2));

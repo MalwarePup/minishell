@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:10:09 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 15:56:17 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:49:06 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ t_cmd_type	identify_builtin_command(char *arg)
 	num_builtins = sizeof(builtins) / sizeof(t_builtin);
 	if (!arg)
 		return (CMD_ERROR);
-	i = -1;
-	while (++i < num_builtins)
+	i = 0;
+	while (i < num_builtins)
 	{
 		if (!ft_strcmp(builtins[i].name, arg))
 		{
 			type = builtins[i].type;
 			break ;
 		}
+		i++;
 	}
 	return (type);
 }
@@ -68,18 +69,18 @@ t_cmd_type	identify_builtin_command(char *arg)
 int	execute_builtin(t_master *master, t_cmd_type type)
 {
 	if (type == CMD_CD)
-		return (builtin_cd(master->argc, master->argv, master));
+		return (builtin_cd((int)master->argc, master->argv, master));
 	else if (type == CMD_ECHO)
-		return (builtin_echo(master->argc, master->argv, master));
+		return (builtin_echo((int)master->argc, master->argv, master));
 	else if (type == CMD_ENV)
 		return (builtin_env(master));
 	else if (type == CMD_EXPORT)
-		return (builtin_export(master->argc, master->argv, master));
+		return (builtin_export((int)master->argc, master->argv, master));
 	else if (type == CMD_PWD)
 		return (builtin_pwd());
 	else if (type == CMD_UNSET)
 		return (builtin_unset(master->argv, master));
 	else if (type == CMD_EXIT)
-		return (builtin_exit(master, master->argc, master->argv));
+		return (builtin_exit(master, (int)master->argc, master->argv));
 	return (CMD_ERROR);
 }

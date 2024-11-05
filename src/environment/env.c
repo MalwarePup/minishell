@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:42:17 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/16 15:21:14 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:46:33 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	manage_environment(t_env_list **env)
 	while (*environ)
 	{
 		equals_location = ft_strchr(*environ, '=');
-		name = ft_strndup(*environ, equals_location - *environ);
+		name = ft_strndup(*environ, (size_t)(equals_location - *environ));
 		if (!name)
 			return (perror("ft_strndup (manage_environment)"), 1);
 		value = ft_strdup(equals_location + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:32:49 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/16 15:09:39 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:50:05 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 #include "libft.h"
 #include "minishell.h"
 
-int	count_pipe(t_token *token)
+size_t	count_pipe(t_token *token)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (token)

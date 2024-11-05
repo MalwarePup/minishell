@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/11/05 17:39:20 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:55:11 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct s_master
 	t_exec				*exec;
 	char				**argv;
 	pid_t				*pid_list;
-	int					argc;
+	size_t				argc;
 	int					line_count;
 	int					exit_status;
 	int					last_command_exit_value;
@@ -131,7 +131,7 @@ typedef struct s_expansion
 
 typedef struct s_builtin
 {
-	char				*name;
+	const char			*name;
 	t_cmd_type			type;
 }						t_builtin;
 
@@ -218,10 +218,7 @@ void					execute_command(t_master *master);
 
 /* execution_utils2.c */
 
-int						count_pipe(t_token *token);
-t_token					*handle_command_error(t_master *master, t_token *token,
-							t_cmd_type type);
-void					wait_for_processes(t_master *master, int num_pids);
+size_t					count_pipe(t_token *token);
 void					execution(t_master *master, t_token *token,
 							t_cmd_type type);
 
@@ -293,7 +290,7 @@ char					*creates_data(t_master *master, t_lexer *lexer,
 /* lexer_utils4.c */
 
 int						two_consecutive_pipe(t_master *master);
-void					lexer_exit(t_master *master, t_lexer *lexer, char *str);
+void					lexer_exit(t_master *master, t_lexer *lexer, const char *str);
 int						last_operator(t_master *master);
 
 /* lexer.c */
@@ -328,7 +325,7 @@ void					clean_lexer(t_lexer *lexer);
 
 /* main_utils.c */
 
-void					error_exit(t_master *master, char *error_str);
+void					error_exit(t_master *master, const char *error_str);
 void					handle_eof(t_master *master);
 
 #endif /* MINISHELL_H */

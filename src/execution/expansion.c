@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:34:31 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/09 07:35:01 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:52:45 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*create_new_string_without_value(t_master *master, char *str,
 		new_str[0] = '\0';
 	else
 	{
-		ft_strlcpy(new_str, str, exp->substr_start - str + 1);
+		ft_strlcpy(new_str, str, (size_t)(exp->substr_start - str + 1));
 		ft_strlcat(new_str, exp->substr_start + ft_strlen(exp->name) + 1, len);
 	}
 	return (new_str);

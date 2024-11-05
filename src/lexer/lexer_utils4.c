@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:34:53 by alfloren          #+#    #+#             */
-/*   Updated: 2024/04/10 08:52:13 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:55:02 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	two_consecutive_pipe(t_master *master)
 	return (0);
 }
 
-void	lexer_exit(t_master *master, t_lexer *lexer, char *str)
+void	lexer_exit(t_master *master, t_lexer *lexer, const char *str)
 {
 	clean_lexer(lexer);
 	free_token(&master->token);

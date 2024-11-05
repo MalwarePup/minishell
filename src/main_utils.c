@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 12:43:03 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/11 14:51:43 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:45:37 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "minishell.h"
 #include "ft_dprintf.h"
 
-void	error_exit(t_master *master, char *error_str)
+void	error_exit(t_master *master, const char *error_str)
 {
 	perror(error_str);
 	cleanup_before_exit(master);

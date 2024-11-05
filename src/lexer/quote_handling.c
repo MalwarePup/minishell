@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 12:36:01 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:52:30 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 18:56:28 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ bool	is_matched_quotes(t_master *master, const char *str)
 	size_t	i;
 	char	current_quote;
 
-	i = -1;
+	i = 0;
 	current_quote = '\0';
-	while (str[++i])
+	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '"')
 		{
@@ -31,6 +31,7 @@ bool	is_matched_quotes(t_master *master, const char *str)
 			else if (current_quote == str[i])
 				current_quote = '\0';
 		}
+		i++;
 	}
 	if (current_quote != '\0')
 	{
