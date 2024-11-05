@@ -6,12 +6,15 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:10:38 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 23:52:57 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/05 17:43:30 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "ft_dprintf.h"
 #include "libft.h"
 #include "minishell.h"
 
@@ -70,7 +73,7 @@ static int	change_directory_and_update(t_master *master, const char *path)
 	if (chdir(path) == -1)
 	{
 		free(cwd);
-		perror("minishell: cd");
+		ft_dprintf(STDERR_FILENO, ESTR_CD, path, strerror(errno));
 		return (1);
 	}
 	free(cwd);

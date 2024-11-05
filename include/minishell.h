@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfloren <alfloren@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:59:04 by  ladloff          #+#    #+#             */
-/*   Updated: 2024/04/16 15:10:15 by alfloren         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:39:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define ESTR_DIR "minishell: %s: Is a directory\n"
 # define ESTR_HEREDOC_P1 "\nminishell: warning: here-document at line"
 # define ESTR_HEREDOC_P2 " %d delimited by end-of-file (wanted `%s')\n"
+# define ESTR_CD "minishell: cd: %s: %s\n"
 
 # define DEFAULT_PATH_1 "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 # define DEFAULT_PATH_2 ":/opt/homebrew/bin"
