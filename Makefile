@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+         #
+#    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/04/13 14:12:46 by macbookpro       ###   ########.fr        #
+#    Updated: 2024/11/05 18:43:09 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,12 +62,13 @@ OBJ_FILES	:= $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 DEP_FILES	:= $(OBJ_FILES:.o=.d)
 
 # Compiler flags
-CFLAGS		:= -Wall -Wextra -Werror -MMD -MP -g3
-CPPFLAGS	:= -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include
+CFLAGS		+= -Wall -Wextra -Werror -Wpedantic -Wshadow -Wwrite-strings \
+-Wconversion -MMD -MP -g3
+CPPFLAGS	+= -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include
 
 # Linker flags
-LDFLAGS		:= -L$(LIBFT_DIR)
-LDLIBS		:= -lft
+LDFLAGS		+= -L$(LIBFT_DIR)
+LDLIBS		+= -lft
 
 # Check if pkg-config is available
 PKG_CONFIG	:= $(shell command -v pkg-config 2> /dev/null)
