@@ -6,7 +6,7 @@
 #    By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 12:00:50 by ladloff           #+#    #+#              #
-#    Updated: 2024/11/05 18:43:09 by ladloff          ###   ########.fr        #
+#    Updated: 2024/11/05 19:08:29 by ladloff          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,7 @@ PKG_CONFIG	:= $(shell command -v pkg-config 2> /dev/null)
 ifeq ($(PKG_CONFIG),)
 	ifeq ($(shell uname -s),Darwin)
 		ifeq ($(shell uname -m),arm64)
-			CPPFLAGS	+= -I/opt/homebrew/opt/readline/include
+			CPPFLAGS	+= -isystem /opt/homebrew/opt/readline/include
 			LDFLAGS		+= -L/opt/homebrew/opt/readline/lib
 			LDLIBS		+= -lreadline
 		else ifeq ($(shell uname -m),x86_64)
@@ -96,7 +96,7 @@ ifeq ($(PKG_CONFIG),)
 else
 # pkg-config is installed, use its configuration
 	CFLAGS		+= $(shell pkg-config --cflags-only-other readline)
-	CPPFLAGS	+= $(shell pkg-config --cflags-only-I readline)
+	CPPFLAGS	+= $(shell pkg-config --cflags-only-I readline | sed 's/-I/-isystem/g')
 	LDFLAGS		+= $(shell pkg-config --libs-only-L readline)
 	LDLIBS		+= $(shell pkg-config --libs-only-l readline)
 endif
