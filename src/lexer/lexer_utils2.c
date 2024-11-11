@@ -6,7 +6,7 @@
 /*   By: ladloff <ladloff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:46:41 by ladloff           #+#    #+#             */
-/*   Updated: 2024/04/10 08:52:02 by ladloff          ###   ########.fr       */
+/*   Updated: 2024/11/11 21:15:20 by ladloff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,39 @@ t_cmd_type	redir_type(char *line_read, size_t *i)
 
 void	exit_redir(t_master *master, size_t i)
 {
+	static const char	*error_messages[] = {['|'] = ESTR_UNEXP,
+			['<'] = ESTR_UNEXP, ['>'] = ESTR_UNEXP,
+			['\0'] = ESTR_OPSTART_P1 ESTR_OPSTART_P2};
+	static const char	*double_error_messages[] = {['<'] = ESTR_UNEXP_STR,
+			['>'] = ESTR_UNEXP_STR};
+
 	master->exit_status = MISUSE;
-	if (master->line_read[i] == '|')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '|');
-	else if (master->line_read[i] == 0)
-		ft_dprintf(STDERR_FILENO, ESTR_OPSTART_P1 ESTR_OPSTART_P2);
-	else if (master->line_read[i] == '<' && master->line_read[i + 1] != '<')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '<');
-	else if (master->line_read[i] == '>' && master->line_read[i + 1] != '>')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, '>');
-	else if (master->line_read[i] == '>' && master->line_read[i + 1] == '>')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, ">>");
-	else if (master->line_read[i] == '<' && master->line_read[i + 1] == '<')
-		ft_dprintf(STDERR_FILENO, ESTR_UNEXP_STR, "<<");
+	if (master->line_read[i] == '\0')
+	{
+		ft_dprintf(STDERR_FILENO, "%s", error_messages['\0']);
+	}
+	else if (master->line_read[i + 1] == master->line_read[i]
+		&& (master->line_read[i] == '<' || master->line_read[i] == '>'))
+	{
+		if (master->line_read[i] == '<')
+		{
+			ft_dprintf(STDERR_FILENO, double_error_messages['<'], "<<");
+		}
+		else if (master->line_read[i] == '>')
+		{
+			ft_dprintf(STDERR_FILENO, double_error_messages['>'], ">>");
+		}
+	}
+	else if (error_messages[(unsigned char)master->line_read[i]])
+	{
+		ft_dprintf(STDERR_FILENO,
+			error_messages[(unsigned char)master->line_read[i]],
+			master->line_read[i]);
+	}
 	else
+	{
 		ft_dprintf(STDERR_FILENO, ESTR_UNEXP, master->line_read[i]);
+	}
 }
 
 bool	is_valid_character(char c, bool command, char *quote)
@@ -70,7 +88,7 @@ bool	is_valid_character(char c, bool command, char *quote)
 				&& *quote == 0) || *quote != 0))
 	{
 		if (((c == '\'' || c == '"') && *quote == 0) || (c == *quote
-				&& *quote != 0))
+					&& *quote != 0))
 		{
 			if (*quote != 0)
 				*quote = 0;
